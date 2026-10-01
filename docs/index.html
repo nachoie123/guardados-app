@@ -10,68 +10,69 @@
 <meta property="og:image" content="https://nachosanbenito.com/guardados-app/poster.jpg">
 <meta name="theme-color" content="#FAFAF9">
 <link rel="icon" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
 <style>
-  :root{--bg:#FAFAF9;--surface:#fff;--surface-2:#F0EFED;--text:#1C1917;--muted:#57534E;--border:#E7E5E4;--accent:#C2410C;--on-accent:#fff;--qr-bg:#fff}
-  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0C0A09;--surface:#1C1917;--surface-2:#292524;--text:#F5F5F4;--muted:#A8A29E;--border:#292524;--accent:#FB923C;--on-accent:#1C1917}}
-  :root[data-theme="dark"]{--bg:#0C0A09;--surface:#1C1917;--surface-2:#292524;--text:#F5F5F4;--muted:#A8A29E;--border:#292524;--accent:#FB923C;--on-accent:#1C1917}
+  :root{--bg:#FAFAF9;--surface:#fff;--text:#1C1917;--muted:#57534E;--border:#E7E5E4;--accent:#C2410C;--g:linear-gradient(100deg,#f97316,#c2410c);--qr-bg:#fff}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0C0A09;--surface:#1C1917;--text:#F5F5F4;--muted:#A8A29E;--border:#292524;--accent:#FB923C}}
+  :root[data-theme="dark"]{--bg:#0C0A09;--surface:#1C1917;--text:#F5F5F4;--muted:#A8A29E;--border:#292524;--accent:#FB923C}
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 -apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,sans-serif}
-  .wrap{max-width:760px;margin:0 auto;padding:40px 16px 64px}
-  .brand{display:flex;gap:10px;align-items:center;justify-content:center;font-weight:700;font-size:17px}
-  .brand img{width:36px;height:36px;border-radius:9px}
-  h1{text-align:center;font-size:clamp(34px,7vw,56px);line-height:1.04;letter-spacing:-.035em;margin:18px 0 12px;font-weight:800}
-  h1 em{font-style:normal;color:var(--accent)}
-  .lead{text-align:center;color:var(--muted);font-size:18px;max-width:560px;margin:0 auto}
-  .video{margin:32px auto 0;max-width:340px}
-  .video video{width:100%;display:block;border-radius:28px;background:#000;box-shadow:0 24px 70px rgb(28 25 23 / .22)}
-  .get{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:36px}
-  @media (max-width:640px){.get{grid-template-columns:minmax(0,1fr)}.phone .qr{display:none}}
-  .card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:22px}
-  .card h2{font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin:0 0 12px;font-weight:600}
-  .btn{display:flex;justify-content:center;align-items:center;gap:8px;padding:14px 20px;border-radius:999px;font-weight:700;text-decoration:none;background:var(--accent);color:var(--on-accent)}
-  .btn:hover{filter:brightness(1.07)}
+  body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 "Plus Jakarta Sans",-apple-system,sans-serif}
+  .wrap{max-width:1040px;margin:0 auto;padding:40px 16px 72px}
+  .video video{width:100%;max-width:380px;display:block;margin:0 auto;border-radius:28px;background:#000;box-shadow:0 30px 80px rgb(124 45 18 / .25)}
+  .intro{max-width:640px;margin:48px auto 0;text-align:center}
+  .brand{display:flex;gap:12px;align-items:center;justify-content:center;font-weight:700}
+  .brand img{width:44px;height:44px;border-radius:11px}
+  h1{font-size:clamp(40px,6vw,64px);line-height:1.02;letter-spacing:-.03em;margin:22px 0 16px;font-weight:800}
+  h1 span{background:var(--g);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .lead{color:var(--muted);font-size:18px;margin:0 auto}
+  .cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin:28px 0 10px}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 22px;border-radius:999px;font-weight:700;text-decoration:none}
+  .btn.main{background:var(--g);color:#fff;box-shadow:0 10px 30px rgb(194 65 12 / .3)}
+  .btn.ghost{border:1px solid var(--border);color:var(--text);background:var(--surface)}
   .small{color:var(--muted);font-size:13px;margin:10px 0 0}
-  .phone{display:flex;gap:16px;align-items:center}
-  .phone .qr{flex:none;width:112px;height:112px;padding:8px;border-radius:14px;background:var(--qr-bg);border:1px solid var(--border)}
+  h2{font-size:28px;letter-spacing:-.02em;margin:72px 0 20px}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:20px}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+  .grid b{display:block;margin-bottom:6px}
+  .grid p{margin:0;color:var(--muted);font-size:15px}
+  .phone{display:flex;gap:20px;align-items:center}
+  .phone .qr{flex:none;width:120px;height:120px;padding:8px;border-radius:14px;background:var(--qr-bg);border:1px solid var(--border)}
   .phone .qr img{width:100%;height:100%;display:block}
   .phone>div{min-width:0}
   .phone a.url{overflow-wrap:anywhere;color:var(--text);font-weight:700;font-size:17px;text-decoration:none;border-bottom:2px solid var(--accent)}
-  h3{font-size:24px;letter-spacing:-.02em;margin:56px 0 16px}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
-  .grid b{display:block;margin-bottom:4px}
-  .grid p{margin:0;color:var(--muted);font-size:15px}
-  ol.steps{counter-reset:s;list-style:none;padding:0;margin:0;display:grid;gap:10px}
-  ol.steps li{counter-increment:s;padding-left:52px;position:relative}
-  ol.steps li::before{content:counter(s);position:absolute;left:18px;top:20px;width:24px;height:24px;border-radius:50%;background:var(--accent);color:var(--on-accent);font-weight:700;font-size:14px;display:grid;place-items:center}
-  footer{margin-top:56px;color:var(--muted);font-size:14px;text-align:center}
+  @media (max-width:640px){.phone .qr{display:none}}
+  ol.steps{counter-reset:s;list-style:none;padding:0;margin:0;display:grid;gap:12px}
+  ol.steps li{counter-increment:s;padding:18px 20px 18px 64px;position:relative}
+  ol.steps li::before{content:counter(s);position:absolute;left:20px;top:16px;width:30px;height:30px;border-radius:50%;background:var(--g);color:#fff;font-weight:800;display:grid;place-items:center}
+  .warn{border-color:#f0b429;background:color-mix(in srgb,#f0b429 10%,var(--surface))}
+  footer{margin-top:64px;color:var(--muted);font-size:14px;text-align:center}
   footer a{color:inherit}
 </style>
 </head>
 <body>
 <main class="wrap">
-  <div class="brand"><img src="icon.png" alt="">Guardados</div>
-  <h1>Find anything <em>you ever saved.</em></h1>
-  <p class="lead">Your Instagram saves and TikTok favorites in one place, searchable and sorted into folders and a map. No AI, no account, free.</p>
-
   <div class="video"><video src="guardados-promo.mp4" poster="poster.jpg" controls playsinline preload="metadata"></video></div>
 
-  <section class="get">
-    <div class="card">
-      <h2>On your Mac</h2>
-      <a class="btn" href="https://github.com/nachoie123/guardados-app/releases/latest/download/Guardados.dmg">Download for Mac</a>
-      <p class="small">Free &amp; open source · macOS 11+ · Apple Silicon and Intel · 21 MB · app in Spanish</p>
+  <section class="intro">
+    <div class="brand"><img src="icon.png" alt="">Guardados</div>
+    <h1>Find anything <span>you ever saved.</span></h1>
+    <p class="lead">Your Instagram saves and TikTok favorites in one place, searchable and sorted into folders and a map. No AI, no account, free.</p>
+    <div class="cta">
+      <a class="btn main" href="https://github.com/nachoie123/guardados-app/releases/latest/download/Guardados.dmg">⬇ Download for Mac</a>
+      <a class="btn ghost" href="https://github.com/nachoie123/guardados-app">GitHub</a>
     </div>
-    <div class="card">
-      <h2>On your phone</h2>
-      <div class="phone">
-        <div class="qr"><img src="qr.svg" alt="QR code to nachosanbenito.com/guardados"></div>
-        <div><a class="url" href="https://nachosanbenito.com/guardados">nachosanbenito.com/guardados</a>
-          <p class="small">In the Mac app press <b>Conectar el móvil</b> (connect phone) and scan its code: your saves arrive end-to-end encrypted.</p></div>
-      </div>
-    </div>
+    <p class="small">Free &amp; open source · macOS 11+ · Apple Silicon and Intel · 21 MB · app in Spanish</p>
   </section>
 
-  <h3>What it does</h3>
+  <h2>On your phone too</h2>
+  <div class="card phone">
+    <div class="qr"><img src="qr.svg" alt="QR code to nachosanbenito.com/guardados"></div>
+    <div><a class="url" href="https://nachosanbenito.com/guardados">nachosanbenito.com/guardados</a>
+      <p class="small">In the Mac app press <b>Conectar el móvil</b> (connect phone) and scan its code: your saves arrive end-to-end encrypted.</p></div>
+  </div>
+
+  <h2>What it does</h2>
   <div class="grid">
     <div class="card"><b>Both apps, one list</b><p>Imports every Instagram save and TikTok favorite, and keeps going where it left off.</p></div>
     <div class="card"><b>Search like you think</b><p>“quick pasta dinner” finds the reel, by caption, title or @creator.</p></div>
@@ -81,10 +82,10 @@
     <div class="card"><b>Yours</b><p>You log in on instagram.com and tiktok.com themselves. The app never sees a password; data stays on your Mac.</p></div>
   </div>
 
-  <h3>Install in a minute</h3>
+  <h2>Install in a minute</h2>
   <ol class="steps">
     <li class="card">Open <b>Guardados.dmg</b> and drag <b>Guardados</b> into <b>Applications</b>.</li>
-    <li class="card">The first time, macOS says it <i>could not verify “Guardados”</i>. That's normal for indie apps not notarized by Apple. Click <b>Done</b>, open <b>System Settings → Privacy &amp; Security</b>, scroll down and click <b>Open Anyway</b>. Only once.</li>
+    <li class="card warn">The first time, macOS says it <i>could not verify “Guardados”</i>. That's normal for indie apps not notarized by Apple. Click <b>Done</b>, open <b>System Settings → Privacy &amp; Security</b>, scroll down and click <b>Open Anyway</b>. Only once.</li>
     <li class="card">Log in on the <b>Instagram</b> and <b>TikTok</b> windows and press <b>Importar ahora</b> (import now). The app speaks Spanish for now.</li>
   </ol>
 
