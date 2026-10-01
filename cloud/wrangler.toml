@@ -1,0 +1,23 @@
+# Buzón cifrado de Guardados. Desplegar con ./deploy.sh (no a mano): crea el espacio KV
+# y escribe la URL final en la app del Mac (nube.py) y en la web (ig-saved/app/buzon-config.js).
+name = "guardados-sync"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+workers_dev = true
+
+# Sin registros: ni del contenido (que va cifrado) ni de las peticiones.
+[observability]
+enabled = false
+
+# KV en el plan gratis: sin tarjeta, así que Cloudflare no puede cobrar nada.
+# deploy.sh crea el espacio y escribe aquí su id real.
+[[kv_namespaces]]
+binding = "KV"
+id = "2d1894de062f42da814533283c6c4f5f"  # deploy.sh: KV_ID
+
+[vars]
+# Quién puede LEER desde un navegador (CORS). La web de guardados y el localhost de pruebas.
+ORIGENES = "https://nachosanbenito.com,http://127.0.0.1:8781,http://localhost:8781"
+MAX_OBJETO = "25000000"     # 25 MB por subida (KV admite hasta 25 MiB por valor)
+MAX_BUZON = "60000000"      # 60 MB por persona (una de ~2.500 guardados ocupa ~40 MB)
+MAX_BUZONES = "15"          # 15 × 60 MB = 900 MB: por debajo del 1 GB gratis de KV

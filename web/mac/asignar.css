@@ -1,0 +1,7 @@
+/* «Mis guardados» en el Mac: carpetas a mano en la ficha (mismo aspecto que «Sitios») */
+.d-carp-add { margin-top: 6px; flex-wrap: wrap; }
+.d-carp-add select { flex: 1; min-width: 0; min-height: 40px; padding: 0 10px; border-radius: 10px; border: 1px solid var(--border);
+  background: var(--surface); color: var(--text); font: inherit; font-size: 15px; }
+.d-carp-add input + select { flex: 0 1 40%; }
+.d-carp li { grid-template-columns: 28px 1fr auto; }
+.d-carp .l-main { cursor: default; }

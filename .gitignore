@@ -1,0 +1,9 @@
+.venv/
+build/
+dist/
+__pycache__/
+*.log
+.DS_Store
+tools/.personal
+cloud/node_modules/
+cloud/.wrangler/

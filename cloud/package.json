@@ -1,0 +1,16 @@
+{
+  "name": "guardados-sync",
+  "private": true,
+  "description": "Buzón cifrado de Guardados (Cloudflare Worker + R2). Ver ../docs/diseno.md, decisión 9.",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "./deploy.sh"
+  },
+  "devDependencies": {
+    "wrangler": "^4"
+  },
+  "allowScripts": {
+    "esbuild@0.28.1": true,
+    "workerd@1.20260930.2": true
+  }
+}

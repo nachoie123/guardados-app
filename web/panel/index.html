@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guardados</title>
+<link rel="stylesheet" href="panel.css">
+</head>
+<body>
+<header>
+  <h1>Guardados</h1>
+  <p class="mute">Inicia sesión en las ventanas de Instagram y TikTok. Lo demás va solo.</p>
+</header>
+<main>
+  <section class="cards">
+    <article class="card" id="c-ig">
+      <h2>Instagram <small>guardados</small></h2>
+      <p class="sess" id="ig-sess">Comprobando sesión…</p>
+      <p class="stat" id="ig-stat"></p>
+      <div class="row"><button type="button" class="ghost" data-show="ig">Abrir ventana</button>
+        <button type="button" data-imp="ig">Importar ahora</button></div>
+    </article>
+    <article class="card" id="c-tt">
+      <h2>TikTok <small>favoritos</small></h2>
+      <p class="sess" id="tt-sess">Comprobando sesión…</p>
+      <p class="stat" id="tt-stat"></p>
+      <div class="row"><button type="button" class="ghost" data-show="tt">Abrir ventana</button>
+        <button type="button" data-imp="tt">Importar ahora</button></div>
+    </article>
+  </section>
+  <section class="prog">
+    <div id="stages" class="stages" hidden aria-live="polite"></div>
+    <p id="note" class="note">—</p>
+    <p id="err" class="err" hidden></p>
+    <div class="row"><button type="button" id="stop" class="ghost" hidden>Parar</button>
+      <button type="button" id="open-viewer">Ver mis guardados</button></div>
+    <p id="web" class="mute small"></p>
+  </section>
+  <section class="card movil" id="movil">
+    <h3>Tu móvil</h3>
+    <p class="mute small">Escanea el código con la cámara del móvil: tus guardados, con portadas, aparecen en
+      nachosanbenito.com/guardados y se ponen al día solos. Viajan cifrados con una llave que solo tienen este Mac
+      y tus móviles: el servidor (ni Nacho) no puede leerlos.</p>
+    <p id="movil-state" class="small"></p>
+    <div id="qr-box" class="qr" hidden>
+      <img id="qr" alt="Código QR para conectar el móvil" width="232" height="232">
+      <p class="mute small">No lo enseñes ni lo compartas: quien lo escanee ve tus guardados.
+        <button type="button" id="qr-hide" class="link">Ocultar</button></p>
+    </div>
+    <div class="row">
+      <button type="button" id="movil-qr">Conectar el móvil</button>
+      <button type="button" id="movil-reset" class="ghost" hidden>Desconectar móviles y cambiar la llave</button>
+    </div>
+  </section>
+  <section class="card ia" id="ia">
+    <h3>IA opcional <small class="mute">(Gemini)</small></h3>
+    <p class="mute small">Sin clave, las carpetas, las subcarpetas y el mapa salen con reglas: gratis y sin cuenta.
+      Si pegas tu propia clave de Gemini (aistudio.google.com → «Get API key»), se afinan con IA.
+      La clave se guarda solo en este Mac y nadie más la ve.</p>
+    <p id="ia-state" class="small"></p>
+    <div class="row">
+      <input id="ia-key" type="password" autocomplete="off" autocapitalize="off" spellcheck="false"
+             placeholder="Pega aquí tu clave (empieza por AIza…)" aria-label="Clave de Gemini">
+      <button type="button" id="ia-save">Guardar clave</button>
+      <button type="button" id="ia-del" class="ghost" hidden>Quitar clave</button>
+    </div>
+  </section>
+  <section>
+    <h3>Lo último que ha entrado</h3>
+    <ul id="recent" class="recent"></ul>
+  </section>
+  <p class="mute small">La app no ve tu contraseña: el login es la web oficial. Todo se queda en este Mac.</p>
+</main>
+<script type="module" src="panel.js"></script>
+</body>
+</html>
