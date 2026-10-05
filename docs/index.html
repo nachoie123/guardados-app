@@ -5,65 +5,202 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Guardados</title>
 <meta name="description" content="Your Instagram saves and TikTok favorites in one place, searchable. No AI, no account, free. End-to-end encrypted to your phone.">
-<meta property="og:title" content="Guardados — find anything you ever saved">
+<meta property="og:title" content="Guardados: find anything you ever saved">
 <meta property="og:description" content="Instagram saves + TikTok favorites in one searchable place. No AI, no account, free. End-to-end encrypted to your phone.">
 <meta property="og:image" content="https://nachosanbenito.com/guardados-app/poster.jpg">
-<meta name="theme-color" content="#FAFAF9">
+<meta name="theme-color" content="#fcfcfc">
 <link rel="icon" href="icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1/dist/lenis.css">
 <style>
-  :root{--bg:#FAFAF9;--surface:#fff;--text:#1C1917;--muted:#57534E;--border:#E7E5E4;--accent:#C2410C;--g:linear-gradient(100deg,#f97316,#c2410c);--qr-bg:#fff}
-  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0C0A09;--surface:#1C1917;--text:#F5F5F4;--muted:#A8A29E;--border:#292524;--accent:#FB923C}}
-  :root[data-theme="dark"]{--bg:#0C0A09;--surface:#1C1917;--text:#F5F5F4;--muted:#A8A29E;--border:#292524;--accent:#FB923C}
+  /* design read: product landing, mymind DNA (white + warm halos, big serif, the product window peeking, the NO list) */
+  :root{--bg:#fcfcfc;--card:#fff;--ink:#0d0e10;--text:#23262d;--muted:#596273;--faint:#7a8394;--line:#e6e8ec;--win:#f2f3f6;
+    --acc:#c2410c;--acc-big:#ea580c;--on-acc:#fff;--g1:#ff8656;--g2:#f8a3b4;--g3:#fbd9cd;--g4:#cdd6ff;--srv:#17181b;--srv2:#2a2c31;
+    --r:10px;--ease:cubic-bezier(.22,1,.36,1);--serif:"Newsreader",Georgia,serif;--sans:"Plus Jakarta Sans",-apple-system,BlinkMacSystemFont,sans-serif;color-scheme:light}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1012;--card:#18191c;--ink:#f4f4f5;--text:#e4e5e8;--muted:#a3a9b5;--faint:#8b919d;--line:#2a2c31;--win:#141518;
+    --acc:#fb923c;--acc-big:#fb923c;--on-acc:#0d0e10;--g1:#7c2d12;--g2:#5b2132;--g3:#22161a;--g4:#1b1f33;--srv:#0b0c0e;--srv2:#26282d;color-scheme:dark}}
+  :root[data-theme="dark"]{--bg:#0f1012;--card:#18191c;--ink:#f4f4f5;--text:#e4e5e8;--muted:#a3a9b5;--faint:#8b919d;--line:#2a2c31;--win:#141518;
+    --acc:#fb923c;--acc-big:#fb923c;--on-acc:#0d0e10;--g1:#7c2d12;--g2:#5b2132;--g3:#22161a;--g4:#1b1f33;--srv:#0b0c0e;--srv2:#26282d;color-scheme:dark}
   *{box-sizing:border-box}
-  body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 "Plus Jakarta Sans",-apple-system,sans-serif}
-  .wrap{max-width:1040px;margin:0 auto;padding:40px 16px 72px}
-  .video video{width:100%;max-width:380px;display:block;margin:0 auto;border-radius:28px;background:#000;box-shadow:0 30px 80px rgb(124 45 18 / .25)}
-  .intro{max-width:640px;margin:48px auto 0;text-align:center}
-  .brand{display:flex;gap:12px;align-items:center;justify-content:center;font-weight:700}
-  .brand img{width:44px;height:44px;border-radius:11px}
-  h1{font-size:clamp(40px,6vw,64px);line-height:1.02;letter-spacing:-.03em;margin:22px 0 16px;font-weight:800}
-  h1 span{background:var(--g);-webkit-background-clip:text;background-clip:text;color:transparent}
-  .lead{color:var(--muted);font-size:18px;margin:0 auto}
-  .cta{display:flex;gap:12px;flex-wrap:wrap;justify-content:center;margin:28px 0 10px}
-  .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 22px;border-radius:999px;font-weight:700;text-decoration:none}
-  .btn.main{background:var(--g);color:#fff;box-shadow:0 10px 30px rgb(194 65 12 / .3)}
-  .btn.ghost{border:1px solid var(--border);color:var(--text);background:var(--surface)}
-  .small{color:var(--muted);font-size:13px;margin:10px 0 0}
-  h2{font-size:28px;letter-spacing:-.02em;margin:72px 0 20px}
-  .card{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:20px}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
-  .grid b{display:block;margin-bottom:6px}
-  .grid p{margin:0;color:var(--muted);font-size:15px}
-  .phone{display:flex;gap:20px;align-items:center}
-  .phone .qr{flex:none;width:120px;height:120px;padding:8px;border-radius:14px;background:var(--qr-bg);border:1px solid var(--border)}
-  .phone .qr img{width:100%;height:100%;display:block}
-  .phone>div{min-width:0}
-  .phone a.url{overflow-wrap:anywhere;color:var(--text);font-weight:700;font-size:17px;text-decoration:none;border-bottom:2px solid var(--accent)}
-  @media (max-width:640px){.phone .qr{display:none}}
-  ol.steps{counter-reset:s;list-style:none;padding:0;margin:0;display:grid;gap:12px}
-  ol.steps li{counter-increment:s;padding:18px 20px 18px 64px;position:relative}
-  ol.steps li::before{content:counter(s);position:absolute;left:20px;top:16px;width:30px;height:30px;border-radius:50%;background:var(--g);color:#fff;font-weight:800;display:grid;place-items:center}
-  .warn{border-color:#f0b429;background:color-mix(in srgb,#f0b429 10%,var(--surface))}
-  footer{margin-top:64px;color:var(--muted);font-size:14px;text-align:center}
-  footer a{color:inherit}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--bg);color:var(--text);font:17px/1.6 var(--sans);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+  a{color:inherit}
+  img,svg,video{display:block;max-width:100%}
+  :focus-visible{outline:2px solid var(--acc);outline-offset:3px;border-radius:6px}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+  h1,h2{font-family:var(--serif);font-weight:400;color:var(--ink);margin:0;text-wrap:balance}
+  h2{font-size:clamp(40px,5.4vw,68px);line-height:.98;letter-spacing:-.035em}
+  .lead{font-size:19px;color:var(--muted);margin:18px 0 0;max-width:46ch}
+  .btn{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 22px;border-radius:var(--r);background:var(--acc);color:var(--on-acc);font-weight:600;font-size:16px;text-decoration:none;transition:transform .16s var(--ease),background-color .2s}
+  .btn svg{width:18px;height:18px}
+  .btn:hover{background:color-mix(in srgb,var(--acc) 88%,#000)}
+  .btn:active{transform:scale(.97)}
 
+  /* floating bar, coloured dots before each link (mymind) */
+  .nav{position:fixed;z-index:30;top:14px;left:50%;transform:translateX(-50%);width:min(1120px,calc(100% - 32px));display:flex;align-items:center;justify-content:space-between;gap:16px;
+    padding:8px 8px 8px 14px;background:color-mix(in srgb,var(--card) 86%,transparent);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:16px;box-shadow:0 10px 30px -12px rgb(13 14 16/.18)}
+  .logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px;text-decoration:none;color:var(--ink);min-height:44px}
+  .logo img{width:30px;height:30px;border-radius:8px}
+  .links{display:flex;gap:26px;margin:0;padding:0;list-style:none;font-size:15px}
+  .links a{text-decoration:none;color:var(--muted);display:inline-flex;align-items:center;gap:7px;min-height:44px;transition:color .2s}
+  .links a:hover{color:var(--ink)}
+  .links a::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--d)}
+  .nav .btn{min-height:42px;padding:0 16px;font-size:15px}
+
+  /* hero: white disc over warm halos */
+  .hero{position:relative;padding:122px 0 0;text-align:center;isolation:isolate}
+  .halo{position:absolute;z-index:-1;inset:-40px 0 auto;height:1000px;overflow:hidden;pointer-events:none}
+  .halo::before{content:"";position:absolute;inset:0;background:
+      radial-gradient(42% 52% at 8% 40%,var(--g1),transparent 70%),
+      radial-gradient(38% 46% at 94% 26%,var(--g2),transparent 70%),
+      radial-gradient(40% 40% at 90% 85%,var(--g4),transparent 70%),
+      radial-gradient(60% 60% at 50% 20%,var(--g3),transparent 80%)}
+  .halo::after{content:"";position:absolute;left:50%;top:40px;width:min(1160px,150vw);aspect-ratio:1;transform:translateX(-50%);border-radius:50%;background:var(--bg);filter:blur(12px)}
+  .hero h1{font-size:clamp(48px,7vw,88px);line-height:.88;letter-spacing:-.05em}
+  .hero h1 span{color:var(--acc-big)}
+  .hero .lead{margin:16px auto 0;max-width:40ch;font-size:clamp(17px,1.6vw,20px)}
+
+  /* the object: the library window with its search box and the wall */
+  .win{position:relative;max-width:1080px;margin:28px auto 0;background:var(--win);border:1px solid var(--line);border-radius:20px;padding:18px 22px 0;text-align:left;box-shadow:0 40px 80px -40px rgb(13 14 16/.25)}
+  .bar{display:flex;align-items:center;gap:16px;border-bottom:1px solid var(--line);padding-bottom:12px}
+  .field{flex:1;display:flex;align-items:center;gap:12px;min-width:0}
+  .field svg{width:28px;height:28px;flex:none;color:var(--faint)}
+  .field input{flex:1;min-width:0;border:0;background:none;font:400 clamp(26px,2.8vw,36px)/1.2 var(--serif);letter-spacing:-.02em;color:var(--ink);padding:6px 0;caret-color:var(--acc)}
+  .field input::placeholder{color:var(--faint);opacity:1}
+  .field input:focus{outline:none}
+  .field:focus-within svg{color:var(--acc)}
+  .tabs{display:flex;gap:2px;padding:3px;background:color-mix(in srgb,var(--ink) 5%,transparent);border-radius:10px;flex:none}
+  .tabs button{border:0;background:none;font:500 14px var(--sans);color:var(--muted);padding:0 12px;min-height:34px;border-radius:8px;cursor:pointer;transition:background-color .2s,color .2s}
+  .tabs button[aria-pressed="true"]{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgb(0 0 0/.08)}
+  .row2{display:flex;align-items:center;gap:12px;padding:10px 0}
+  .hints{display:flex;align-items:center;gap:8px;flex:1;min-width:0;font-size:14px;color:var(--muted)}
+  .hints button{border:1px solid var(--line);background:var(--card);color:var(--text);font:500 14px var(--sans);padding:0 12px;min-height:34px;border-radius:8px;cursor:pointer;transition:border-color .2s,color .2s}
+  .hints button:hover{border-color:var(--acc);color:var(--acc)}
+  .count{flex:none;font-size:14px;font-variant-numeric:tabular-nums;color:var(--muted)}
+  .wallbox{height:520px;overflow:hidden;padding:0 6px;margin:0 -6px;-webkit-mask:linear-gradient(#000 78%,transparent);mask:linear-gradient(#000 78%,transparent)}
+  .wall{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));grid-auto-rows:10px;grid-auto-flow:dense;gap:0 12px;padding-top:6px}
+  .tile{margin:0 0 12px;display:flex;flex-direction:column;transition:opacity .35s var(--ease),filter .35s var(--ease)}
+  @media (hover:hover) and (prefers-reduced-motion:no-preference){.art{transition:transform .25s var(--ease)}.tile:hover .art{transform:translateY(-3px)}}
+  .tile.h1{grid-row:span 12}.tile.h2{grid-row:span 15}.tile.h3{grid-row:span 18}.tile.h4{grid-row:span 21}.tile.w1{grid-column:span 2;grid-row:span 13}.tile.w2{grid-column:span 2;grid-row:span 16}
+  .art{position:relative;flex:1;min-height:0;border-radius:10px;overflow:hidden;background:var(--grad);box-shadow:inset 0 0 0 1px rgb(0 0 0/.05)}
+  .art::before{content:"";position:absolute;inset:0;background:radial-gradient(120% 80% at 15% 0%,rgb(255 255 255/.28),transparent 60%)}
+  .art::after{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");mix-blend-mode:overlay;opacity:.45;pointer-events:none}
+  .art svg{position:absolute;left:50%;top:50%;height:68%;width:auto;max-width:80%;transform:translate(-50%,-50%)}
+  .tile.w1 .art svg,.tile.w2 .art svg{height:74%}
+  .art svg{scale:var(--s,1);rotate:var(--r,0deg);transform-origin:center}
+  /* break the centring: each kind sits its drawing differently, some bleed off the edge */
+  .k-trip .art svg{height:100%;top:auto;bottom:-16%;transform:translateX(-50%)}
+  .k-bar .art svg{left:auto;right:-3%;top:auto;bottom:-6%;transform:none;height:84%}
+  .k-style .art svg{left:-8%;top:auto;bottom:-8%;transform:none;height:90%}
+  .k-home .art svg{left:auto;right:4%;top:auto;bottom:-6%;transform:none;height:82%}
+  .k-fit .art svg{left:auto;right:-6%;transform:translateY(-50%);height:80%}
+  .price{position:absolute;z-index:1;left:9px;top:9px;background:#fff;color:#1c1917;font:700 12px/1 var(--sans);padding:5px 7px;border-radius:5px;box-shadow:0 2px 8px rgb(0 0 0/.15)}
+  .tile.list .art{background:var(--card);border:1px solid var(--line);filter:none;box-shadow:none}
+  .tile.list .art::before,.tile.list .art::after{display:none}
+  .tile.list .nt{color:var(--ink)}
+  .tile.list em~*,.tile.list .art:has(em) .nt{padding-right:56px}
+  .tile.list ul{list-style:none;margin:8px 12px 0;padding:0;font-size:11.5px;color:var(--muted)}
+  .tile.list li{display:flex;align-items:center;gap:7px;padding:3px 0;border-top:1px solid var(--line)}
+  .tile.list li::before{content:"";width:9px;height:9px;border:1.5px solid var(--faint);border-radius:3px;flex:none}
+  .tile.list li:first-child::before{background:var(--acc-big);border-color:var(--acc-big)}
+  .tile.list figcaption b,.tile.note figcaption b{color:var(--muted);font-weight:500}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tile.note .art{background:#262321!important}:root:not([data-theme="light"]) .tile.note .nt{color:#ece6df}}
+  :root[data-theme="dark"] .tile.note .art{background:#262321!important}:root[data-theme="dark"] .tile.note .nt{color:#ece6df}
+  .nt{position:relative;z-index:1;margin:0;padding:12px 12px 0;font:400 17px/1.15 var(--serif);letter-spacing:-.01em;color:#1c1917}
+  .dots{position:absolute;left:12px;bottom:12px;display:block;width:34px;height:6px;background:radial-gradient(circle,#1c1917 2.5px,transparent 3px) 0 0/12px 6px;opacity:.3}
+  .art em{position:absolute;top:7px;right:7px;font:600 10px/1 var(--sans);font-style:normal;color:#fff;background:rgb(0 0 0/.55);padding:4px 6px;border-radius:6px}
+  .tile figcaption{padding:6px 2px 0;font-size:12px;line-height:1.28;min-height:38px}
+  .tile figcaption b{display:block;font-weight:600;color:var(--ink);overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+  .tile figcaption span{color:var(--muted);font-size:11px}
+  .tile.note figcaption b{color:var(--muted);font-weight:500}
+  .tile mark{background:none;color:var(--acc);box-shadow:inset 0 -2px 0 color-mix(in srgb,var(--acc) 45%,transparent)}
+  .wall.q .tile:not(.hit){opacity:.5;filter:saturate(.65)}
+  .wall.q .tile.hit .art{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--acc-big),0 14px 30px -12px rgb(194 65 12/.55)}
+  .note{margin:14px auto 0;font-size:13.5px;color:var(--muted)}
+  html:not(.js) .win .bar,html:not(.js) .row2{display:none}
+
+  section{scroll-margin-top:90px}
+  /* film: the promo, a visible player in the second screen */
+  .film{display:grid;grid-template-columns:minmax(0,400px) minmax(0,1fr);gap:56px;align-items:center;max-width:1000px;margin:120px auto 0}
+  .player{position:relative;margin:0;border-radius:22px;overflow:hidden;background:#000;box-shadow:0 30px 70px -30px rgb(124 45 18/.45)}
+  .player video{width:100%;aspect-ratio:9/16;height:auto;object-fit:cover;background:#000}
+  .play{position:absolute;inset:0;display:grid;place-items:center;padding:0;border:0;background:linear-gradient(rgb(5 6 13/0) 60%,rgb(5 6 13/.6));color:#fff;font-family:inherit;cursor:pointer}
+  /* YouTube-style play: rounded rectangle, dark until hover, red on hover */
+  .play i{display:grid;place-items:center;width:84px;height:58px;border-radius:16px;background:rgb(23 23 23/.82);box-shadow:0 6px 24px rgb(0 0 0/.45)}
+  .play i svg{width:26px;height:26px;margin-left:2px}
+  .play span{position:absolute;left:18px;bottom:16px;font-size:15px;font-weight:500;line-height:1.2;text-shadow:0 1px 8px rgb(0 0 0/.6)}
+  .play small{position:absolute;right:14px;bottom:14px;padding:3px 7px;border-radius:6px;background:rgb(0 0 0/.78);color:#fff;font-size:13px;font-weight:500;font-variant-numeric:tabular-nums}
+  .play:hover i,.play:focus-visible i{background:#ff0033}
+  .play:focus-visible{outline:2px solid var(--acc);outline-offset:-4px}
+  html:not(.js) .play{display:none}
+  @media (prefers-reduced-motion:no-preference){.play i{transition:transform .3s var(--ease),background-color .15s}.play:hover i{transform:scale(1.06)}}
+  .film .btn{margin-top:30px}
+  .meta{margin:14px 0 0;font-size:14px;color:var(--muted)}
+  .meta a{color:var(--text);text-underline-offset:3px}
+
+  /* the NO list (mymind manifesto pattern) */
+  .no{max-width:860px;margin:170px auto 0;position:relative;isolation:isolate;padding-bottom:40px}
+  .no::before{content:"";position:absolute;z-index:-1;left:50%;width:100vw;transform:translateX(-50%);top:25%;bottom:-260px;pointer-events:none;-webkit-mask:linear-gradient(transparent,#000 30%,#000 60%,transparent);mask:linear-gradient(transparent,#000 30%,#000 60%,transparent);
+    background:radial-gradient(45% 60% at 12% 62%,color-mix(in srgb,var(--g1) 75%,transparent),transparent 72%),radial-gradient(40% 55% at 88% 58%,color-mix(in srgb,var(--g2) 70%,transparent),transparent 72%),radial-gradient(50% 35% at 50% 60%,var(--g3),transparent 75%)}
+  .eyebrow{font-size:16px;font-weight:600;color:var(--acc);margin:0 0 18px}
+  .no .say{font:400 clamp(28px,3.4vw,40px)/1.22 var(--serif);letter-spacing:-.015em;color:var(--ink);margin:0 0 44px;max-width:28ch}
+  .no ul{list-style:none;margin:0;padding:0}
+  .no li{font:400 clamp(36px,5.2vw,62px)/1.12 var(--serif);letter-spacing:-.03em;color:var(--ink);display:flex;flex-wrap:wrap;align-items:baseline;gap:0 16px}
+  .no li b{font:700 .86em/1 var(--sans);letter-spacing:-.04em;color:var(--acc-big)}
+  .no li small{font:400 16px/1.45 var(--sans);letter-spacing:0;color:var(--muted);flex-basis:100%;margin:2px 0 14px}
+
+  /* the padlock: pinned scene, scrubbed by scroll */
+  .lock{margin:30px 0 0}
+  .stage{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:center;padding-top:96px;padding-bottom:40px}
+  .lockgrid{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(0,1fr);gap:44px;align-items:center;margin-top:36px}
+  .scene{position:relative}
+  .scene svg{width:100%;height:auto;overflow:visible}
+  .scene .lbl{position:absolute;transform:translateX(-50%);font-size:13px;font-weight:600;color:var(--muted);white-space:nowrap}
+  .steps{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+  .steps li{padding:12px 0 12px 18px;border-left:2px solid var(--line);transition:border-color .3s,opacity .3s;opacity:.8}
+  .steps li.on{border-color:var(--acc);opacity:1}
+  .steps b{display:block;color:var(--ink);font-size:17px;font-weight:600}
+  .steps p{margin:4px 0 0;font-size:15px;color:var(--muted);line-height:1.5}
+  .steps code{font:inherit;font-weight:600;color:var(--text)}
+
+  /* three more things, thin vertical dividers (mymind platform grid) */
+  .also{display:grid;grid-template-columns:repeat(3,1fr);margin:150px 0 0;border-top:1px solid var(--line)}
+  .also>div{padding:36px 30px 8px;border-left:1px solid var(--line)}
+  .also>div:first-child{border-left:0;padding-left:0}
+  .also svg{width:100%;max-width:230px;height:auto;margin-bottom:26px;padding:22px 26px;background:var(--win);border-radius:16px;box-sizing:border-box}
+  @media (min-width:901px){.also{border-top:0;gap:40px}.also>div,.also>div:first-child{border-left:0;padding:0}.also>div:nth-child(2){margin-top:70px}.also>div:nth-child(3){margin-top:140px}}
+  .also h3{font:400 30px/1.05 var(--serif);letter-spacing:-.02em;color:var(--ink);margin:0 0 10px}
+  .also p{margin:0;font-size:15.5px;color:var(--muted)}
+
+  /* get it: closing line + action, then a left-aligned platform strip with thin dividers (mymind) */
+  .get{margin:130px 0 0;text-align:center}
+  .get h2{margin:0 auto;max-width:14ch}
+  .get>.btn{margin-top:34px}
+  .plat{display:grid;grid-template-columns:repeat(3,1fr);margin:72px 0 0;border-top:1px solid var(--line);text-align:left}
+  .plat>div{position:relative;padding:26px 28px 6px;border-left:1px solid var(--line)}
+  .plat>div:first-child{border-left:0;padding-left:0}
+  .plat h3{font:400 32px/1 var(--serif);letter-spacing:-.02em;color:var(--ink);margin:0 0 12px}
+  .plat p{margin:0;font-size:15px;color:var(--muted);max-width:34ch}
+  .plat p a{color:var(--acc);font-weight:600;text-decoration:none;margin-right:6px}
+  .plat p a:hover{text-decoration:underline;text-underline-offset:4px}
+  .plat .ph{padding-right:96px}
+  .plat .qr{position:absolute;right:20px;top:26px;width:64px;height:64px;padding:5px;border-radius:8px;background:#fff;border:1px solid var(--line)}
   /* install on your Mac: same block on every landing that ships a .dmg */
-  .install{--ia:var(--accent);--ib:var(--border);--is:var(--surface);--it:var(--text);--im:var(--muted);--io:#fff;--mac:#0a84ff}
-  .install .isub{color:var(--im);margin:-8px 0 20px;max-width:62ch}
+  .install{margin:130px auto 0;max-width:980px;--ia:var(--acc);--ib:var(--line);--is:var(--card);--it:var(--text);--im:var(--muted);--io:var(--on-acc);--mac:#0a84ff}
+  .install h2{margin-bottom:18px}
+  .install .isub{color:var(--im);margin:0 0 26px;max-width:62ch}
   .isteps{list-style:none;padding:0;margin:0;display:grid;gap:14px;counter-reset:is}
-  .isteps>li{counter-increment:is;display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px;align-items:start;background:var(--is);border:1px solid var(--ib);border-radius:18px;padding:20px 20px 20px 66px;position:relative}
-  .isteps>li::before{content:counter(is);position:absolute;left:20px;top:20px;width:30px;height:30px;border-radius:50%;background:var(--ia);color:var(--io);font-weight:700;font-size:15px;display:grid;place-items:center}
-  .isteps b.t{display:block;font-size:17px;margin-bottom:6px;color:var(--it)}
+  .isteps>li{counter-increment:is;display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px;align-items:start;background:var(--is);border:1px solid var(--ib);border-radius:16px;padding:20px 20px 20px 66px;position:relative}
+  .isteps>li::before{content:counter(is);position:absolute;left:20px;top:20px;width:30px;height:30px;border-radius:8px;background:var(--ia);color:var(--io);font-weight:700;font-size:15px;display:grid;place-items:center}
+  .isteps b.t{display:block;font-size:17px;margin-bottom:6px;color:var(--ink)}
   .isteps p{margin:0;color:var(--im);font-size:15px}
   .isteps p b{color:var(--it)}
   .isteps>li.noart{grid-template-columns:1fr}
-  @media (max-width:720px){.isteps>li{grid-template-columns:1fr;padding:18px 18px 18px 60px}.isteps>li::before{left:16px;top:18px}.iart{margin-left:-42px}}
-  /* the drawings: plain HTML, look like macOS, no screenshots */
   .iart{font:12px/1.35 -apple-system,BlinkMacSystemFont,"Helvetica Neue",sans-serif;color:var(--it);display:flex;justify-content:center}
-  .iwin{width:100%;max-width:300px;background:color-mix(in srgb,var(--is) 88%,var(--it) 6%);border:1px solid var(--ib);border-radius:14px;box-shadow:0 1px 2px rgb(0 0 0/.06),0 12px 30px -12px rgb(0 0 0/.25);padding:16px}
-  .iicon{width:44px;height:44px;border-radius:11px;background:var(--ia);color:#fff;font:700 20px -apple-system,sans-serif;display:grid;place-items:center;flex:none;object-fit:cover}
+  .iwin{width:100%;max-width:300px;background:var(--win);border:1px solid var(--ib);border-radius:14px;box-shadow:0 1px 2px rgb(0 0 0/.06),0 12px 30px -12px rgb(0 0 0/.25);padding:16px}
+  .iicon{width:44px;height:44px;border-radius:11px;flex:none;object-fit:cover}
   .idrag{display:flex;align-items:center;justify-content:space-around;gap:10px;padding:22px 16px}
   .idrag span{display:block;text-align:center;font-size:11px;color:var(--im);margin-top:6px}
   .idrag .arr{flex:1;height:2px;background:var(--ia);position:relative;max-width:90px}
@@ -82,74 +219,492 @@
   .iset .irow{display:flex;align-items:center;gap:10px;justify-content:space-between;background:color-mix(in srgb,var(--it) 5%,transparent);border-radius:9px;padding:10px}
   .iset .irow span{font-size:11px}
   .iset .ibtn{margin:0;padding:5px 10px;white-space:nowrap;flex:none}
-  .iwhy{margin-top:14px;background:var(--is);border:1px solid var(--ib);border-radius:18px;padding:20px}
+  .iwhy{margin-top:14px;background:var(--is);border:1px solid var(--ib);border-radius:16px;padding:20px}
   .iwhy p{margin:0 0 10px;color:var(--im);font-size:15px}
   .iwhy p b{color:var(--it)}
   .iwhy pre{margin:8px 0;padding:12px 14px;border-radius:10px;background:color-mix(in srgb,var(--it) 6%,transparent);overflow-x:auto;font:13px/1.5 ui-monospace,Menlo,monospace;color:var(--it)}
   .iwhy code{font:12.5px ui-monospace,Menlo,monospace;word-break:break-all;color:var(--it)}
   .iwhy details{margin-top:6px}
   .iwhy summary{cursor:pointer;color:var(--it);font-weight:600;font-size:15px;min-height:32px}
-  .iwhy summary:focus-visible{outline:2px solid var(--ia);outline-offset:3px;border-radius:6px}
-  .small a{color:inherit}
+
+  footer{margin:120px 0 0;padding:28px 0 40px;border-top:1px solid var(--line);font-size:14px;color:var(--muted);text-align:center}
+  footer a{color:var(--text);text-underline-offset:3px}
+
+  /* reveal once */
+  @media (prefers-reduced-motion:no-preference){
+    .js .rv{opacity:0;transform:translateY(24px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+    .js .rv.in{opacity:1;transform:none}
+  }
+
+  @media (max-width:900px){
+    .links{display:none}
+    .film{grid-template-columns:1fr;gap:36px;justify-items:center;text-align:center;margin-top:88px}
+    .film .player{width:min(100%,330px)}
+    .film .lead{margin-left:auto;margin-right:auto}
+    .lockgrid{grid-template-columns:1fr;gap:18px;margin-top:20px}
+    .also{grid-template-columns:1fr}
+    .also>div{border-left:0;border-top:1px solid var(--line);padding:30px 0 6px}
+    .also>div:first-child{border-top:0}
+    .plat{grid-template-columns:1fr}
+    .plat>div,.plat>div:first-child{border-left:0;border-top:1px solid var(--line);padding:22px 90px 18px 0}.plat>div:first-child{border-top:0}
+    .plat .qr{right:0;top:22px}
+    .isteps>li{grid-template-columns:1fr;padding:18px 18px 18px 60px}.isteps>li::before{left:16px;top:18px}.iart{margin-left:-42px}
+  }
+  @media (max-width:640px){
+    .wrap{padding:0 16px}
+    .nav{top:10px;width:calc(100% - 20px);padding:6px 6px 6px 12px}
+    .hero{padding-top:100px}
+    .win{margin-top:30px;padding:12px 12px 0;border-radius:16px}
+    .bar{flex-wrap:wrap;gap:8px}
+    .field svg{width:22px;height:22px}
+    .tabs{width:100%}.tabs button{flex:1}
+    .row2{flex-wrap:wrap;gap:6px;padding:10px 0 8px}
+    .hints{flex-basis:100%;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 -12px;padding:0 12px}.hints::-webkit-scrollbar{display:none}.hints>span:first-child{display:none}
+    .hints button{font-size:13px;padding:0 10px;white-space:nowrap;flex:none}
+    .count{font-size:13px}
+    .nav .btn .more{display:none}
+    .tile.h1{grid-row:span 15}.tile.h2{grid-row:span 18}.tile.h3{grid-row:span 21}.tile.h4{grid-row:span 24}.tile.w1{grid-row:span 14}.tile.w2{grid-row:span 17}
+    .nt{font-size:13.5px;padding:9px 9px 0}
+    .wallbox{height:430px}
+    .wall{grid-template-columns:repeat(3,minmax(0,1fr));gap:0 8px;grid-auto-rows:8px}
+    .tile{margin-bottom:10px}
+    .tile figcaption{font-size:11.5px;min-height:38px}.tile figcaption span{display:none}
+    .no,.lock,.get,.install{margin-top:110px}
+    .no li small{font-size:14px}
+    .stage{padding-top:80px;padding-bottom:24px}
+    .steps li{padding:7px 0 7px 14px}
+    .steps b{font-size:15px}.steps p{font-size:13.5px}
+    .scene .lbl{font-size:11px}
+    .also{margin-top:110px}
+    .play i{width:68px;height:48px;border-radius:12px}.play i svg{width:22px;height:22px}.play span{left:14px;bottom:12px;font-size:14px}.play small{right:10px;bottom:10px}
+  }
 </style>
 </head>
 <body>
-<main class="wrap">
-  <div class="video"><video src="guardados-promo.mp4" poster="poster.jpg" controls playsinline preload="metadata"></video></div>
+<header class="nav">
+  <a class="logo" href="#top"><img src="icon.png" alt="">Guardados</a>
+  <ul class="links">
+    <li><a href="#top" style="--d:#ea580c">Search</a></li>
+    <li><a href="#film" style="--d:#eab308">Film</a></li>
+    <li><a href="#phone" style="--d:#ec4899">Phone</a></li>
+    <li><a href="#install" style="--d:#3b82f6">Install</a></li>
+  </ul>
+  <a class="btn" href="https://github.com/nachoie123/guardados-app/releases/latest/download/Guardados.dmg"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224 144v64a8 8 0 0 1-8 8H40a8 8 0 0 1-8-8v-64a8 8 0 0 1 16 0v56h160v-56a8 8 0 0 1 16 0Zm-101.66 5.66a8 8 0 0 0 11.32 0l40-40a8 8 0 0 0-11.32-11.32L136 124.69V32a8 8 0 0 0-16 0v92.69l-26.34-26.35a8 8 0 0 0-11.32 11.32Z"/></svg><span>Download<span class="more"> for Mac</span></span></a>
+</header>
 
-  <section class="intro">
-    <div class="brand"><img src="icon.png" alt="">Guardados</div>
-    <h1>Find anything <span>you ever saved.</span></h1>
-    <p class="lead">Your Instagram saves and TikTok favorites in one place, searchable and sorted into folders and a map. No AI, no account, free.</p>
-    <div class="cta">
-      <a class="btn main" href="https://github.com/nachoie123/guardados-app/releases/latest/download/Guardados.dmg">⬇ Download for Mac</a>
+<main id="top">
+  <section class="hero">
+    <div class="halo" aria-hidden="true"></div>
+    <div class="wrap">
+      <h1>Find anything<br>you ever <span>saved.</span></h1>
+      <p class="lead">Your Instagram saves and TikTok favorites in one place you can search, sorted into folders and a map. No AI, no account, free.</p>
+
+      <div class="win" role="search">
+        <div class="bar">
+          <label class="field"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="m229.66 218.34-50.07-50.06a88.11 88.11 0 1 0-11.31 11.31l50.06 50.07a8 8 0 0 0 11.32-11.32ZM40 112a72 72 0 1 1 72 72 72.08 72.08 0 0 1-72-72Z"/></svg>
+            <input id="q" type="search" placeholder="Search your saves" autocomplete="off" spellcheck="false" aria-label="Search the demo saves" aria-controls="wall"></label>
+          <div class="tabs" role="group" aria-label="Source">
+            <button type="button" data-src="" aria-pressed="true">All</button><button type="button" data-src="ig" aria-pressed="false">Instagram</button><button type="button" data-src="tt" aria-pressed="false">TikTok</button>
+          </div>
+        </div>
+        <div class="row2"><div class="hints"><span>Try</span>
+          <button type="button">quick pasta dinner</button><button type="button">rooftop bar</button><button type="button">lisbon</button><button type="button">workout no gym</button></div>
+          <span class="count" id="count" aria-live="polite">38 saves</span>
+        </div>
+        <div class="wallbox"><div class="wall" id="wall"></div></div>
+      </div>
+      <p class="note">An illustrated demo wall. Your real library stays on your Mac.</p>
     </div>
-    <p class="small">Free &amp; open source · macOS 11+ · Apple Silicon and Intel · 21 MB · app in Spanish · <a href="https://github.com/nachoie123/guardados-app">Source on GitHub</a> · <a href="#install">How to install</a></p>
   </section>
 
-  <h2>On your phone too</h2>
-  <div class="card phone">
-    <div class="qr"><img src="qr.svg" alt="QR code to nachosanbenito.com/guardados"></div>
-    <div><a class="url" href="https://nachosanbenito.com/guardados">nachosanbenito.com/guardados</a>
-      <p class="small">In the Mac app press <b>Conectar el móvil</b> (connect phone) and scan its code: your saves arrive end-to-end encrypted.</p></div>
+  <div class="wrap">
+    <section class="film rv" id="film">
+      <figure class="player">
+        <video src="guardados-promo.mp4" poster="poster.jpg" width="1080" height="1920" controls playsinline preload="none" aria-label="Guardados promo film, 58 seconds, with sound"></video>
+        <button class="play" type="button" aria-label="Play the 58 second film"><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12-7.5a1 1 0 0 0 0-1.72l-12-7.5A1 1 0 0 0 7 4.5Z"/></svg></i><span>Watch the film · sound on</span><small>0:58</small></button>
+      </figure>
+      <div>
+        <h2>The whole app in under a minute.</h2>
+        <p class="lead">Log in, import, search, folders, the map and the phone, in the order you would use them. It has sound.</p>
+        <a class="btn" href="https://github.com/nachoie123/guardados-app/releases/latest/download/Guardados.dmg"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224 144v64a8 8 0 0 1-8 8H40a8 8 0 0 1-8-8v-64a8 8 0 0 1 16 0v56h160v-56a8 8 0 0 1 16 0Zm-101.66 5.66a8 8 0 0 0 11.32 0l40-40a8 8 0 0 0-11.32-11.32L136 124.69V32a8 8 0 0 0-16 0v92.69l-26.34-26.35a8 8 0 0 0-11.32 11.32Z"/></svg>Download for Mac</a>
+        <p class="meta">Free and open source · macOS 11+ · Apple Silicon and Intel · 21 MB · app in Spanish</p>
+        <p class="meta"><a href="https://github.com/nachoie123/guardados-app">Source on GitHub</a> · <a href="#install">How to install</a></p>
+      </div>
+    </section>
+
+    <section class="no rv" aria-label="What it does not do">
+      <p class="eyebrow">What it won't do</p>
+      <p class="say">Your saves are a list of what you care about. Guardados keeps that list yours:</p>
+      <ul>
+        <li><b>No</b> AI<small>Search and folders run on plain keyword rules. You can paste your own Gemini key to refine them; without it, nothing goes to any AI.</small></li>
+        <li><b>No</b> account<small>Nothing to sign up for. You log in on instagram.com and tiktok.com themselves, inside the app.</small></li>
+        <li><b>No</b> password<small>You type it into Instagram's and TikTok's own pages. The app never sees or stores it.</small></li>
+        <li><b>No</b> price<small>Free and open source, MIT licence.</small></li>
+        <li><b>No</b> server that can read it<small>What goes to your phone is sealed first. Scroll down.</small></li>
+      </ul>
+    </section>
   </div>
 
-  <h2>What it does</h2>
-  <div class="grid">
-    <div class="card"><b>Both apps, one list</b><p>Imports every Instagram save and TikTok favorite, and keeps going where it left off.</p></div>
-    <div class="card"><b>Search like you think</b><p>“quick pasta dinner” finds the reel, by caption, title or @creator.</p></div>
-    <div class="card"><b>Folders on their own</b><p>Recipes, trips, workouts, bars… sorted by keyword rules, in Spanish and English. Move anything by hand.</p></div>
-    <div class="card"><b>Every place on a map</b><p>Restaurants and spots from the captions, located with Apple Maps.</p></div>
-    <div class="card"><b>Encrypted to your phone</b><p>AES-256-GCM on your Mac. The key travels in the QR, never to the server.</p></div>
-    <div class="card"><b>Yours</b><p>You log in on instagram.com and tiktok.com themselves. The app never sees a password; data stays on your Mac.</p></div>
-  </div>
-
-  <section class="install" id="install">
-  <h2>Install on your Mac</h2>
-  <p class="isub">About a minute. Step 3 happens only the first time.</p>
-  <ol class="isteps">
-    <li>
-      <div><b class="t">Drag it into Applications</b><p>Open <b>Guardados.dmg</b> and drag <b>Guardados</b> onto the <b>Applications</b> folder.</p></div>
-      <div class="iart" aria-hidden="true"><div class="iwin idrag"><div><img class="iicon" src="icon.png" alt=""><span>Guardados</span></div><div class="arr"></div><div><div class="ifold"></div><span>Applications</span></div></div></div>
-    </li>
-    <li>
-      <div><b class="t">Open it. macOS stops it. Click Done.</b><p>macOS says Apple could not verify “Guardados” is free of malware. It says that about every app that isn't notarized by Apple. Click <b>Done</b>, not Move to Trash.</p></div>
-      <div class="iart" aria-hidden="true"><div class="iwin idlg"><img class="iicon" src="icon.png" alt=""><h4>“Guardados” Not Opened</h4><p>Apple could not verify “Guardados” is free of malware that may harm your Mac or compromise your privacy.</p><span class="ibtn on">Done</span><span class="ibtn">Move to Trash</span></div></div>
-    </li>
-    <li>
-      <div><b class="t">Open Anyway, once</b><p>Open <b>System Settings → Privacy &amp; Security</b>, scroll down to <b>Security</b> and click <b>Open Anyway</b> next to “Guardados” was blocked. Confirm with your password or Touch ID. From then on it opens with a double-click.</p></div>
-      <div class="iart" aria-hidden="true"><div class="iwin iset"><div class="ihead">Privacy &amp; Security</div><div class="ilbl">Security</div><div class="irow"><span>“Guardados” was blocked to protect your Mac.</span><span class="ibtn on">Open Anyway</span></div></div></div>
-    </li>
-  <li class="noart"><div><b class="t">Then: import</b><p>Log in on the <b>Instagram</b> and <b>TikTok</b> windows and press <b>Importar ahora</b> (import now). The app speaks Spanish for now.</p></div></li>
-  </ol>
-  <div class="iwhy">
-    <p><b>Why the warning?</b> Notarizing an app needs a paid Apple developer account ($99 a year). This is a free side project, so it isn't notarized. The full source code is on GitHub, and you can check that your download is exactly the file I built. In Terminal:</p>
-    <pre>shasum -a 256 ~/Downloads/Guardados.dmg</pre><p>should print <code>c33ae2824d913ad0f750526294e088dd7bc8c97a4f73bd8757ffc2f3fe6c35f2</code></p>
-    <details><summary>Prefer the Terminal for step 3?</summary><pre>xattr -dr com.apple.quarantine "/Applications/Guardados.app"</pre></details>
-  </div>
+  <section class="lock" id="phone">
+    <div class="stage wrap">
+      <h2>To your phone,<br>sealed on the way.</h2>
+      <div class="lockgrid">
+        <div class="scene" aria-hidden="true">
+          <svg viewBox="0 0 1000 500" id="scene">
+            <defs>
+              <linearGradient id="gF" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fcd9a8"/><stop offset="1" stop-color="#f08a3c"/></linearGradient>
+              <linearGradient id="gB" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e9cdd8"/><stop offset="1" stop-color="#b98aa6"/></linearGradient>
+              <linearGradient id="gT" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d2e8f6"/><stop offset="1" stop-color="#6fa8d6"/></linearGradient>
+              <linearGradient id="gW" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d5edd2"/><stop offset="1" stop-color="#6fb37c"/></linearGradient>
+              <linearGradient id="gBox" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fb923c"/><stop offset="1" stop-color="#c2410c"/></linearGradient>
+            </defs>
+            <!-- routes: the box goes through the server, the key goes around it -->
+            <path id="route" d="M362 250 H738" fill="none" stroke="var(--line)" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round"/>
+            <path id="arc" d="M200 118 C 340 -40, 690 -40, 840 52" fill="none" stroke="var(--acc)" stroke-width="2.5" stroke-dasharray="2 9" stroke-linecap="round" opacity=".7"/>
+            <!-- Mac -->
+            <g id="mac">
+              <rect x="40" y="120" width="320" height="214" rx="16" fill="var(--card)" stroke="var(--line)" stroke-width="2"/>
+              <circle cx="62" cy="140" r="5" fill="#ff5f57"/><circle cx="78" cy="140" r="5" fill="#febc2e"/><circle cx="94" cy="140" r="5" fill="#28c840"/>
+              <path d="M178 334h44l8 34h-60z" fill="var(--line)"/><rect x="140" y="366" width="120" height="8" rx="4" fill="var(--line)"/>
+              <g id="mtiles">
+                <rect x="64" y="162" width="84" height="70" rx="9" fill="url(#gF)"/><rect x="158" y="162" width="84" height="70" rx="9" fill="url(#gB)"/><rect x="252" y="162" width="84" height="70" rx="9" fill="url(#gT)"/>
+                <rect x="64" y="242" width="84" height="70" rx="9" fill="url(#gW)"/><rect x="158" y="242" width="84" height="70" rx="9" fill="url(#gF)"/><rect x="252" y="242" width="84" height="70" rx="9" fill="url(#gT)"/>
+              </g>
+              <g id="qr" opacity="0">
+                <rect x="160" y="190" width="80" height="80" rx="8" fill="#fff" stroke="var(--line)"/>
+                <g fill="#0d0e10"><rect x="168" y="198" width="20" height="20" rx="3"/><rect x="212" y="198" width="20" height="20" rx="3"/><rect x="168" y="242" width="20" height="20" rx="3"/>
+                <rect x="194" y="200" width="8" height="8"/><rect x="194" y="214" width="8" height="8"/><rect x="204" y="226" width="8" height="8"/><rect x="194" y="234" width="8" height="8"/><rect x="214" y="236" width="8" height="8"/><rect x="224" y="250" width="8" height="8"/><rect x="200" y="252" width="8" height="8"/><rect x="176" y="226" width="8" height="8"/></g>
+              </g>
+            </g>
+            <!-- server -->
+            <g id="srv">
+              <rect x="440" y="182" width="120" height="136" rx="16" fill="var(--srv)" stroke="var(--srv2)" stroke-width="2"/>
+              <rect x="458" y="202" width="84" height="18" rx="5" fill="var(--srv2)"/><rect x="458" y="232" width="84" height="18" rx="5" fill="var(--srv2)"/><rect x="458" y="262" width="84" height="18" rx="5" fill="var(--srv2)"/>
+              <circle cx="530" cy="211" r="3.5" fill="#22c55e"/><circle cx="530" cy="241" r="3.5" fill="#22c55e"/><circle cx="530" cy="271" r="3.5" fill="#22c55e"/>
+              <g id="cipher" fill="var(--faint)" opacity="0"><rect x="446" y="156" width="8" height="8" rx="2" opacity="0.35"/><rect x="457" y="150" width="8" height="14" rx="2" opacity="0.6"/><rect x="468" y="156" width="8" height="8" rx="2" opacity="0.35"/><rect x="479" y="156" width="8" height="8" rx="2" opacity="0.9"/><rect x="490" y="150" width="8" height="14" rx="2" opacity="0.35"/><rect x="501" y="156" width="8" height="8" rx="2" opacity="0.9"/><rect x="512" y="156" width="8" height="8" rx="2" opacity="0.35"/><rect x="523" y="150" width="8" height="14" rx="2" opacity="0.6"/><rect x="534" y="156" width="8" height="8" rx="2" opacity="0.35"/><rect x="545" y="150" width="8" height="14" rx="2" opacity="0.6"/></g>
+            </g>
+            <!-- phone -->
+            <g id="phone-g">
+              <rect x="740" y="56" width="200" height="390" rx="34" fill="var(--card)" stroke="var(--ink)" stroke-width="8"/>
+              <rect x="806" y="72" width="68" height="18" rx="9" fill="var(--ink)"/>
+              <rect x="762" y="104" width="156" height="22" rx="7" fill="var(--win)"/>
+              <g id="ptiles">
+                <rect x="762" y="136" width="74" height="88" rx="9" fill="url(#gF)"/><rect x="844" y="136" width="74" height="88" rx="9" fill="url(#gB)"/>
+                <rect x="762" y="232" width="74" height="88" rx="9" fill="url(#gT)"/><rect x="844" y="232" width="74" height="88" rx="9" fill="url(#gW)"/>
+                <rect x="762" y="328" width="74" height="88" rx="9" fill="url(#gF)"/><rect x="844" y="328" width="74" height="88" rx="9" fill="url(#gT)"/>
+              </g>
+            </g>
+            <!-- the sealed box -->
+            <g id="box" transform="translate(200 236)">
+              <g id="boxin">
+                <rect x="-38" y="-38" width="76" height="76" rx="16" fill="url(#gBox)"/>
+                <path id="shackle" d="M-10 -2v-9a10 10 0 0 1 20 0v9" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+                <rect x="-16" y="-3" width="32" height="25" rx="6" fill="#fff"/>
+                <circle cx="0" cy="8" r="3.6" fill="#c2410c"/>
+              </g>
+            </g>
+            <!-- the key, riding the QR -->
+            <g id="key" opacity="0">
+              <circle r="15" fill="var(--card)" stroke="var(--acc)" stroke-width="2.5"/>
+              <g fill="none" stroke="var(--acc)" stroke-width="2.5" stroke-linecap="round"><circle cx="-4" cy="0" r="4.5"/><path d="M0.5 0h9M6 0v4"/></g>
+            </g>
+          </svg>
+          <span class="lbl" style="left:20%;top:80%">Your Mac</span>
+          <span class="lbl" style="left:50%;top:68%">Server</span>
+          <span class="lbl" style="left:84%;top:93%">Your phone</span>
+        </div>
+        <ol class="steps" id="steps">
+          <li><b>Sealed on your Mac.</b><p>Before anything leaves, the Mac locks it with AES-256-GCM (Apple CryptoKit). Only what changed gets packed.</p></li>
+          <li><b>A box the server can't open.</b><p>A small Cloudflare Worker keeps the sealed packages. It never gets the key, so all it holds is noise.</p></li>
+          <li><b>The key goes by QR.</b><p>Press <code>Conectar el móvil</code> and scan. The key rides in the link's # part, which browsers never send to a server.</p></li>
+          <li><b>Your phone opens it.</b><p>The same library, searchable, at <a href="https://nachosanbenito.com/guardados">nachosanbenito.com/guardados</a>.</p></li>
+        </ol>
+      </div>
+    </div>
   </section>
 
-  <footer>Built by <a href="https://www.linkedin.com/in/nacho-san-benito/">Ignacio San Benito</a> · <a href="https://github.com/nachoie123/guardados-app">GitHub</a></footer>
+  <div class="wrap">
+    <section class="also rv" aria-label="More">
+      <div>
+        <svg viewBox="0 0 112 72" aria-hidden="true"><rect x="4" y="18" width="70" height="50" rx="8" fill="#fb923c" opacity=".35"/><rect x="18" y="12" width="70" height="52" rx="8" fill="#fb923c" opacity=".6"/><path d="M32 8h18l6 6h30a6 6 0 0 1 6 6v38a6 6 0 0 1-6 6H32a6 6 0 0 1-6-6V14a6 6 0 0 1 6-6Z" fill="#ea580c"/></svg>
+        <h3>Folders on their own</h3>
+        <p>Recipes, trips, workouts, bars, cafés: sorted by keyword rules in Spanish and English. Move anything by hand and your choice wins.</p>
+      </div>
+      <div>
+        <svg viewBox="0 0 112 72" aria-hidden="true"><rect x="2" y="6" width="108" height="62" rx="10" fill="var(--win)" stroke="var(--line)"/><path d="M2 40h108M40 6v62M78 6v62" stroke="var(--line)" stroke-width="3"/><path d="M30 18a9 9 0 0 1 18 0c0 7-9 16-9 16s-9-9-9-16Z" fill="#db2777"/><circle cx="39" cy="18" r="3.2" fill="#fff"/><path d="M68 34a9 9 0 0 1 18 0c0 7-9 16-9 16s-9-9-9-16Z" fill="#ea580c"/><circle cx="77" cy="34" r="3.2" fill="#fff"/></svg>
+        <h3>Every place on a map</h3>
+        <p>Restaurants and spots are read from the caption and found with Apple Maps.</p>
+      </div>
+      <div>
+        <svg viewBox="0 0 112 72" aria-hidden="true"><rect x="4" y="12" width="20" height="30" rx="5" fill="url(#gF2)"/><rect x="28" y="12" width="20" height="30" rx="5" fill="#c9a6cf"/><rect x="52" y="12" width="20" height="30" rx="5" fill="#9cc4e4"/><rect x="76" y="12" width="20" height="30" rx="5" fill="var(--line)"/><rect x="4" y="54" width="104" height="7" rx="3.5" fill="var(--line)"/><rect x="4" y="54" width="74" height="7" rx="3.5" fill="#ea580c"/><defs><linearGradient id="gF2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fcd9a8"/><stop offset="1" stop-color="#f08a3c"/></linearGradient></defs></svg>
+        <h3>Picks up where it left off</h3>
+        <p>Every Instagram save and TikTok favorite comes in through the real sites. If the network drops, it resumes.</p>
+      </div>
+    </section>
+
+    <section class="get rv" aria-label="Get Guardados">
+      <h2>Your saves, back where you can find them.</h2>
+      <a class="btn" href="https://github.com/nachoie123/guardados-app/releases/latest/download/Guardados.dmg"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224 144v64a8 8 0 0 1-8 8H40a8 8 0 0 1-8-8v-64a8 8 0 0 1 16 0v56h160v-56a8 8 0 0 1 16 0Zm-101.66 5.66a8 8 0 0 0 11.32 0l40-40a8 8 0 0 0-11.32-11.32L136 124.69V32a8 8 0 0 0-16 0v92.69l-26.34-26.35a8 8 0 0 0-11.32 11.32Z"/></svg>Download for Mac</a>
+      <div class="plat">
+        <div><h3>Mac</h3><p><a href="https://github.com/nachoie123/guardados-app/releases/latest/download/Guardados.dmg">Download .dmg</a> macOS 11+, Apple Silicon and Intel, 21 MB.</p></div>
+        <div class="ph"><h3>Phone</h3><p><a href="https://nachosanbenito.com/guardados">Open the web app</a> Link it once from the Mac with Conectar el móvil.</p><img class="qr" src="qr.svg" alt="QR code to nachosanbenito.com/guardados"></div>
+        <div><h3>Source</h3><p><a href="https://github.com/nachoie123/guardados-app">See it on GitHub</a> MIT. 50 tests and 18 security checks run on every build.</p></div>
+      </div>
+    </section>
+
+    <section class="install rv" id="install">
+      <h2>Install on your Mac</h2>
+      <p class="isub">About a minute. Step 3 happens only the first time.</p>
+      <ol class="isteps">
+        <li>
+          <div><b class="t">Drag it into Applications</b><p>Open <b>Guardados.dmg</b> and drag <b>Guardados</b> onto the <b>Applications</b> folder.</p></div>
+          <div class="iart" aria-hidden="true"><div class="iwin idrag"><div><img class="iicon" src="icon.png" alt=""><span>Guardados</span></div><div class="arr"></div><div><div class="ifold"></div><span>Applications</span></div></div></div>
+        </li>
+        <li>
+          <div><b class="t">Open it. macOS stops it. Click Done.</b><p>macOS says Apple could not verify “Guardados” is free of malware. It says that about every app that isn't notarized by Apple. Click <b>Done</b>, not Move to Trash.</p></div>
+          <div class="iart" aria-hidden="true"><div class="iwin idlg"><img class="iicon" src="icon.png" alt=""><h4>“Guardados” Not Opened</h4><p>Apple could not verify “Guardados” is free of malware that may harm your Mac or compromise your privacy.</p><span class="ibtn on">Done</span><span class="ibtn">Move to Trash</span></div></div>
+        </li>
+        <li>
+          <div><b class="t">Open Anyway, once</b><p>Open <b>System Settings → Privacy &amp; Security</b>, scroll down to <b>Security</b> and click <b>Open Anyway</b> next to “Guardados” was blocked. Confirm with your password or Touch ID. From then on it opens with a double-click.</p></div>
+          <div class="iart" aria-hidden="true"><div class="iwin iset"><div class="ihead">Privacy &amp; Security</div><div class="ilbl">Security</div><div class="irow"><span>“Guardados” was blocked to protect your Mac.</span><span class="ibtn on">Open Anyway</span></div></div></div>
+        </li>
+        <li class="noart"><div><b class="t">Then: import</b><p>Log in on the <b>Instagram</b> and <b>TikTok</b> windows and press <b>Importar ahora</b> (import now). The app speaks Spanish for now.</p></div></li>
+      </ol>
+      <div class="iwhy">
+        <p><b>Why the warning?</b> Notarizing an app needs a paid Apple developer account ($99 a year). This is a free side project, so it isn't notarized. The full source code is on GitHub, and you can check that your download is exactly the file I built. In Terminal:</p>
+        <pre>shasum -a 256 ~/Downloads/Guardados.dmg</pre><p>should print <code>c33ae2824d913ad0f750526294e088dd7bc8c97a4f73bd8757ffc2f3fe6c35f2</code></p>
+        <details><summary>Prefer the Terminal for step 3?</summary><pre>xattr -dr com.apple.quarantine "/Applications/Guardados.app"</pre></details>
+      </div>
+    </section>
+
+    <footer><a href="https://nachosanbenito.com">Ignacio San Benito</a> · IE University</footer>
+  </div>
 </main>
+
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Flip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1/dist/lenis.min.js"></script>
+<script>
+(() => {
+  const $ = s => document.querySelector(s), $$ = s => [...document.querySelectorAll(s)];
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.documentElement.classList.add('js');
+  const G = window.gsap;
+  if (G) G.registerPlugin(ScrollTrigger, Flip);
+
+  /* one smooth scroll: Lenis driven by the GSAP ticker */
+  if (G && window.Lenis && !still) {
+    const lenis = new Lenis({anchors: {offset: -80}});
+    lenis.on('scroll', ScrollTrigger.update);
+    G.ticker.add(t => lenis.raf(t * 1000)); G.ticker.lagSmoothing(0);
+  }
+
+  /* ---------- the wall: demo saves drawn like the promo film (no real posts) ---------- */
+  // [title, source, kind, shape, extra words]; shapes h1-h4 tall, w1-w2 wide (two columns)
+  const RAW = [
+    ['15-min creamy pasta','tt','food','h3','quick fast easy dinner'],
+    ['Pasta water trick','tt','food','h1','quick tip'],
+    ['One-pan lemon orzo','ig','food','h2','quick pasta easy'],
+    ['Weeknight ramen','ig','food','h3','quick noodles'],
+    ['3-ingredient tiramisu','tt','food','h2','quick dessert easy'],
+    ['No-knead focaccia','ig','food','w1','bread'],
+    ['Date-night pasta for two','ig','food','h2','dinner'],
+    ['Crispy rice salad','ig','food','h1','lunch'],
+    ['Meal prep: 5 lunches','ig','food','h2','week'],
+    ['Hidden rooftop bar in Madrid','ig','bar','h2','drinks terrace'],
+    ['Speakeasy behind a laundromat','tt','bar','h3','drinks cocktail secret'],
+    ['Sunset terrace, cheap drinks','ig','bar','w2','rooftop'],
+    ['Cocktail bar with only vinyl','ig','bar','h2','drinks music'],
+    ['Late-night tapas crawl','tt','bar','h3','madrid food'],
+    ['Wine bar with a garden','ig','bar','h1','drinks'],
+    ['Lisbon in 3 days','ig','trip','h3','weekend portugal'],
+    ['Kyoto temples at 7am','tt','trip','h2','japan'],
+    ['Hidden beaches in Menorca','tt','trip','w2','summer beach'],
+    ['Train across Norway','ig','trip','h2','rail'],
+    ['Cheapest week in the Alps','ig','trip','h1','mountains budget'],
+    ['Porto food map','ig','trip','h3','portugal'],
+    ['20-min full body, no gym','tt','fit','h2','quick home'],
+    ['Mobility for desk backs','ig','fit','h3','stretch home'],
+    ['Beginner pull-up plan','tt','fit','h1','gym'],
+    ['Kettlebell finisher','tt','fit','h2','gym home'],
+    ['Abs with no equipment','tt','fit','h3','home'],
+    ['Capsule wardrobe, 12 pieces','ig','style','h4','minimal'],
+    ['White sneakers, 4 ways','tt','style','h2','shoes'],
+    ['Linen shirt outfits','ig','style','h3','summer'],
+    ['Small balcony garden','ig','home','h2','plants'],
+    ['Warm lamps for a dark flat','tt','home','h3','lighting'],
+    ['Five rules for slower mornings','ig','note','h2','routine habits'],
+    ['How to pack a carry-on for 10 days','ig','note','h3','travel trip packing'],
+    ['Questions to ask before you sign a lease','ig','note','h2','home apartment rent'],
+    ['Shakshuka for Sunday','ig','food','h4','quick eggs brunch',{list:['6 eggs','Tomatoes','Cumin, paprika','Feta']}],
+    ['Push day, 45 min','tt','fit','h4','gym workout',{list:['Bench 3×10','Dips 3×12','Push-ups 2×20']}],
+    ['Linen shirt in sand','ig','style','h3','summer shirt',{price:'€49'}],
+    ['Lisbon, spots I saved','tt','trip','h4','portugal weekend food',{list:['Pastéis de Belém','Miradouro da Graça','LX Factory']}]
+  ];
+  // deal the kinds round-robin so the wall reads as a collage, not as stripes
+  const DATA = (() => { const by = {}; RAW.forEach(r => { const q = by[r[2]] = by[r[2]] || []; r[5] ? q.splice(1, 0, r) : q.push(r) }); const ks = Object.keys(by), out = [];
+    while (out.length < RAW.length) ks.forEach(k => by[k].length && out.push(by[k].shift())); return out })();
+  const KIND = {
+    food:  {w: 'recipe recipes food cook cooking dinner lunch eat meal', g: ['#fcd9a8,#f08a3c', '#fbc4a0,#e0683a', '#fde7b0,#f2a53a']},
+    bar:   {w: 'bar bars drinks night out place places', g: ['#e9cdd8,#b98aa6', '#ddc8e2,#9d7bb0', '#f0d4da,#c48a9c']},
+    trip:  {w: 'travel trip trips city weekend place places', g: ['#d2e8f6,#6fa8d6', '#cbe8ed,#5aa4b8', '#d8e0f8,#7c90d8']},
+    fit:   {w: 'workout workouts gym exercise training fitness', g: ['#d5edd2,#6fb37c', '#e3f0c8,#8fb85a', '#cbeadf,#4f9e86']},
+    style: {w: 'outfit outfits style fashion clothes wear look', g: ['#f6d6d4,#d48b8b', '#eedfcc,#b98d5e', '#f4dbe6,#cf8fab']},
+    home:  {w: 'home decor interior room flat apartment design', g: ['#d1eae4,#5f9f93', '#f6e3c2,#d29a4b', '#d9edf0,#6aa2ad']},
+    note:  {w: 'tips advice ideas list read carousel', g: ['#fff7ed,#fed7aa', '#eef2ff,#c7d2fe', '#f0fdf4,#bbf7d0']}
+  };
+  const GLYPH = {
+    food: ['<path d="M18 50h64a32 30 0 0 1-64 0Z" fill="#fff" opacity=".92"/><path d="M30 50c4-9 10-9 14 0s10 9 14 0 10-9 14 0" fill="none" stroke="#f97316" stroke-width="3.5" stroke-linecap="round" opacity=".7"/><path d="M40 22c-4 6 4 9 0 15M52 18c-4 6 4 9 0 15M64 22c-4 6 4 9 0 15" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".75"/>',
+           '<circle cx="54" cy="52" r="28" fill="#fff" opacity=".92"/><circle cx="54" cy="52" r="19" fill="#000" opacity=".06"/><circle cx="48" cy="48" r="6" fill="#ef4444" opacity=".85"/><circle cx="60" cy="57" r="5" fill="#22c55e" opacity=".85"/><circle cx="59" cy="44" r="4" fill="#facc15"/><path d="M16 28v46M12 28v12a4 4 0 0 0 8 0V28" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/>'],
+    bar:  ['<path d="M28 26h44L50 54Z" fill="#fff" opacity=".9"/><path d="M50 54v22M38 77h24" stroke="#fff" stroke-width="4" stroke-linecap="round"/><circle cx="66" cy="22" r="7" fill="#fde047"/><circle cx="32" cy="64" r="3" fill="#fff" opacity=".5"/><circle cx="72" cy="60" r="4" fill="#fff" opacity=".4"/>',
+           '<path d="M6 22q22 14 44 0t44 0" fill="none" stroke="#fff" stroke-width="2" opacity=".6"/><g fill="#fde68a"><circle cx="17" cy="28" r="4"/><circle cx="36" cy="30" r="4"/><circle cx="64" cy="30" r="4"/><circle cx="83" cy="28" r="4"/></g><rect x="28" y="60" width="44" height="5" rx="2.5" fill="#fff"/><path d="M34 65v18M66 65v18" stroke="#fff" stroke-width="3"/><rect x="40" y="48" width="6" height="12" rx="2" fill="#fff" opacity=".8"/><rect x="54" y="46" width="6" height="14" rx="2" fill="#fff" opacity=".8"/>'],
+    trip: ['<circle cx="70" cy="28" r="10" fill="#fde68a"/><path d="M6 88 36 48l18 22 13-12 27 30Z" fill="#fff" opacity=".45"/><path d="M36 48l7 9-7-2-6 3Z" fill="#fff"/>',
+           '<circle cx="50" cy="40" r="16" fill="#fde68a"/><rect x="0" y="58" width="100" height="42" fill="#fff" opacity=".22"/><path d="M8 66q8-5 16 0t16 0 16 0 16 0 16 0M16 78q8-5 16 0t16 0 16 0 16 0" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".85"/>'],
+    fit:  ['<g fill="#fff"><rect x="16" y="38" width="10" height="24" rx="3"/><rect x="26" y="32" width="9" height="36" rx="3"/><rect x="65" y="32" width="9" height="36" rx="3"/><rect x="74" y="38" width="10" height="24" rx="3"/><rect x="35" y="47" width="30" height="6" rx="3" opacity=".8"/></g>',
+           '<g fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round" opacity=".9"><circle cx="50" cy="24" r="7" fill="#fff"/><path d="M50 32v26M50 40l-18 8M50 40l18-12M50 58l-14 22M50 58l12 22"/></g>'],
+    style:['<path d="M50 22a5 5 0 1 1 5 5c-3 0-5 2-5 4" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/><path d="M50 31 18 50h64Z" fill="none" stroke="#fff" stroke-width="3" stroke-linejoin="round"/><path d="M32 50h36l5 36H27Z" fill="#fff" opacity=".88"/><path d="M50 50v36" stroke="#000" stroke-opacity=".1" stroke-width="2"/>',
+           '<path d="M12 66c0-10 6-20 14-22l10 8c6 4 14 6 26 7 10 1 26 4 26 10v5H12Z" fill="#fff" opacity=".92"/><path d="M12 71h76" stroke="#000" stroke-opacity=".14" stroke-width="5"/><path d="M36 50l6 4M43 46l6 4" stroke="#000" stroke-opacity=".22" stroke-width="2.5" stroke-linecap="round"/>'],
+    home: ['<path d="M36 62h28l-4 24H40Z" fill="#fff" opacity=".92"/><path d="M50 62V36M50 47c-12 0-18-8-18-17 10 0 18 7 18 17ZM50 41c0-12 8-19 19-19 0 10-7 19-19 19Z" fill="#fff" opacity=".78"/>',
+           '<path d="M34 24h32l9 22H25Z" fill="#fef3c7"/><path d="M50 46v32M38 80h24" stroke="#fff" stroke-width="4" stroke-linecap="round"/><ellipse cx="50" cy="52" rx="26" ry="6" fill="#fef3c7" opacity=".35"/>']
+  };
+  // which of the two drawings fits the title (second one when the pattern matches)
+  const ALT = {food: /tiramisu|focaccia|salad|prep|date/i, bar: /rooftop|terrace|tapas|garden/i, trip: /beach|menorca|lisbon|porto/i,
+    fit: /full body|mobility|abs/i, style: /sneaker/i, home: /lamp/i};
+  // food gets one object per dish, so the pasta results don't repeat the same bowl
+  const FOOD = [
+    [/creamy pasta|date-night pasta/i, '<path d="M50 10v24" stroke="#fff" stroke-width="4" stroke-linecap="round"/><path d="M42 12v12a8 8 0 0 0 16 0V12" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/><ellipse cx="50" cy="66" rx="30" ry="17" fill="#fff" opacity=".93"/><path d="M28 64q11-11 22 0t22 0M33 72q8-8 17 0t17 0" fill="none" stroke="#f59e0b" stroke-width="3.2" stroke-linecap="round" opacity=".85"/>'],
+    [/orzo/i, '<circle cx="42" cy="56" r="27" fill="#1c1917" opacity=".72"/><circle cx="42" cy="56" r="21" fill="#fff" opacity=".93"/><path d="M68 54h26" stroke="#1c1917" stroke-opacity=".72" stroke-width="7" stroke-linecap="round"/><circle cx="38" cy="52" r="9" fill="#fde047"/><circle cx="38" cy="52" r="6" fill="none" stroke="#fff" stroke-width="1.6"/><path d="M32 52h12M38 46v12M34 48l8 8M42 48l-8 8" stroke="#fff" stroke-width="1.1"/><path d="M47 42c4-6 10-7 14-5-2 5-8 8-14 5Z" fill="#65a30d"/>'],
+    [/water trick/i, '<rect x="18" y="46" width="50" height="34" rx="8" fill="#fff" opacity=".93"/><path d="M12 47h62" stroke="#fff" stroke-width="4" stroke-linecap="round"/><path d="M32 36c-3 4 3 6 0 10M45 34c-3 4 3 6 0 10" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" opacity=".8"/><circle cx="80" cy="28" r="12" fill="none" stroke="#fff" stroke-width="3"/><path d="M80 28v-6M80 28l4 3" stroke="#fff" stroke-width="2.5" stroke-linecap="round"/>'],
+    [/tiramisu/i, '<path d="M18 72V48l60-16v40Z" fill="#fff" opacity=".93"/><path d="M18 58l60-13M18 65l60-11" stroke="#a16207" stroke-opacity=".45" stroke-width="4"/><path d="M18 48l60-16" stroke="#7c2d12" stroke-opacity=".55" stroke-width="5"/>'],
+    [/focaccia/i, '<rect x="14" y="38" width="72" height="36" rx="13" fill="#fff" opacity=".93"/><g fill="#f59e0b" opacity=".7"><circle cx="30" cy="50" r="3"/><circle cx="46" cy="60" r="3"/><circle cx="62" cy="48" r="3"/><circle cx="72" cy="62" r="3"/><circle cx="36" cy="64" r="3"/></g><path d="M40 50l4-6M58 62l4-6" stroke="#16a34a" stroke-width="3" stroke-linecap="round"/>'],
+    [/meal prep/i, '<g fill="#fff" opacity=".93"><rect x="12" y="28" width="36" height="25" rx="5"/><rect x="52" y="28" width="36" height="25" rx="5"/><rect x="12" y="57" width="36" height="25" rx="5"/><rect x="52" y="57" width="36" height="25" rx="5"/></g><g fill="#f97316" opacity=".5"><rect x="16" y="32" width="13" height="17" rx="3"/><rect x="56" y="61" width="13" height="17" rx="3"/></g><g fill="#22c55e" opacity=".5"><rect x="71" y="32" width="13" height="17" rx="3"/><rect x="31" y="61" width="13" height="17" rx="3"/></g>'],
+    [/salad/i, null]
+  ];
+  const foodGlyph = t => { const f = FOOD.find(([re]) => re.test(t)); return f ? (f[1] || GLYPH.food[1]) : GLYPH.food[0] };
+  const norm = s => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  const words = s => norm(s).split(/[^a-z0-9]+/).filter(Boolean);
+  const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+  const wall = $('#wall');
+  wall.innerHTML = DATA.map(([t, src, k, sh, , o = {}], i) => {
+    const g = KIND[k].g[i % 3], badge = src === 'tt' ? '<em>TikTok</em>' : '', from = src === 'tt' ? 'TikTok' : 'Instagram';
+    if (o.list) return `<figure class="tile ${sh} list" data-i="${i}"><div class="art"><p class="t nt">${esc(t)}</p><ul>${o.list.map(x => `<li>${esc(x)}</li>`).join('')}</ul>${src === 'tt' ? '<em>TikTok</em>' : ''}</div><figcaption><b>Saved list</b><span>${src === 'tt' ? 'TikTok' : 'Instagram'}</span></figcaption></figure>`;
+    const inner = k === 'note' ? `<p class="t nt">${esc(t)}</p><i class="dots" aria-hidden="true"></i>` : (o.price ? `<span class="price">${o.price}</span>` : '') + `<svg viewBox="0 0 100 100" aria-hidden="true">${k === 'food' ? foodGlyph(t) : GLYPH[k][ALT[k] && ALT[k].test(t) ? 1 : 0]}</svg>`;
+    const cap = k === 'note' ? `<b>Saved carousel</b><span>${from}</span>` : `<b class="t">${esc(t)}</b><span>${from}</span>`;
+    return `<figure class="tile k-${k} ${sh}${k === 'note' ? ' note' : ''}" data-i="${i}"><div class="art" style="--grad:linear-gradient(${160 + (i % 4) * 8}deg,${g});--s:${[1, 1.25, .9, 1.35, 1.1, .85][i % 6]};--r:${[-4, 3, 0, 5, -2, -5, 2][i % 7]}deg">${inner}${badge}</div><figcaption>${cap}</figcaption></figure>`;
+  }).join('');
+  const tiles = [...wall.children];
+  const bag = DATA.map(([t, , k, , x]) => ({title: words(t), all: [...words(t), ...words(KIND[k].w), ...words(x)]}));
+
+  // same idea as the app's search.js (BM25 + synonyms + prefixes), cut down for 30 cards
+  const STOP = new Set('a an the for in of to with my me i on and or find some something that this want need show best'.split(' '));
+  const SYN = {dinner: ['food', 'recipe'], supper: ['dinner'], fast: ['quick'], easy: ['quick'], drink: ['drinks', 'bar'], cocktails: ['cocktail'],
+    rooftop: ['rooftop', 'terrace'], trip: ['travel'], holiday: ['travel', 'beach'], vacation: ['travel'], gym: ['workout', 'gym'], exercise: ['workout'],
+    pasta: ['pasta', 'orzo'], noodles: ['ramen', 'noodles'], beach: ['beaches', 'beach'], no: [], recipe: ['food']};
+  let src = '', typingDemo = null;
+  const count = $('#count'), q = $('#q');
+
+  function apply(raw, animate = true) {
+    const toks = words(raw).filter(w => !STOP.has(w) && w.length > 1);
+    const state = (G && animate && !still) ? Flip.getState(tiles) : null;
+    const scored = tiles.map((el, i) => {
+      let s = 0, hits = [];
+      for (const t of toks) {
+        const alts = [t, ...(SYN[t] || [])];
+        const m = bag[i].all.find(w => alts.some(a => w.startsWith(a)));
+        if (m) { s += 1; if (bag[i].title.some(w => alts.some(a => w.startsWith(a)))) { s += .25; hits.push(...alts) } }
+      }
+      const okSrc = !src || DATA[i][1] === src;
+      const hit = okSrc && (toks.length ? s >= toks.length : true);
+      return {el, i, s: okSrc ? s : -1, hit, hits};
+    });
+    scored.sort((a, b) => (b.hit - a.hit) || (b.s - a.s) || (a.i - b.i));
+    scored.forEach(({el, i, hit, hits}) => {
+      el.classList.toggle('hit', hit);
+      el.querySelector('.t').innerHTML = DATA[i][0].split(/(\s+)/).map(w => hit && hits.length && hits.some(a => norm(w).replace(/[^a-z0-9]/g, '').startsWith(a)) ? `<mark>${esc(w)}</mark>` : esc(w)).join('');
+      wall.append(el);
+    });
+    wall.classList.toggle('q', !!(toks.length || src));
+    const n = scored.filter(x => x.hit).length;
+    count.textContent = (toks.length || src) ? (n ? `${n} of ${tiles.length} saves` : 'Nothing yet. Try “bar”') : `${tiles.length} saves`;
+    if (state) Flip.from(state, {duration: .75, ease: 'power3.inOut', stagger: .008, nested: false});
+  }
+  let deb;
+  q.addEventListener('input', () => { stopDemo(); clearTimeout(deb); deb = setTimeout(() => apply(q.value), 140) });
+  q.addEventListener('focus', stopDemo);
+  $$('.hints button').forEach(b => b.addEventListener('click', () => { stopDemo(); q.value = b.textContent; apply(q.value) }));
+  $$('.tabs button').forEach(b => b.addEventListener('click', () => {
+    stopDemo(); src = b.dataset.src; $$('.tabs button').forEach(x => x.setAttribute('aria-pressed', x === b)); apply(q.value);
+  }));
+  function stopDemo() { if (typingDemo) { clearTimeout(typingDemo); typingDemo = null } }
+
+  // types "quick pasta dinner" once, the first time the wall is on screen; the wall answers word by word
+  const DEMO = 'quick pasta dinner';
+  function demo() {
+    if (still) { q.value = DEMO; apply(DEMO, false); return }
+    let k = 0;
+    const step = () => {
+      q.value = DEMO.slice(0, ++k);
+      if (DEMO[k] === ' ' || k === DEMO.length) apply(q.value);
+      if (k < DEMO.length) typingDemo = setTimeout(step, DEMO[k] === ' ' ? 420 : 85); else typingDemo = null;
+    };
+    typingDemo = setTimeout(step, 700);
+  }
+  const wio = new IntersectionObserver(es => { if (es[0].isIntersecting) { wio.disconnect(); if (!q.value) demo() } }, {threshold: .35});
+  wio.observe(wall.parentNode);
+
+  /* ---------- the film: never autoplays; the button starts it with sound ---------- */
+  const film = $('#film video'), pb = $('#film .play');
+  film.controls = false;
+  pb.addEventListener('click', () => { film.preload = 'auto'; film.play().catch(() => {}) });
+  film.addEventListener('play', () => { film.controls = true; pb.remove() }, {once: true});
+
+  /* ---------- reveal once ---------- */
+  const rv = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); rv.unobserve(e.target) } }), {rootMargin: '0px 0px -10% 0px'});
+  $$('.rv').forEach(el => rv.observe(el));
+
+  /* ---------- the padlock: one timeline, scrubbed while the scene is pinned ---------- */
+  const steps = $$('#steps li');
+  const setStep = n => steps.forEach((li, i) => li.classList.toggle('on', i === n));
+  const arc = $('#arc'), arcLen = arc.getTotalLength(), key = $('#key');
+  const keyAt = p => { const pt = arc.getPointAtLength(arcLen * p); key.setAttribute('transform', `translate(${pt.x} ${pt.y})`) };
+  // reduced motion (or no GSAP): one still picture of the whole story: box sealed on the server, QR on the Mac, key already at the phone
+  if (!G || still) {
+    steps.forEach(li => li.classList.add('on'));
+    ['#mtiles', '#qr', '#cipher', '#key'].forEach((sel, i) => $(sel).setAttribute('opacity', i ? 1 : 0));
+    $('#box').setAttribute('transform', 'translate(500 250)'); keyAt(.82);
+    return;
+  }
+  const kp = {p: 0}; keyAt(0);
+  G.set('#shackle', {y: -10}); G.set('#box', {scale: 0, transformOrigin: '50% 50%'}); G.set('#ptiles rect', {scale: 0, transformOrigin: '50% 50%'});
+  const tl = G.timeline({defaults: {ease: 'power2.inOut'}});
+  tl.addLabel('s1')
+    .to('#box', {scale: 1, duration: .6, ease: 'back.out(1.6)'})
+    .to('#mtiles rect', {x: (i, el) => 200 - (+el.getAttribute('x') + 42), y: (i, el) => 236 - (+el.getAttribute('y') + 35), scale: .2, opacity: 0, transformOrigin: '50% 50%', stagger: .08, duration: .8}, '<')
+    .to('#shackle', {y: 0, duration: .5, ease: 'power3.in'})
+    .to('#boxin', {scale: 1.08, duration: .15, yoyo: true, repeat: 1, transformOrigin: '50% 50%'})
+    .addLabel('s2')
+    .to('#box', {x: 500, y: 250, duration: 1.4})
+    .to('#cipher', {opacity: 1, duration: .4}, '-=.3')
+    .to('#boxin', {rotation: -6, duration: .12, yoyo: true, repeat: 3, transformOrigin: '50% 50%'})
+    .addLabel('s3')
+    .to('#qr', {opacity: 1, duration: .4})
+    .to('#key', {opacity: 1, duration: .2})
+    .to(kp, {p: 1, duration: 1.6, onUpdate: () => keyAt(kp.p)}, '<')
+    .addLabel('s4')
+    .to('#box', {x: 840, y: 250, duration: 1.3})
+    .to('#shackle', {y: -10, duration: .45, ease: 'power3.out'})
+    .to('#key', {opacity: 0, duration: .3}, '<')
+    .to('#box', {scale: 0, opacity: 0, duration: .5})
+    .to('#ptiles rect', {scale: 1, stagger: .07, duration: .45, ease: 'back.out(1.7)'}, '<.1')
+    .to({}, {duration: .5});
+  const marks = ['s1', 's2', 's3', 's4'].map(l => tl.labels[l] / tl.duration());
+  setStep(0);
+  ScrollTrigger.create({
+    trigger: '.lock', start: 'top top', end: () => '+=' + Math.round(innerHeight * 2.6), pin: true, scrub: .6, animation: tl,
+    onUpdate: s => { let n = 0; marks.forEach((m, i) => { if (s.progress >= m - .001) n = i }); setStep(n) }
+  });
+})();
+</script>
 </body>
 </html>
