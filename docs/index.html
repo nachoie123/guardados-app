@@ -174,6 +174,18 @@
   .also h3{font:400 30px/1.05 var(--serif);letter-spacing:-.02em;color:var(--ink);margin:0 0 10px}
   .also p{margin:0;font-size:15.5px;color:var(--muted)}
 
+  /* the iPhone app: three real screens from its demo mode, a row on desktop, a swipe row on phones */
+  .ios{margin:150px 0 0}
+  .ios .lead{max-width:52ch}
+  .ios .meta b{color:var(--ink);font-weight:600}
+  .shots{list-style:none;margin:56px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px;max-width:1000px}
+  .shots figure{margin:0}
+  .shots img{width:100%;height:auto;border-radius:30px;border:1px solid var(--line);background:var(--win);box-shadow:0 30px 60px -34px rgb(124 45 18/.4)}
+  .shots figcaption{margin-top:18px}
+  .shots b{display:block;font:400 26px/1.1 var(--serif);letter-spacing:-.02em;color:var(--ink)}
+  .shots span{display:block;margin-top:6px;font-size:15px;color:var(--muted)}
+  @media (min-width:901px){.shots li:nth-child(2){margin-top:70px}.shots li:nth-child(3){margin-top:140px}}
+
   /* get it: closing line + action, then a left-aligned platform strip with thin dividers (mymind) */
   .get{margin:130px 0 0;text-align:center}
   .get h2{margin:0 auto;max-width:14ch}
@@ -245,6 +257,11 @@
     .also{grid-template-columns:1fr}
     .also>div{border-left:0;border-top:1px solid var(--line);padding:30px 0 6px}
     .also>div:first-child{border-top:0}
+    .shots{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin:40px -24px 0;padding:0 24px 8px;scroll-padding:0 24px}
+    .shots::-webkit-scrollbar{display:none}
+    .shots li{flex:0 0 min(72%,300px);scroll-snap-align:start}
+    .shots img{border-radius:24px}
+    .shots b{font-size:23px}
     .plat{grid-template-columns:1fr}
     .plat>div,.plat>div:first-child{border-left:0;border-top:1px solid var(--line);padding:22px 90px 18px 0}.plat>div:first-child{border-top:0}
     .plat .qr{right:0;top:22px}
@@ -269,7 +286,8 @@
     .wall{grid-template-columns:repeat(3,minmax(0,1fr));gap:0 8px;grid-auto-rows:8px}
     .tile{margin-bottom:10px}
     .tile figcaption{font-size:11.5px;min-height:38px}.tile figcaption span{display:none}
-    .no,.lock,.get,.install{margin-top:110px}
+    .no,.lock,.get,.install,.ios{margin-top:110px}
+    .shots{margin-left:-16px;margin-right:-16px;padding-left:16px;padding-right:16px;scroll-padding:0 16px}
     .no li small{font-size:14px}
     .stage{padding-top:80px;padding-bottom:24px}
     .steps li{padding:7px 0 7px 14px}
@@ -286,7 +304,8 @@
   <ul class="links">
     <li><a href="#top" style="--d:#ea580c">Search</a></li>
     <li><a href="#film" style="--d:#eab308">Film</a></li>
-    <li><a href="#phone" style="--d:#ec4899">Phone</a></li>
+    <li><a href="#phone" style="--d:#ec4899">Sync</a></li>
+    <li><a href="#iphone" style="--d:#22c55e">iPhone</a></li>
     <li><a href="#install" style="--d:#3b82f6">Install</a></li>
   </ul>
   <a class="btn" href="https://github.com/nachoie123/guardados-app/releases/latest/download/Guardados.dmg"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224 144v64a8 8 0 0 1-8 8H40a8 8 0 0 1-8-8v-64a8 8 0 0 1 16 0v56h160v-56a8 8 0 0 1 16 0Zm-101.66 5.66a8 8 0 0 0 11.32 0l40-40a8 8 0 0 0-11.32-11.32L136 124.69V32a8 8 0 0 0-16 0v92.69l-26.34-26.35a8 8 0 0 0-11.32 11.32Z"/></svg><span>Download<span class="more"> for Mac</span></span></a>
@@ -442,12 +461,24 @@
       </div>
     </section>
 
+    <section class="ios rv" id="iphone">
+      <p class="eyebrow">Now also on iPhone</p>
+      <h2>A native app<br>for your iPhone.</h2>
+      <p class="lead">Built in SwiftUI. Connect Instagram and TikTok from the phone itself, search with a map, and keep everything in sync through iCloud. Videos are transcribed on the device, and a demo mode with sample saves lets you look around first.</p>
+      <p class="meta"><b>The iPhone app is built. It is not on the App Store yet.</b> Screens from its demo mode, with sample saves. App in Spanish.</p>
+      <ul class="shots">
+        <li><figure><img src="iphone-1-inicio.webp" width="600" height="1304" loading="lazy" alt="Guardados on iPhone, home screen: a row of recent sample saves and a grid of folders such as Sitios and Viajes"><figcaption><b>Folders and subfolders</b><span>Recent saves up top, every folder below.</span></figcaption></figure></li>
+        <li><figure><img src="iphone-3-mapa.webp" width="600" height="1304" loading="lazy" alt="Guardados on iPhone, map screen: sample places pinned on a map of central Madrid, with filters for bars, cafés and food"><figcaption><b>A map of every saved place</b><span>Filter it by bars, cafés or cuisine.</span></figcaption></figure></li>
+        <li><figure><img src="iphone-4-deslizar.webp" width="600" height="1304" loading="lazy" alt="Guardados on iPhone, swipe screen: one sample save filling the screen, a cheesecake recipe, in a vertical feed"><figcaption><b>Swipe through what you saved</b><span>A vertical feed to go back over it all.</span></figcaption></figure></li>
+      </ul>
+    </section>
+
     <section class="get rv" aria-label="Get Guardados">
       <h2>Your saves, back where you can find them.</h2>
       <a class="btn" href="https://github.com/nachoie123/guardados-app/releases/latest/download/Guardados.dmg"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224 144v64a8 8 0 0 1-8 8H40a8 8 0 0 1-8-8v-64a8 8 0 0 1 16 0v56h160v-56a8 8 0 0 1 16 0Zm-101.66 5.66a8 8 0 0 0 11.32 0l40-40a8 8 0 0 0-11.32-11.32L136 124.69V32a8 8 0 0 0-16 0v92.69l-26.34-26.35a8 8 0 0 0-11.32 11.32Z"/></svg>Download for Mac</a>
       <div class="plat">
         <div><h3>Mac</h3><p><a href="https://github.com/nachoie123/guardados-app/releases/latest/download/Guardados.dmg">Download .dmg</a> macOS 11+, Apple Silicon and Intel, 21 MB.</p></div>
-        <div class="ph"><h3>Phone</h3><p><a href="https://nachosanbenito.com/guardados">Open the web app</a> Link it once from the Mac with Conectar el móvil.</p><img class="qr" src="qr.svg" alt="QR code to nachosanbenito.com/guardados"></div>
+        <div class="ph"><h3>Phone browser</h3><p><a href="https://nachosanbenito.com/guardados">Open the web app</a> Link it once from the Mac with Conectar el móvil.</p><img class="qr" src="qr.svg" alt="QR code to nachosanbenito.com/guardados"></div>
         <div><h3>Source</h3><p><a href="https://github.com/nachoie123/guardados-app">See it on GitHub</a> MIT. 50 tests and 18 security checks run on every build.</p></div>
       </div>
     </section>
@@ -471,7 +502,7 @@
         <li class="noart"><div><b class="t">Then: import</b><p>Log in on the <b>Instagram</b> and <b>TikTok</b> windows and press <b>Importar ahora</b> (import now). The app speaks Spanish for now.</p></div></li>
       </ol>
       <div class="iwhy">
-        <p><b>Why the warning?</b> Notarizing an app needs a paid Apple developer account ($99 a year). This is a free side project, so it isn't notarized. The full source code is on GitHub, and you can check that your download is exactly the file I built. In Terminal:</p>
+        <p><b>Why the warning?</b> This Mac build isn't notarized by Apple yet, so macOS asks you to confirm the first time. A signed version is on the way. Until then, the full source code is on GitHub, and you can check that your download is exactly the file I built. In Terminal:</p>
         <pre>shasum -a 256 ~/Downloads/Guardados.dmg</pre><p>should print <code>c33ae2824d913ad0f750526294e088dd7bc8c97a4f73bd8757ffc2f3fe6c35f2</code></p>
         <details><summary>Prefer the Terminal for step 3?</summary><pre>xattr -dr com.apple.quarantine "/Applications/Guardados.app"</pre></details>
       </div>
