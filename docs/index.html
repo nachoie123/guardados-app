@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Guardados</title>
-<meta name="description" content="Your Instagram saves and TikTok favorites in one place, searchable. No AI, no account, free. End-to-end encrypted to your phone.">
-<meta property="og:title" content="Guardados: find anything you ever saved">
-<meta property="og:description" content="Instagram saves + TikTok favorites in one searchable place. No AI, no account, free. End-to-end encrypted to your phone.">
+<title>Guardados for iPhone: find anything you ever saved</title>
+<meta name="description" content="A native iPhone app for your Instagram saves and TikTok favorites: search, folders, a map of saved places and swipe. No account, no servers. Not on the App Store yet.">
+<meta property="og:title" content="Guardados for iPhone: find anything you ever saved">
+<meta property="og:description" content="Instagram saves and TikTok favorites in one searchable iPhone app, with folders and a map. Coming to the App Store: to be announced.">
 <meta property="og:image" content="https://nachosanbenito.com/guardados-app/poster.jpg">
 <meta name="theme-color" content="#fcfcfc">
 <link rel="icon" href="icon.png">
@@ -17,12 +17,12 @@
 <style>
   /* design read: product landing, mymind DNA (white + warm halos, big serif, the product window peeking, the NO list) */
   :root{--bg:#fcfcfc;--card:#fff;--ink:#0d0e10;--text:#23262d;--muted:#596273;--faint:#7a8394;--line:#e6e8ec;--win:#f2f3f6;
-    --acc:#c2410c;--acc-big:#ea580c;--on-acc:#fff;--g1:#ff8656;--g2:#f8a3b4;--g3:#fbd9cd;--g4:#cdd6ff;--srv:#17181b;--srv2:#2a2c31;
+    --acc:#c2410c;--acc-big:#ea580c;--on-acc:#fff;--g1:#ff8656;--g2:#f8a3b4;--g3:#fbd9cd;--g4:#cdd6ff;
     --r:10px;--ease:cubic-bezier(.22,1,.36,1);--serif:"Newsreader",Georgia,serif;--sans:"Plus Jakarta Sans",-apple-system,BlinkMacSystemFont,sans-serif;color-scheme:light}
   @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1012;--card:#18191c;--ink:#f4f4f5;--text:#e4e5e8;--muted:#a3a9b5;--faint:#8b919d;--line:#2a2c31;--win:#141518;
-    --acc:#fb923c;--acc-big:#fb923c;--on-acc:#0d0e10;--g1:#7c2d12;--g2:#5b2132;--g3:#22161a;--g4:#1b1f33;--srv:#0b0c0e;--srv2:#26282d;color-scheme:dark}}
+    --acc:#fb923c;--acc-big:#fb923c;--on-acc:#0d0e10;--g1:#7c2d12;--g2:#5b2132;--g3:#22161a;--g4:#1b1f33;color-scheme:dark}}
   :root[data-theme="dark"]{--bg:#0f1012;--card:#18191c;--ink:#f4f4f5;--text:#e4e5e8;--muted:#a3a9b5;--faint:#8b919d;--line:#2a2c31;--win:#141518;
-    --acc:#fb923c;--acc-big:#fb923c;--on-acc:#0d0e10;--g1:#7c2d12;--g2:#5b2132;--g3:#22161a;--g4:#1b1f33;--srv:#0b0c0e;--srv2:#26282d;color-scheme:dark}
+    --acc:#fb923c;--acc-big:#fb923c;--on-acc:#0d0e10;--g1:#7c2d12;--g2:#5b2132;--g3:#22161a;--g4:#1b1f33;color-scheme:dark}
   *{box-sizing:border-box}
   html{-webkit-text-size-adjust:100%}
   body{margin:0;background:var(--bg);color:var(--text);font:17px/1.6 var(--sans);overflow-x:hidden;-webkit-font-smoothing:antialiased}
@@ -37,6 +37,8 @@
   .btn svg{width:18px;height:18px}
   .btn:hover{background:color-mix(in srgb,var(--acc) 88%,#000)}
   .btn:active{transform:scale(.97)}
+  /* not out yet: a plain label, not a button (no hover, no fill) */
+  .tba{display:inline-flex;align-items:center;min-height:48px;padding:0 22px;border-radius:var(--r);border:1.5px solid color-mix(in srgb,var(--ink) 22%,transparent);color:var(--muted);font-weight:600;font-size:16px;cursor:default;user-select:none}
 
   /* floating bar, coloured dots before each link (mymind) */
   .nav{position:fixed;z-index:30;top:14px;left:50%;transform:translateX(-50%);width:min(1120px,calc(100% - 32px));display:flex;align-items:center;justify-content:space-between;gap:16px;
@@ -47,7 +49,7 @@
   .links a{text-decoration:none;color:var(--muted);display:inline-flex;align-items:center;gap:7px;min-height:44px;transition:color .2s}
   .links a:hover{color:var(--ink)}
   .links a::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--d)}
-  .nav .btn{min-height:42px;padding:0 16px;font-size:15px}
+  .nav .tba{min-height:42px;padding:0 16px;font-size:15px;white-space:nowrap}
 
   /* hero: white disc over warm halos */
   .hero{position:relative;padding:122px 0 0;text-align:center;isolation:isolate}
@@ -136,7 +138,7 @@
   .play:focus-visible{outline:2px solid var(--acc);outline-offset:-4px}
   html:not(.js) .play{display:none}
   @media (prefers-reduced-motion:no-preference){.play i{transition:transform .3s var(--ease),background-color .15s}.play:hover i{transform:scale(1.06)}}
-  .film .btn{margin-top:30px}
+  .film .tba{margin-top:30px}
   .meta{margin:14px 0 0;font-size:14px;color:var(--muted)}
   .meta a{color:var(--text);text-underline-offset:3px}
 
@@ -151,20 +153,6 @@
   .no li b{font:700 .86em/1 var(--sans);letter-spacing:-.04em;color:var(--acc-big)}
   .no li small{font:400 16px/1.45 var(--sans);letter-spacing:0;color:var(--muted);flex-basis:100%;margin:2px 0 14px}
 
-  /* the padlock: pinned scene, scrubbed by scroll */
-  .lock{margin:30px 0 0}
-  .stage{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:center;padding-top:96px;padding-bottom:40px}
-  .lockgrid{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(0,1fr);gap:44px;align-items:center;margin-top:36px}
-  .scene{position:relative}
-  .scene svg{width:100%;height:auto;overflow:visible}
-  .scene .lbl{position:absolute;transform:translateX(-50%);font-size:13px;font-weight:600;color:var(--muted);white-space:nowrap}
-  .steps{list-style:none;margin:0;padding:0;display:grid;gap:6px}
-  .steps li{padding:12px 0 12px 18px;border-left:2px solid var(--line);transition:border-color .3s,opacity .3s;opacity:.8}
-  .steps li.on{border-color:var(--acc);opacity:1}
-  .steps b{display:block;color:var(--ink);font-size:17px;font-weight:600}
-  .steps p{margin:4px 0 0;font-size:15px;color:var(--muted);line-height:1.5}
-  .steps code{font:inherit;font-weight:600;color:var(--text)}
-
   /* three more things, thin vertical dividers (mymind platform grid) */
   .also{display:grid;grid-template-columns:repeat(3,1fr);margin:150px 0 0;border-top:1px solid var(--line)}
   .also>div{padding:36px 30px 8px;border-left:1px solid var(--line)}
@@ -176,6 +164,7 @@
 
   /* the iPhone app: three real screens from its demo mode, a row on desktop, a swipe row on phones */
   .ios{margin:150px 0 0}
+  .ios .meta{max-width:60ch}
   .ios .lead{max-width:52ch}
   .ios .meta b{color:var(--ink);font-weight:600}
   .shots{list-style:none;margin:56px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px;max-width:1000px}
@@ -186,22 +175,19 @@
   .shots span{display:block;margin-top:6px;font-size:15px;color:var(--muted)}
   @media (min-width:901px){.shots li:nth-child(2){margin-top:70px}.shots li:nth-child(3){margin-top:140px}}
 
-  /* get it: closing line + action, then a left-aligned platform strip with thin dividers (mymind) */
+  /* get it: closing line + the label */
   .get{margin:130px 0 0;text-align:center}
   .get h2{margin:0 auto;max-width:14ch}
-  .get>.btn{margin-top:34px}
-  .plat{display:grid;grid-template-columns:repeat(3,1fr);margin:72px 0 0;border-top:1px solid var(--line);text-align:left}
-  .plat>div{position:relative;padding:26px 28px 6px;border-left:1px solid var(--line)}
-  .plat>div:first-child{border-left:0;padding-left:0}
-  .plat h3{font:400 32px/1 var(--serif);letter-spacing:-.02em;color:var(--ink);margin:0 0 12px}
-  .plat p{margin:0;font-size:15px;color:var(--muted);max-width:34ch}
-  .plat p a{color:var(--acc);font-weight:600;text-decoration:none;margin-right:6px}
-  .plat p a:hover{text-decoration:underline;text-underline-offset:4px}
-  .plat .ph{padding-right:96px}
-  .plat .qr{position:absolute;right:20px;top:26px;width:64px;height:64px;padding:5px;border-radius:8px;background:#fff;border:1px solid var(--line)}
-  /* install on your Mac: same block on every landing that ships a .dmg */
-  .install{margin:130px auto 0;max-width:980px;--ia:var(--acc);--ib:var(--line);--is:var(--card);--it:var(--text);--im:var(--muted);--io:var(--on-acc);--mac:#0a84ff}
-  .install h2{margin-bottom:18px}
+  .get .tba{margin-top:34px}
+  .get .meta{margin-top:14px}
+  /* the Mac version: a quiet block at the end, install steps folded */
+  .mac{margin:120px auto 0;max-width:980px;padding-top:34px;border-top:1px solid var(--line)}
+  .mac h2{font-size:32px;line-height:1.1;letter-spacing:-.02em}
+  .mac>p{margin:10px 0 0;font-size:15.5px;color:var(--muted);max-width:62ch}
+  .mac>p a{color:var(--acc);font-weight:600;text-underline-offset:4px}
+  .mac>details{margin-top:22px}
+  .mac>details>summary{cursor:pointer;color:var(--ink);font-weight:600;font-size:16px;line-height:44px}
+  .install{margin:14px 0 0;--ia:var(--acc);--ib:var(--line);--is:var(--card);--it:var(--text);--im:var(--muted);--io:var(--on-acc);--mac:#0a84ff}
   .install .isub{color:var(--im);margin:0 0 26px;max-width:62ch}
   .isteps{list-style:none;padding:0;margin:0;display:grid;gap:14px;counter-reset:is}
   .isteps>li{counter-increment:is;display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:24px;align-items:start;background:var(--is);border:1px solid var(--ib);border-radius:16px;padding:20px 20px 20px 66px;position:relative}
@@ -253,7 +239,6 @@
     .film{grid-template-columns:1fr;gap:36px;justify-items:center;text-align:center;margin-top:88px}
     .film .player{width:min(100%,330px)}
     .film .lead{margin-left:auto;margin-right:auto}
-    .lockgrid{grid-template-columns:1fr;gap:18px;margin-top:20px}
     .also{grid-template-columns:1fr}
     .also>div{border-left:0;border-top:1px solid var(--line);padding:30px 0 6px}
     .also>div:first-child{border-top:0}
@@ -262,9 +247,6 @@
     .shots li{flex:0 0 min(72%,300px);scroll-snap-align:start}
     .shots img{border-radius:24px}
     .shots b{font-size:23px}
-    .plat{grid-template-columns:1fr}
-    .plat>div,.plat>div:first-child{border-left:0;border-top:1px solid var(--line);padding:22px 90px 18px 0}.plat>div:first-child{border-top:0}
-    .plat .qr{right:0;top:22px}
     .isteps>li{grid-template-columns:1fr;padding:18px 18px 18px 60px}.isteps>li::before{left:16px;top:18px}.iart{margin-left:-42px}
   }
   @media (max-width:640px){
@@ -279,20 +261,15 @@
     .hints{flex-basis:100%;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 -12px;padding:0 12px}.hints::-webkit-scrollbar{display:none}.hints>span:first-child{display:none}
     .hints button{font-size:13px;padding:0 10px;white-space:nowrap;flex:none}
     .count{font-size:13px}
-    .nav .btn .more{display:none}
     .tile.h1{grid-row:span 15}.tile.h2{grid-row:span 18}.tile.h3{grid-row:span 21}.tile.h4{grid-row:span 24}.tile.w1{grid-row:span 14}.tile.w2{grid-row:span 17}
     .nt{font-size:13.5px;padding:9px 9px 0}
     .wallbox{height:430px}
     .wall{grid-template-columns:repeat(3,minmax(0,1fr));gap:0 8px;grid-auto-rows:8px}
     .tile{margin-bottom:10px}
     .tile figcaption{font-size:11.5px;min-height:38px}.tile figcaption span{display:none}
-    .no,.lock,.get,.install,.ios{margin-top:110px}
+    .no,.get,.ios{margin-top:110px}.mac{margin-top:90px}
     .shots{margin-left:-16px;margin-right:-16px;padding-left:16px;padding-right:16px;scroll-padding:0 16px}
     .no li small{font-size:14px}
-    .stage{padding-top:80px;padding-bottom:24px}
-    .steps li{padding:7px 0 7px 14px}
-    .steps b{font-size:15px}.steps p{font-size:13.5px}
-    .scene .lbl{font-size:11px}
     .also{margin-top:110px}
     .play i{width:68px;height:48px;border-radius:12px}.play i svg{width:22px;height:22px}.play span{left:14px;bottom:12px;font-size:14px}.play small{right:10px;bottom:10px}
   }
@@ -304,11 +281,10 @@
   <ul class="links">
     <li><a href="#top" style="--d:#ea580c">Search</a></li>
     <li><a href="#film" style="--d:#eab308">Film</a></li>
-    <li><a href="#phone" style="--d:#ec4899">Sync</a></li>
     <li><a href="#iphone" style="--d:#22c55e">iPhone</a></li>
-    <li><a href="#install" style="--d:#3b82f6">Install</a></li>
+    <li><a href="#mac" style="--d:#3b82f6">Mac</a></li>
   </ul>
-  <a class="btn" href="https://github.com/nachoie123/guardados-app/releases/latest/download/Guardados.dmg"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224 144v64a8 8 0 0 1-8 8H40a8 8 0 0 1-8-8v-64a8 8 0 0 1 16 0v56h160v-56a8 8 0 0 1 16 0Zm-101.66 5.66a8 8 0 0 0 11.32 0l40-40a8 8 0 0 0-11.32-11.32L136 124.69V32a8 8 0 0 0-16 0v92.69l-26.34-26.35a8 8 0 0 0-11.32 11.32Z"/></svg><span>Download<span class="more"> for Mac</span></span></a>
+  <span class="tba">To be announced</span>
 </header>
 
 <main id="top">
@@ -316,7 +292,7 @@
     <div class="halo" aria-hidden="true"></div>
     <div class="wrap">
       <h1>Find anything<br>you ever <span>saved.</span></h1>
-      <p class="lead">Your Instagram saves and TikTok favorites in one place you can search, sorted into folders and a map. No AI, no account, free.</p>
+      <p class="lead">A native iPhone app for your Instagram saves and TikTok favorites: one place to search them, sorted into folders and a map. No account, free.</p>
 
       <div class="win" role="search">
         <div class="bar">
@@ -332,140 +308,28 @@
         </div>
         <div class="wallbox"><div class="wall" id="wall"></div></div>
       </div>
-      <p class="note">An illustrated demo wall. Your real library stays on your Mac.</p>
+      <p class="note">An illustrated demo wall. In the app, your saves stay on your iPhone and in your iCloud.</p>
     </div>
   </section>
 
   <div class="wrap">
     <section class="film rv" id="film">
       <figure class="player">
-        <video src="guardados-promo.mp4" poster="poster.jpg" width="1080" height="1920" controls playsinline preload="none" aria-label="Guardados promo film, 58 seconds, with sound"></video>
-        <button class="play" type="button" aria-label="Play the 58 second film"><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12-7.5a1 1 0 0 0 0-1.72l-12-7.5A1 1 0 0 0 7 4.5Z"/></svg></i><span>Watch the film · sound on</span><small>0:58</small></button>
+        <video src="guardados-promo.mp4" poster="poster.jpg" width="1080" height="1920" controls playsinline preload="none" aria-label="Guardados promo film, 53 seconds, with sound"></video>
+        <button class="play" type="button" aria-label="Play the 53 second film"><i aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.5.86l12-7.5a1 1 0 0 0 0-1.72l-12-7.5A1 1 0 0 0 7 4.5Z"/></svg></i><span>Watch the film · sound on</span><small>0:53</small></button>
       </figure>
       <div>
         <h2>The whole app in under a minute.</h2>
-        <p class="lead">Log in, import, search, folders, the map and the phone, in the order you would use them. It has sound.</p>
-        <a class="btn" href="https://github.com/nachoie123/guardados-app/releases/latest/download/Guardados.dmg"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224 144v64a8 8 0 0 1-8 8H40a8 8 0 0 1-8-8v-64a8 8 0 0 1 16 0v56h160v-56a8 8 0 0 1 16 0Zm-101.66 5.66a8 8 0 0 0 11.32 0l40-40a8 8 0 0 0-11.32-11.32L136 124.69V32a8 8 0 0 0-16 0v92.69l-26.34-26.35a8 8 0 0 0-11.32 11.32Z"/></svg>Download for Mac</a>
-        <p class="meta">Free and open source · macOS 11+ · Apple Silicon and Intel · 21 MB · app in Spanish</p>
-        <p class="meta"><a href="https://github.com/nachoie123/guardados-app">Source on GitHub</a> · <a href="#install">How to install</a></p>
-      </div>
-    </section>
-
-    <section class="no rv" aria-label="What it does not do">
-      <p class="eyebrow">What it won't do</p>
-      <p class="say">Your saves are a list of what you care about. Guardados keeps that list yours:</p>
-      <ul>
-        <li><b>No</b> AI<small>Search and folders run on plain keyword rules. You can paste your own Gemini key to refine them; without it, nothing goes to any AI.</small></li>
-        <li><b>No</b> account<small>Nothing to sign up for. You log in on instagram.com and tiktok.com themselves, inside the app.</small></li>
-        <li><b>No</b> password<small>You type it into Instagram's and TikTok's own pages. The app never sees or stores it.</small></li>
-        <li><b>No</b> price<small>Free and open source, MIT licence.</small></li>
-        <li><b>No</b> server that can read it<small>What goes to your phone is sealed first. Scroll down.</small></li>
-      </ul>
-    </section>
-  </div>
-
-  <section class="lock" id="phone">
-    <div class="stage wrap">
-      <h2>To your phone,<br>sealed on the way.</h2>
-      <div class="lockgrid">
-        <div class="scene" aria-hidden="true">
-          <svg viewBox="0 0 1000 500" id="scene">
-            <defs>
-              <linearGradient id="gF" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fcd9a8"/><stop offset="1" stop-color="#f08a3c"/></linearGradient>
-              <linearGradient id="gB" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e9cdd8"/><stop offset="1" stop-color="#b98aa6"/></linearGradient>
-              <linearGradient id="gT" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d2e8f6"/><stop offset="1" stop-color="#6fa8d6"/></linearGradient>
-              <linearGradient id="gW" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#d5edd2"/><stop offset="1" stop-color="#6fb37c"/></linearGradient>
-              <linearGradient id="gBox" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fb923c"/><stop offset="1" stop-color="#c2410c"/></linearGradient>
-            </defs>
-            <!-- routes: the box goes through the server, the key goes around it -->
-            <path id="route" d="M362 250 H738" fill="none" stroke="var(--line)" stroke-width="3" stroke-dasharray="2 10" stroke-linecap="round"/>
-            <path id="arc" d="M200 118 C 340 -40, 690 -40, 840 52" fill="none" stroke="var(--acc)" stroke-width="2.5" stroke-dasharray="2 9" stroke-linecap="round" opacity=".7"/>
-            <!-- Mac -->
-            <g id="mac">
-              <rect x="40" y="120" width="320" height="214" rx="16" fill="var(--card)" stroke="var(--line)" stroke-width="2"/>
-              <circle cx="62" cy="140" r="5" fill="#ff5f57"/><circle cx="78" cy="140" r="5" fill="#febc2e"/><circle cx="94" cy="140" r="5" fill="#28c840"/>
-              <path d="M178 334h44l8 34h-60z" fill="var(--line)"/><rect x="140" y="366" width="120" height="8" rx="4" fill="var(--line)"/>
-              <g id="mtiles">
-                <rect x="64" y="162" width="84" height="70" rx="9" fill="url(#gF)"/><rect x="158" y="162" width="84" height="70" rx="9" fill="url(#gB)"/><rect x="252" y="162" width="84" height="70" rx="9" fill="url(#gT)"/>
-                <rect x="64" y="242" width="84" height="70" rx="9" fill="url(#gW)"/><rect x="158" y="242" width="84" height="70" rx="9" fill="url(#gF)"/><rect x="252" y="242" width="84" height="70" rx="9" fill="url(#gT)"/>
-              </g>
-              <g id="qr" opacity="0">
-                <rect x="160" y="190" width="80" height="80" rx="8" fill="#fff" stroke="var(--line)"/>
-                <g fill="#0d0e10"><rect x="168" y="198" width="20" height="20" rx="3"/><rect x="212" y="198" width="20" height="20" rx="3"/><rect x="168" y="242" width="20" height="20" rx="3"/>
-                <rect x="194" y="200" width="8" height="8"/><rect x="194" y="214" width="8" height="8"/><rect x="204" y="226" width="8" height="8"/><rect x="194" y="234" width="8" height="8"/><rect x="214" y="236" width="8" height="8"/><rect x="224" y="250" width="8" height="8"/><rect x="200" y="252" width="8" height="8"/><rect x="176" y="226" width="8" height="8"/></g>
-              </g>
-            </g>
-            <!-- server -->
-            <g id="srv">
-              <rect x="440" y="182" width="120" height="136" rx="16" fill="var(--srv)" stroke="var(--srv2)" stroke-width="2"/>
-              <rect x="458" y="202" width="84" height="18" rx="5" fill="var(--srv2)"/><rect x="458" y="232" width="84" height="18" rx="5" fill="var(--srv2)"/><rect x="458" y="262" width="84" height="18" rx="5" fill="var(--srv2)"/>
-              <circle cx="530" cy="211" r="3.5" fill="#22c55e"/><circle cx="530" cy="241" r="3.5" fill="#22c55e"/><circle cx="530" cy="271" r="3.5" fill="#22c55e"/>
-              <g id="cipher" fill="var(--faint)" opacity="0"><rect x="446" y="156" width="8" height="8" rx="2" opacity="0.35"/><rect x="457" y="150" width="8" height="14" rx="2" opacity="0.6"/><rect x="468" y="156" width="8" height="8" rx="2" opacity="0.35"/><rect x="479" y="156" width="8" height="8" rx="2" opacity="0.9"/><rect x="490" y="150" width="8" height="14" rx="2" opacity="0.35"/><rect x="501" y="156" width="8" height="8" rx="2" opacity="0.9"/><rect x="512" y="156" width="8" height="8" rx="2" opacity="0.35"/><rect x="523" y="150" width="8" height="14" rx="2" opacity="0.6"/><rect x="534" y="156" width="8" height="8" rx="2" opacity="0.35"/><rect x="545" y="150" width="8" height="14" rx="2" opacity="0.6"/></g>
-            </g>
-            <!-- phone -->
-            <g id="phone-g">
-              <rect x="740" y="56" width="200" height="390" rx="34" fill="var(--card)" stroke="var(--ink)" stroke-width="8"/>
-              <rect x="806" y="72" width="68" height="18" rx="9" fill="var(--ink)"/>
-              <rect x="762" y="104" width="156" height="22" rx="7" fill="var(--win)"/>
-              <g id="ptiles">
-                <rect x="762" y="136" width="74" height="88" rx="9" fill="url(#gF)"/><rect x="844" y="136" width="74" height="88" rx="9" fill="url(#gB)"/>
-                <rect x="762" y="232" width="74" height="88" rx="9" fill="url(#gT)"/><rect x="844" y="232" width="74" height="88" rx="9" fill="url(#gW)"/>
-                <rect x="762" y="328" width="74" height="88" rx="9" fill="url(#gF)"/><rect x="844" y="328" width="74" height="88" rx="9" fill="url(#gT)"/>
-              </g>
-            </g>
-            <!-- the sealed box -->
-            <g id="box" transform="translate(200 236)">
-              <g id="boxin">
-                <rect x="-38" y="-38" width="76" height="76" rx="16" fill="url(#gBox)"/>
-                <path id="shackle" d="M-10 -2v-9a10 10 0 0 1 20 0v9" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
-                <rect x="-16" y="-3" width="32" height="25" rx="6" fill="#fff"/>
-                <circle cx="0" cy="8" r="3.6" fill="#c2410c"/>
-              </g>
-            </g>
-            <!-- the key, riding the QR -->
-            <g id="key" opacity="0">
-              <circle r="15" fill="var(--card)" stroke="var(--acc)" stroke-width="2.5"/>
-              <g fill="none" stroke="var(--acc)" stroke-width="2.5" stroke-linecap="round"><circle cx="-4" cy="0" r="4.5"/><path d="M0.5 0h9M6 0v4"/></g>
-            </g>
-          </svg>
-          <span class="lbl" style="left:20%;top:80%">Your Mac</span>
-          <span class="lbl" style="left:50%;top:68%">Server</span>
-          <span class="lbl" style="left:84%;top:93%">Your phone</span>
-        </div>
-        <ol class="steps" id="steps">
-          <li><b>Sealed on your Mac.</b><p>Before anything leaves, the Mac locks it with AES-256-GCM (Apple CryptoKit). Only what changed gets packed.</p></li>
-          <li><b>A box the server can't open.</b><p>A small Cloudflare Worker keeps the sealed packages. It never gets the key, so all it holds is noise.</p></li>
-          <li><b>The key goes by QR.</b><p>Press <code>Conectar el móvil</code> and scan. The key rides in the link's # part, which browsers never send to a server.</p></li>
-          <li><b>Your phone opens it.</b><p>The same library, searchable, at <a href="https://nachosanbenito.com/guardados">nachosanbenito.com/guardados</a>.</p></li>
-        </ol>
-      </div>
-    </div>
-  </section>
-
-  <div class="wrap">
-    <section class="also rv" aria-label="More">
-      <div>
-        <svg viewBox="0 0 112 72" aria-hidden="true"><rect x="4" y="18" width="70" height="50" rx="8" fill="#fb923c" opacity=".35"/><rect x="18" y="12" width="70" height="52" rx="8" fill="#fb923c" opacity=".6"/><path d="M32 8h18l6 6h30a6 6 0 0 1 6 6v38a6 6 0 0 1-6 6H32a6 6 0 0 1-6-6V14a6 6 0 0 1 6-6Z" fill="#ea580c"/></svg>
-        <h3>Folders on their own</h3>
-        <p>Recipes, trips, workouts, bars, cafés: sorted by keyword rules in Spanish and English. Move anything by hand and your choice wins.</p>
-      </div>
-      <div>
-        <svg viewBox="0 0 112 72" aria-hidden="true"><rect x="2" y="6" width="108" height="62" rx="10" fill="var(--win)" stroke="var(--line)"/><path d="M2 40h108M40 6v62M78 6v62" stroke="var(--line)" stroke-width="3"/><path d="M30 18a9 9 0 0 1 18 0c0 7-9 16-9 16s-9-9-9-16Z" fill="#db2777"/><circle cx="39" cy="18" r="3.2" fill="#fff"/><path d="M68 34a9 9 0 0 1 18 0c0 7-9 16-9 16s-9-9-9-16Z" fill="#ea580c"/><circle cx="77" cy="34" r="3.2" fill="#fff"/></svg>
-        <h3>Every place on a map</h3>
-        <p>Restaurants and spots are read from the caption and found with Apple Maps.</p>
-      </div>
-      <div>
-        <svg viewBox="0 0 112 72" aria-hidden="true"><rect x="4" y="12" width="20" height="30" rx="5" fill="url(#gF2)"/><rect x="28" y="12" width="20" height="30" rx="5" fill="#c9a6cf"/><rect x="52" y="12" width="20" height="30" rx="5" fill="#9cc4e4"/><rect x="76" y="12" width="20" height="30" rx="5" fill="var(--line)"/><rect x="4" y="54" width="104" height="7" rx="3.5" fill="var(--line)"/><rect x="4" y="54" width="74" height="7" rx="3.5" fill="#ea580c"/><defs><linearGradient id="gF2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fcd9a8"/><stop offset="1" stop-color="#f08a3c"/></linearGradient></defs></svg>
-        <h3>Picks up where it left off</h3>
-        <p>Every Instagram save and TikTok favorite comes in through the real sites. If the network drops, it resumes.</p>
+        <p class="lead">The iPhone app, start to finish: search, folders, the map of saved places and swipe. It has sound.</p>
+        <span class="tba">To be announced</span>
+        <p class="meta">iPhone · app in Spanish · not on the App Store yet</p>
       </div>
     </section>
 
     <section class="ios rv" id="iphone">
-      <p class="eyebrow">Now also on iPhone</p>
       <h2>A native app<br>for your iPhone.</h2>
-      <p class="lead">Built in SwiftUI. Connect Instagram and TikTok from the phone itself, search with a map, and keep everything in sync through iCloud. Videos are transcribed on the device, and a demo mode with sample saves lets you look around first.</p>
-      <p class="meta"><b>The iPhone app is built. It is not on the App Store yet.</b> Screens from its demo mode, with sample saves. App in Spanish.</p>
+      <p class="lead">Built in SwiftUI. Connect Instagram and TikTok from the phone itself, search everything, see saved places on a map, and keep it in sync through iCloud. Instagram videos are transcribed on the device, and a demo mode with sample saves lets you look around first.</p>
+      <p class="meta"><b>Built, not on the App Store yet.</b> These screens come from its demo mode, with sample saves. The app is in Spanish.</p>
       <ul class="shots">
         <li><figure><img src="iphone-1-inicio.webp" width="600" height="1304" loading="lazy" alt="Guardados on iPhone, home screen: a row of recent sample saves and a grid of folders such as Sitios and Viajes"><figcaption><b>Folders and subfolders</b><span>Recent saves up top, every folder below.</span></figcaption></figure></li>
         <li><figure><img src="iphone-3-mapa.webp" width="600" height="1304" loading="lazy" alt="Guardados on iPhone, map screen: sample places pinned on a map of central Madrid, with filters for bars, cafés and food"><figcaption><b>A map of every saved place</b><span>Filter it by bars, cafés or cuisine.</span></figcaption></figure></li>
@@ -473,18 +337,53 @@
       </ul>
     </section>
 
-    <section class="get rv" aria-label="Get Guardados">
-      <h2>Your saves, back where you can find them.</h2>
-      <a class="btn" href="https://github.com/nachoie123/guardados-app/releases/latest/download/Guardados.dmg"><svg viewBox="0 0 256 256" fill="currentColor" aria-hidden="true"><path d="M224 144v64a8 8 0 0 1-8 8H40a8 8 0 0 1-8-8v-64a8 8 0 0 1 16 0v56h160v-56a8 8 0 0 1 16 0Zm-101.66 5.66a8 8 0 0 0 11.32 0l40-40a8 8 0 0 0-11.32-11.32L136 124.69V32a8 8 0 0 0-16 0v92.69l-26.34-26.35a8 8 0 0 0-11.32 11.32Z"/></svg>Download for Mac</a>
-      <div class="plat">
-        <div><h3>Mac</h3><p><a href="https://github.com/nachoie123/guardados-app/releases/latest/download/Guardados.dmg">Download .dmg</a> macOS 11+, Apple Silicon and Intel, 21 MB.</p></div>
-        <div class="ph"><h3>Phone browser</h3><p><a href="https://nachosanbenito.com/guardados">Open the web app</a> Link it once from the Mac with Conectar el móvil.</p><img class="qr" src="qr.svg" alt="QR code to nachosanbenito.com/guardados"></div>
-        <div><h3>Source</h3><p><a href="https://github.com/nachoie123/guardados-app">See it on GitHub</a> MIT. 50 tests and 18 security checks run on every build.</p></div>
+    <section class="no rv" aria-label="What it does not do">
+      <p class="eyebrow">What it won't do</p>
+      <p class="say">Your saves are a list of what you care about. Guardados keeps that list yours:</p>
+      <ul>
+        <li><b>No</b> cloud AI<small>Folders and search are worked out on the iPhone itself. Nothing is sent to an AI service.</small></li>
+        <li><b>No</b> account<small>Nothing to sign up for. You log in on instagram.com and tiktok.com themselves, inside the app.</small></li>
+        <li><b>No</b> password<small>You type it into Instagram's and TikTok's own pages. The app never sees or stores it.</small></li>
+        <li><b>No</b> price<small>Free. No ads, no tracking.</small></li>
+        <li><b>No</b> servers<small>Your saves stay on your iPhone and in your private iCloud. Guardados has no servers of its own.</small></li>
+      </ul>
+    </section>
+  </div>
+
+  <div class="wrap">
+    <section class="also rv" aria-label="More">
+      <div>
+        <svg viewBox="0 0 112 72" aria-hidden="true"><rect x="6" y="8" width="78" height="44" rx="12" fill="#ea580c"/><path d="M24 52v14l14-14Z" fill="#ea580c"/><rect x="18" y="20" width="46" height="6" rx="3" fill="#fff" opacity=".9"/><rect x="18" y="33" width="32" height="6" rx="3" fill="#fff" opacity=".6"/><circle cx="92" cy="50" r="12" fill="none" stroke="var(--faint)" stroke-width="4"/><path d="m101 59 8 8" stroke="var(--faint)" stroke-width="4" stroke-linecap="round"/></svg>
+        <h3>Search what is said</h3>
+        <p>Instagram videos are transcribed on the iPhone, and TikTok brings its own subtitles. Search finds a video by what someone says in it.</p>
+      </div>
+      <div>
+        <svg viewBox="0 0 112 72" aria-hidden="true"><path d="M30 58a18 18 0 0 1-2-36 24 24 0 0 1 46-4 20 20 0 0 1 6 40Z" fill="#9cc4e4"/><rect x="40" y="30" width="20" height="34" rx="5" fill="var(--card)" stroke="var(--ink)" stroke-width="3"/><rect x="64" y="36" width="34" height="24" rx="4" fill="var(--card)" stroke="var(--ink)" stroke-width="3"/></svg>
+        <h3>Synced through iCloud</h3>
+        <p>Your library lives in your own iCloud, so it looks the same on your other Apple devices.</p>
+      </div>
+      <div>
+        <svg viewBox="0 0 112 72" aria-hidden="true"><rect x="6" y="14" width="28" height="44" rx="6" fill="url(#gF2)"/><rect x="42" y="8" width="28" height="44" rx="6" fill="#c9a6cf"/><rect x="78" y="14" width="28" height="44" rx="6" fill="#9cc4e4"/><circle cx="56" cy="60" r="10" fill="#ea580c"/><path d="M53 55v10l8-5Z" fill="#fff"/><defs><linearGradient id="gF2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fcd9a8"/><stop offset="1" stop-color="#f08a3c"/></linearGradient></defs></svg>
+        <h3>Try it with examples</h3>
+        <p>No account connected yet? Tap Probar con ejemplos and look around 32 made-up sample saves first.</p>
       </div>
     </section>
 
-    <section class="install rv" id="install">
-      <h2>Install on your Mac</h2>
+
+    <section class="get rv" aria-label="Get Guardados">
+      <h2>Your saves, back where you can find them.</h2>
+      <span class="tba">To be announced</span>
+      <p class="meta">The iPhone app is not on the App Store yet.</p>
+    </section>
+
+    <section class="mac rv" id="mac" aria-labelledby="mac-h">
+      <h2 id="mac-h">Also on the Mac</h2>
+      <p>The first version of Guardados is a Mac app: it imports your saves and lets you search them. Free and open source.</p>
+      <p><a href="https://github.com/nachoie123/guardados-app/releases/latest/download/Guardados.dmg">Download the .dmg</a> macOS 11+, Apple Silicon and Intel, 21 MB. <a href="https://github.com/nachoie123/guardados-app">Source on GitHub</a></p>
+      <p>It is not notarized by Apple, so macOS asks you to confirm the first time.</p>
+      <details id="install">
+        <summary>How to install it on your Mac</summary>
+        <div class="install">
       <p class="isub">About a minute. Step 3 happens only the first time.</p>
       <ol class="isteps">
         <li>
@@ -502,10 +401,12 @@
         <li class="noart"><div><b class="t">Then: import</b><p>Log in on the <b>Instagram</b> and <b>TikTok</b> windows and press <b>Importar ahora</b> (import now). The app speaks Spanish for now.</p></div></li>
       </ol>
       <div class="iwhy">
-        <p><b>Why the warning?</b> This Mac build isn't notarized by Apple yet, so macOS asks you to confirm the first time. A signed version is on the way. Until then, the full source code is on GitHub, and you can check that your download is exactly the file I built. In Terminal:</p>
+        <p><b>Why the warning?</b> This Mac build isn't notarized by Apple yet, so macOS asks you to confirm the first time. The full source code is on GitHub, and you can check that your download is exactly the file I built. In Terminal:</p>
         <pre>shasum -a 256 ~/Downloads/Guardados.dmg</pre><p>should print <code>c33ae2824d913ad0f750526294e088dd7bc8c97a4f73bd8757ffc2f3fe6c35f2</code></p>
         <details><summary>Prefer the Terminal for step 3?</summary><pre>xattr -dr com.apple.quarantine "/Applications/Guardados.app"</pre></details>
       </div>
+        </div>
+      </details>
     </section>
 
     <footer><a href="https://nachosanbenito.com">Ignacio San Benito</a> · IE University</footer>
@@ -513,7 +414,6 @@
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/Flip.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1/dist/lenis.min.js"></script>
 <script>
@@ -522,12 +422,11 @@
   const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
   document.documentElement.classList.add('js');
   const G = window.gsap;
-  if (G) G.registerPlugin(ScrollTrigger, Flip);
+  if (G) G.registerPlugin(Flip);
 
   /* one smooth scroll: Lenis driven by the GSAP ticker */
   if (G && window.Lenis && !still) {
     const lenis = new Lenis({anchors: {offset: -80}});
-    lenis.on('scroll', ScrollTrigger.update);
     G.ticker.add(t => lenis.raf(t * 1000)); G.ticker.lagSmoothing(0);
   }
 
@@ -694,47 +593,6 @@
   const rv = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); rv.unobserve(e.target) } }), {rootMargin: '0px 0px -10% 0px'});
   $$('.rv').forEach(el => rv.observe(el));
 
-  /* ---------- the padlock: one timeline, scrubbed while the scene is pinned ---------- */
-  const steps = $$('#steps li');
-  const setStep = n => steps.forEach((li, i) => li.classList.toggle('on', i === n));
-  const arc = $('#arc'), arcLen = arc.getTotalLength(), key = $('#key');
-  const keyAt = p => { const pt = arc.getPointAtLength(arcLen * p); key.setAttribute('transform', `translate(${pt.x} ${pt.y})`) };
-  // reduced motion (or no GSAP): one still picture of the whole story: box sealed on the server, QR on the Mac, key already at the phone
-  if (!G || still) {
-    steps.forEach(li => li.classList.add('on'));
-    ['#mtiles', '#qr', '#cipher', '#key'].forEach((sel, i) => $(sel).setAttribute('opacity', i ? 1 : 0));
-    $('#box').setAttribute('transform', 'translate(500 250)'); keyAt(.82);
-    return;
-  }
-  const kp = {p: 0}; keyAt(0);
-  G.set('#shackle', {y: -10}); G.set('#box', {scale: 0, transformOrigin: '50% 50%'}); G.set('#ptiles rect', {scale: 0, transformOrigin: '50% 50%'});
-  const tl = G.timeline({defaults: {ease: 'power2.inOut'}});
-  tl.addLabel('s1')
-    .to('#box', {scale: 1, duration: .6, ease: 'back.out(1.6)'})
-    .to('#mtiles rect', {x: (i, el) => 200 - (+el.getAttribute('x') + 42), y: (i, el) => 236 - (+el.getAttribute('y') + 35), scale: .2, opacity: 0, transformOrigin: '50% 50%', stagger: .08, duration: .8}, '<')
-    .to('#shackle', {y: 0, duration: .5, ease: 'power3.in'})
-    .to('#boxin', {scale: 1.08, duration: .15, yoyo: true, repeat: 1, transformOrigin: '50% 50%'})
-    .addLabel('s2')
-    .to('#box', {x: 500, y: 250, duration: 1.4})
-    .to('#cipher', {opacity: 1, duration: .4}, '-=.3')
-    .to('#boxin', {rotation: -6, duration: .12, yoyo: true, repeat: 3, transformOrigin: '50% 50%'})
-    .addLabel('s3')
-    .to('#qr', {opacity: 1, duration: .4})
-    .to('#key', {opacity: 1, duration: .2})
-    .to(kp, {p: 1, duration: 1.6, onUpdate: () => keyAt(kp.p)}, '<')
-    .addLabel('s4')
-    .to('#box', {x: 840, y: 250, duration: 1.3})
-    .to('#shackle', {y: -10, duration: .45, ease: 'power3.out'})
-    .to('#key', {opacity: 0, duration: .3}, '<')
-    .to('#box', {scale: 0, opacity: 0, duration: .5})
-    .to('#ptiles rect', {scale: 1, stagger: .07, duration: .45, ease: 'back.out(1.7)'}, '<.1')
-    .to({}, {duration: .5});
-  const marks = ['s1', 's2', 's3', 's4'].map(l => tl.labels[l] / tl.duration());
-  setStep(0);
-  ScrollTrigger.create({
-    trigger: '.lock', start: 'top top', end: () => '+=' + Math.round(innerHeight * 2.6), pin: true, scrub: .6, animation: tl,
-    onUpdate: s => { let n = 0; marks.forEach((m, i) => { if (s.progress >= m - .001) n = i }); setStep(n) }
-  });
 })();
 </script>
 </body>
