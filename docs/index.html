@@ -154,11 +154,11 @@
   .no li small{font:400 16px/1.45 var(--sans);letter-spacing:0;color:var(--muted);flex-basis:100%;margin:2px 0 14px}
 
   /* three more things, thin vertical dividers (mymind platform grid) */
-  .also{display:grid;grid-template-columns:repeat(3,1fr);margin:150px 0 0;border-top:1px solid var(--line)}
+  .also{display:grid;grid-template-columns:repeat(4,1fr);margin:150px 0 0;border-top:1px solid var(--line)}
   .also>div{padding:36px 30px 8px;border-left:1px solid var(--line)}
   .also>div:first-child{border-left:0;padding-left:0}
   .also svg{width:100%;max-width:230px;height:auto;margin-bottom:26px;padding:22px 26px;background:var(--win);border-radius:16px;box-sizing:border-box}
-  @media (min-width:901px){.also{border-top:0;gap:40px}.also>div,.also>div:first-child{border-left:0;padding:0}.also>div:nth-child(2){margin-top:70px}.also>div:nth-child(3){margin-top:140px}}
+  @media (min-width:901px){.also{border-top:0;gap:40px}.also>div,.also>div:first-child{border-left:0;padding:0}.also>div:nth-child(2){margin-top:70px}.also>div:nth-child(3){margin-top:140px}.also>div:nth-child(4){margin-top:210px}}
   .also h3{font:400 30px/1.05 var(--serif);letter-spacing:-.02em;color:var(--ink);margin:0 0 10px}
   .also p{margin:0;font-size:15.5px;color:var(--muted)}
 
@@ -328,7 +328,7 @@
 
     <section class="ios rv" id="iphone">
       <h2>A native app<br>for your iPhone.</h2>
-      <p class="lead">Built in SwiftUI. Connect Instagram and TikTok from the phone itself, search everything, see saved places on a map, and keep it in sync through iCloud. Instagram videos are transcribed on the device, and a demo mode with sample saves lets you look around first.</p>
+      <p class="lead">Built in SwiftUI. Connect Instagram and TikTok from the phone itself, search everything, see saved places on a map, and keep it in sync through iCloud. Share a reel or a TikTok to it and it files itself. Instagram videos are transcribed on the device, and a demo mode with sample saves lets you look around first.</p>
       <p class="meta"><b>Built, not on the App Store yet.</b> These screens come from its demo mode, with sample saves. The app is in Spanish.</p>
       <ul class="shots">
         <li><figure><img src="iphone-1-inicio.webp" width="600" height="1304" loading="lazy" alt="Guardados on iPhone, home screen: a row of recent sample saves and a grid of folders such as Sitios and Viajes"><figcaption><b>Folders and subfolders</b><span>Recent saves up top, every folder below.</span></figcaption></figure></li>
@@ -355,7 +355,7 @@
       <div>
         <svg viewBox="0 0 112 72" aria-hidden="true"><rect x="6" y="8" width="78" height="44" rx="12" fill="#ea580c"/><path d="M24 52v14l14-14Z" fill="#ea580c"/><rect x="18" y="20" width="46" height="6" rx="3" fill="#fff" opacity=".9"/><rect x="18" y="33" width="32" height="6" rx="3" fill="#fff" opacity=".6"/><circle cx="92" cy="50" r="12" fill="none" stroke="var(--faint)" stroke-width="4"/><path d="m101 59 8 8" stroke="var(--faint)" stroke-width="4" stroke-linecap="round"/></svg>
         <h3>Search what is said</h3>
-        <p>Instagram videos are transcribed on the iPhone, and TikTok brings its own subtitles. Search finds a video by what someone says in it.</p>
+        <p>Instagram videos are transcribed on the iPhone, TikTok brings its own subtitles, and photo carousels are read slide by slide. Search finds a save by what it says or shows, by its folder, or by the name and street of a place in it.</p>
       </div>
       <div>
         <svg viewBox="0 0 112 72" aria-hidden="true"><path d="M30 58a18 18 0 0 1-2-36 24 24 0 0 1 46-4 20 20 0 0 1 6 40Z" fill="#9cc4e4"/><rect x="40" y="30" width="20" height="34" rx="5" fill="var(--card)" stroke="var(--ink)" stroke-width="3"/><rect x="64" y="36" width="34" height="24" rx="4" fill="var(--card)" stroke="var(--ink)" stroke-width="3"/></svg>
@@ -366,6 +366,11 @@
         <svg viewBox="0 0 112 72" aria-hidden="true"><rect x="6" y="14" width="28" height="44" rx="6" fill="url(#gF2)"/><rect x="42" y="8" width="28" height="44" rx="6" fill="#c9a6cf"/><rect x="78" y="14" width="28" height="44" rx="6" fill="#9cc4e4"/><circle cx="56" cy="60" r="10" fill="#ea580c"/><path d="M53 55v10l8-5Z" fill="#fff"/><defs><linearGradient id="gF2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fcd9a8"/><stop offset="1" stop-color="#f08a3c"/></linearGradient></defs></svg>
         <h3>Try it with examples</h3>
         <p>No account connected yet? Tap Probar con ejemplos and look around 32 made-up sample saves first.</p>
+      </div>
+      <div>
+        <svg viewBox="0 0 112 72" aria-hidden="true"><rect x="8" y="22" width="30" height="36" rx="7" fill="var(--card)" stroke="var(--ink)" stroke-width="3"/><path d="M23 44V12m-9 9 9-9 9 9" fill="none" stroke="#ea580c" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M46 40h14" stroke="var(--faint)" stroke-width="4" stroke-linecap="round" stroke-dasharray="1 8"/><path d="M66 24h14l6 6h18v30H66Z" fill="#9cc4e4"/><circle cx="93" cy="47" r="10" fill="#ea580c"/><path d="m88 47 4 4 6-7" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <h3>Share it straight in</h3>
+        <p>Share a reel or a TikTok to Guardados and it files itself, folder and map pin included. If it is already there, it says so.</p>
       </div>
     </section>
 
