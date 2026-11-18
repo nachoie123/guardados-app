@@ -8,7 +8,7 @@
    <sparkle:version>1.1</sparkle:version>
    <sparkle:shortVersionString>1.1</sparkle:shortVersionString>
    <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-   <description>Mejoras y arreglos de la semana.</description>
+   <description>Se actualiza sola, firmada y notarizada por Apple, y se instala con un clic.</description>
    <enclosure url="https://github.com/nachoie123/guardados-app/releases/download/v1.1/Guardados.pkg" length="21375903" type="application/octet-stream"/>
   </item>
  </channel>
