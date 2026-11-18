@@ -486,6 +486,8 @@ def _manual(viewer, ig, tt, srv, db):
     viewer.load_url(srv.base + "/guardados/")
     time.sleep(4)
     out["web"] = _js(viewer, r"""
+      // la web vuelve a donde se dejó (ig-saved 04/10/2026): primero al inicio, donde están las carpetas
+      document.getElementById('tab-inicio')?.click(); await new Promise(r => setTimeout(r, 1500));
       const nombres = [...document.querySelectorAll('#grid .carpeta .c-nom')].map(e => e.textContent);
       return JSON.stringify({carpetas: nombres, regalos: nombres.includes('Regalos 🎁'), pwned: window.__pwned || 0,
         img_x: document.querySelectorAll('img[src="x"]').length,

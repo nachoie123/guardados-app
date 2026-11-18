@@ -6,7 +6,7 @@
 (a) Datos personales: abre TODO el paquete (también el archivo comprimido de
     Python que va dentro del ejecutable y los .zip) y busca: la clave de
     sincronización de ig-saved (.sync-key), claves de Gemini, correos y
-    teléfono de Nacho, rutas /Users/<usuario>, nombres de ficheros de datos y
+    teléfono del autor, rutas /Users/<usuario>, nombres de ficheros de datos y
     los codes de TODOS los posts de su saved.db (abierta en solo lectura).
     Ninguno de esos valores se imprime: solo cuántas veces aparece.
 (b)(c)(d) Lanza la app empaquetada en modo selftest (Instagram/TikTok falsos y
@@ -25,7 +25,7 @@
     buzón cifrado; luego tools/prueba_movil.py abre el enlace del QR en una web local (Chromium) y mira
     que salen los guardados con portadas, que el Worker no deja escribir sin token, que un id inventado
     da 404, que el servidor solo guarda bytes cifrados, que cambiar la llave desconecta el móvil viejo y
-    que la sincronización de Nacho (sync/ + #k=) da lo mismo que la web de antes (git HEAD).
+    que la sincronización del autor (sync/ + #k=) da lo mismo que la web de antes (git HEAD).
 (n) La llave del móvil en el Mac: fichero 600, ni en status() ni en app.log ni en el HTML del panel;
     Instagram/TikTok no pueden pedir el QR ni cambiar la llave; el servidor local no la sirve.
 Además: arquitecturas de cada binario (universal2 = x86_64 + arm64) y que el buscador
@@ -104,7 +104,7 @@ def secrets_to_find():
     for f in (Path.home() / "Projects" / "goodnotes-apuntes").glob(".gemini-key*"):
         keys.append(f.read_text().strip().encode())
     if keys:
-        s["claves de Gemini de Nacho (valor exacto)"] = keys
+        s["claves de Gemini del autor (valor exacto)"] = keys
     s["cualquier clave con forma de Gemini (AIza…)"] = [re.compile(rb"AIza[0-9A-Za-z_\-]{35}")]
     # correos, teléfono…: uno por línea en tools/.personal (fuera del repo, para no publicarlos)
     personal = Path(__file__).with_name(".personal")
@@ -317,7 +317,7 @@ def main():
          f"| (j) El servidor solo guarda bytes cifrados (ni texto, ni JPEG, ni la llave) | {mark(ok_j)} |",
          f"| (k) App empaquetada sube → la web abre el enlace del QR → guardados con portadas; la llave nunca viaja | {mark(ok_k)} |",
          f"| (l) «Desconectar móviles» deja fuera al móvil viejo; el código nuevo funciona | {mark(ok_l)} |",
-         f"| (m) La sincronización de Nacho (sync/ + #k=) da lo mismo que la web de antes; sin buzón, ni una petición | {mark(ok_m)} |",
+         f"| (m) La sincronización del autor (sync/ + #k=) da lo mismo que la web de antes; sin buzón, ni una petición | {mark(ok_m)} |",
          f"| (n) Llave del móvil: fichero 600, ni en status ni en logs ni en el panel; IG/TT no piden el QR ni la cambian | {mark(ok_n)} |",
          f"| (o) Carpetas a mano: se guardan aparte, nada automático las pisa, nombres hostiles fuera; IG/TT no escriben | {mark(ok_o)} |",
          f"| Buscador de Apple Maps empaquetado contesta (Apple real) | {mark(ok_geo)} |",
@@ -328,8 +328,8 @@ def main():
     for k, v in hits.items():
         L.append(f"- {k}: **{sum(v.values())}**" + (f" en {', '.join(list(v)[:5])}" if v else ""))
     L += ["", "Se buscan los valores exactos pero no se imprimen. Los comentarios del código de la web que"
-          " nombran a Nacho (p. ej. «los filtros los quitó Nacho») no son datos y no se cuentan;"
-          " el identificador del paquete es com.nachosanbenito.guardados, como el de IG Limpieza.", "",
+          " nombran al autor (p. ej. «los filtros los quitó el autor») no son datos y no se cuentan;"
+          " el identificador del paquete es com.nachosanbenito.guardados.mac (el de la app de iPhone, sin .mac).", "",
           "## (b) La página de Instagram/TikTok no puede llamar a la app", "",
           "Las ventanas de Instagram y TikTok cargaron páginas hostiles falsas que probaron todas las puertas:", "",
           "```", json.dumps(a_ig, ensure_ascii=False, indent=1), "```", "",
@@ -415,10 +415,10 @@ def main():
           "### (k) La web abre el enlace del QR", "", "```", json.dumps(pm.get("web"), ensure_ascii=False, indent=1), "```", "",
           "Capturas: `build/movil-web.png` (carpetas) y `build/movil-web-lista.png` (búsqueda «pasta», con portadas).", "",
           "### (l) Cambiar la llave", "", "```", json.dumps(pm.get("rotacion"), ensure_ascii=False, indent=1), "```", "",
-          "### (m) La sincronización de Nacho, antes y ahora", "",
+          "### (m) La sincronización del autor, antes y ahora", "",
           "Paquetes con el formato de `tools/sync-pack.py` pero con datos inventados y una llave de prueba (la `.sync-key`"
-          " de Nacho no se lee). La misma prueba con la web de git HEAD («antes») y con la nueva («ahora»):", "",
-          "```", json.dumps(pm.get("nacho"), ensure_ascii=False, indent=1), "```",
+          " del autor no se lee). La misma prueba con la web de git HEAD («antes») y con la nueva («ahora»):", "",
+          "```", json.dumps(pm.get("autor"), ensure_ascii=False, indent=1), "```",
           "", "## Arquitecturas", ""]
     L += [f"- `{k}`: {v}" for k, v in sorted(ar.items())[:8]]
     if len(ar) > 8:

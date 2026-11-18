@@ -25,6 +25,7 @@ from pathlib import Path
 
 import webview
 
+import actualizador
 import completar
 import db as dbmod
 import ia
@@ -329,6 +330,7 @@ class Api:
 
 
 def main():
+    actualizador.empezar("https://nachosanbenito.com/guardados-app/appcast.xml", DATA)
     db = dbmod.DB(DATA / "guardados.db")
     srv = Server(WEB, DATA / "media", db.feed, PORT, db=db).start()
     api = Api(db, srv)

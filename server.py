@@ -6,7 +6,7 @@ que el IndexedDB (que va por origen) no se pierda entre aperturas.
 
 - /panel/…            el panel (única página con js_api), con CSP estricta
 - /guardados/…        copia de la web de ~/Projects/ig-saved/app (sin datos)
-- /guardados/demo/posts.json  vacío: la muestra de Nacho NO viaja en la app
+- /guardados/demo/posts.json  vacío: la muestra del autor NO viaja en la app
 - /feed/<token>/…     los datos de esta persona (items.json y portadas). El token
                       cambia en cada arranque y solo lo conocen el panel y «Mis guardados».
 - /mac/…              lo que «Mis guardados» tiene solo en el Mac (asignar carpetas a mano).

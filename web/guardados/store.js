@@ -89,7 +89,7 @@ export async function clearAll() {
 // de pull.js ({items}) y el export oficial de Instagram (saved_posts.json:
 // solo cuenta + enlace + fecha, sin caption ni portada). Y el posts.json de
 // export.py, que trae ademas la transcripcion ("tr") y las palabras clave
-// ocultas ("kw"): asi Nacho enriquece lo que ya importo con el marcador.
+// ocultas ("kw"): asi el autor enriquece lo que ya importo con el marcador.
 export function parseFile(json) {
   if (Array.isArray(json?.posts)) {
     return {
@@ -249,8 +249,8 @@ export async function importItems(parsed, rules, onProgress = () => {}, thumbs =
       img: !!prev?.img, _thumb: i.thumb,
       dur: i.dur || prev?.dur || 0, que: i.que || prev?.que || "",
       dup: i.dup ?? prev?.dup ?? [],
-      col: i.col ?? prev?.col ?? [],  // colecciones de Instagram de Nacho
-      // sitios del mapa: si Nacho los toco en el movil (lugMio), no los pisa el Mac
+      col: i.col ?? prev?.col ?? [],  // colecciones de Instagram del autor
+      // sitios del mapa: si el autor los toco en el movil (lugMio), no los pisa el Mac
       lug: prev?.lugMio ? prev.lug : (i.lug ?? prev?.lug ?? []), lugMio: !!prev?.lugMio,
       sub: i.sub?.length ? i.sub : (i.cat ? [] : prev?.sub || []), ciudad: i.ciudad || (i.cat ? "" : prev?.ciudad || ""),  // el mismo clip guardado desde otra cuenta (export.py)
       // estado de la idea (pendiente / haciendo / hecha): solo vive en este movil, no lo pisa el Mac
@@ -357,7 +357,7 @@ export async function syncNow(rules, onProgress = () => {}) {
   return pull(k, ix, getBin, SYNC_POSTS, rules, onProgress);
 }
 
-// Lo comun a los paquetes de Nacho (sync/) y al buzon de cada persona: los datos si
+// Lo comun a los paquetes del autor (sync/) y al buzon de cada persona: los datos si
 // han cambiado (postsKey recuerda cual se bajo) y solo las portadas que falten.
 async function pull(k, ix, getBin, postsKey, rules, onProgress) {
   let posts = 0, covers = 0;
@@ -421,7 +421,7 @@ async function pull(k, ix, getBin, postsKey, rules, onProgress) {
 // con una llave que solo tienen su Mac y sus moviles. La llave llega una vez por el
 // QR (#conectar=1.<id>.<lectura>.<llave>, en el fragmento: no llega a ningun servidor)
 // y se queda en este dispositivo. El servidor solo ve bytes cifrados.
-// Sin buzon conectado, nada de esto se ejecuta: los paquetes de Nacho (sync/) van igual.
+// Sin buzon conectado, nada de esto se ejecuta: los paquetes del autor (sync/) van igual.
 const BUZON = "guardados.buzon", BUZON_POSTS = "guardados.buzon.posts.v1";
 const B64 = /^[A-Za-z0-9_-]{43}$/;
 const loopback = u => /^http:\/\/(127\.0\.0\.1|localhost)(:\d{2,5})?$/.test(u);
@@ -478,10 +478,10 @@ export async function ask(question, posts) {
   const used = day === today ? +n : 0;
   if (used >= ASK_MAX) throw new Error("tope");
   ls.set(ASK_N, `${today}|${used + 1}`);
-  const prompt = `Eres el buscador personal de Nacho. Estos son guardados suyos de Instagram y TikTok (JSON, uno por linea):
+  const prompt = `Eres el buscador personal de quien usa la app. Estos son guardados suyos de Instagram y TikTok (JSON, uno por linea):
 ${posts.map(p => JSON.stringify(p)).join("\n")}
 
-Pregunta de Nacho: ${question}
+Pregunta: ${question}
 
 Responde en espanol, directo y breve (maximo 120 palabras), como un amigo que conoce sus guardados.
 Usa SOLO estos guardados. Cita cada uno que menciones con su id entre corchetes, p. ej. [AbCd1234xyz].

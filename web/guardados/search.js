@@ -101,7 +101,7 @@ const toks = s => norm(s).split(/[^a-z0-9]+/).filter(w => w.length > 1);
 const stem = w => w.length > 5 && w.endsWith("es") ? w.slice(0, -2) : w.length > 4 && w.endsWith("s") ? w.slice(0, -1) : w;
 
 // kw: palabras clave ocultas (texto en pantalla + relacionadas), solo en
-// los guardados de Nacho y la muestra: ver keywords.py
+// los guardados del autor y la muestra: ver keywords.py
 const FIELDS = [["t", 3], ["c", 1.5], ["u", 1.5], ["n", 1], ["tr", 0.6], ["kw", 0.8], ["que", 1.2]];
 
 export function buildIndex(data) {

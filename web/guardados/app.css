@@ -453,3 +453,61 @@ main { padding: 8px 16px calc(var(--safe-b) + 84px); max-width: 1100px; margin: 
 .mapa-filtros button.ab { order: -1; }
 .mc-hor { display: block; margin-top: 2px; font-size: 12px; }
 .mc-hor.si { color: #15803D; } .mc-hor.no { color: #B91C1C; }
+
+/* Deslizar: un video por pantalla, como Reels/TikTok. Siempre oscuro: la portada manda */
+.feed { position: fixed; inset: 0; width: 100vw; height: 100dvh; max-width: none; max-height: none; margin: 0; padding: 0; border: 0;
+  background: #000; color: #fff; color-scheme: dark; --text: #F5F5F4; --surface: #1C1917; }
+.feed::backdrop { background: #000; }
+.feed-scroll { height: 100%; overflow-y: auto; scroll-snap-type: y mandatory; overscroll-behavior: contain; scrollbar-width: none; }
+.feed-scroll::-webkit-scrollbar { display: none; }
+.slide { position: relative; height: 100%; overflow: hidden; scroll-snap-align: start; scroll-snap-stop: always; }
+.s-fondo { position: absolute; inset: 0; background: #111; }
+.s-fondo img, .s-fondo .ph { width: 100%; height: 100%; object-fit: cover; display: block; }
+.s-fondo .ph { font-size: 0 !important; display: grid; place-items: center; background: linear-gradient(160deg, var(--c1), var(--c2)); font-size: 22px; font-weight: 700; }
+/* sombras arriba (boton de volver) y abajo (texto): se lee sobre cualquier portada */
+.slide::before, .slide::after { content: ""; position: absolute; left: 0; right: 0; pointer-events: none; }
+.slide::before { top: 0; height: calc(var(--safe-t) + 110px); background: linear-gradient(rgb(0 0 0 / .5), transparent); }
+.slide::after { bottom: 0; height: 62%; background: linear-gradient(transparent, rgb(0 0 0 / .45) 35%, rgb(0 0 0 / .85)); }
+.s-play { position: absolute; z-index: 1; left: 50%; top: 42%; width: 76px; height: 76px; margin: -38px 0 0 -38px; display: grid; place-items: center; border-radius: 50%;
+  background: rgb(0 0 0 / .45); color: #fff; transition: transform var(--t-fast) ease-out; }
+.s-play { border: 0; padding: 0; }
+.s-play svg { width: 34px; height: 34px; margin-left: 4px; }
+/* el video encima de la portada; se ve cuando ya tiene imagen */
+.s-media { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; border: 0; background: transparent; }
+.slide:not(.sonando) video.s-media { opacity: 0; }
+.s-tap { position: absolute; inset: 0; z-index: 1; cursor: pointer; }  /* sin cursor, Safari del iPhone no manda el toque de un div */
+/* TikTok pinta su cabecera (autor) arriba: se sube el reproductor para que no tape el boton de volver */
+iframe.s-media { top: -64px; height: calc(100% + 64px); }
+.s-play { transition: opacity var(--t-med) ease, transform var(--t-fast) ease-out; }
+.slide.sonando:not(.pausado) .s-play { opacity: 0; pointer-events: none; }
+.s-aviso { display: none; position: absolute; z-index: 1; left: 24px; right: 24px; top: calc(42% + 50px); margin: 0; text-align: center; font-size: 14px; font-weight: 600; text-shadow: 0 1px 4px rgb(0 0 0 / .7); }
+.slide.sin-video .s-aviso { display: block; }
+.s-play:active { transform: scale(.92); }
+.s-info { position: absolute; z-index: 1; left: 16px; right: 84px; bottom: calc(var(--safe-b) + 22px); text-shadow: 0 1px 3px rgb(0 0 0 / .5); }
+.s-who { margin: 0 0 4px; font-size: 14px; font-weight: 600; opacity: .9; }
+.s-info h2 { margin: 0; font-size: 17px; line-height: 1.3; font-weight: 600; letter-spacing: -0.01em; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.s-lug { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 8px; text-shadow: none; }
+.s-lug li { display: flex; align-items: center; gap: 8px; }
+.s-lug button { flex: 1; min-width: 0; display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 6px 12px 6px 8px; border: 0; border-radius: 14px; text-align: left;
+  background: rgb(28 25 23 / .62); color: #fff; }
+.s-lug button:active { background: rgb(28 25 23 / .8); }
+.s-ico { flex: none; width: 32px; height: 32px; display: grid; place-items: center; border-radius: 10px; background: rgb(255 255 255 / .9); font-size: 17px; }
+.s-l { min-width: 0; display: grid; }
+.s-l b { font-size: 15px; line-height: 1.25; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.s-l small { font-size: 12.5px; opacity: .85; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.s-ir { flex: none; display: grid; place-items: center; min-width: 48px; min-height: 48px; padding: 0 12px; border-radius: 14px; background: #F97316; color: #fff; font-size: 15px; font-weight: 700; text-decoration: none; }
+.s-mas { font-size: 13px; opacity: .85; text-shadow: 0 1px 3px rgb(0 0 0 / .5); }
+.s-acc { position: absolute; z-index: 1; right: 10px; bottom: calc(var(--safe-b) + 22px); display: grid; gap: 16px; }
+.s-btn { display: grid; justify-items: center; gap: 4px; padding: 0; border: 0; background: none; color: #fff; font-size: 12px; font-weight: 600; text-decoration: none; text-shadow: 0 1px 3px rgb(0 0 0 / .6); }
+.s-btn svg { box-sizing: content-box; width: 24px; height: 24px; padding: 12px; border-radius: 50%; background: rgb(0 0 0 / .45); transition: transform var(--t-fast) ease-out; }
+.s-btn:active svg { transform: scale(.9); }
+.feed-volver { background: rgb(0 0 0 / .45); -webkit-backdrop-filter: none; backdrop-filter: none; color: #fff; box-shadow: none; }
+@media (prefers-reduced-transparency: reduce) {
+  .s-lug button, .s-play, .s-btn svg { background: rgb(28 25 23 / .92); }
+}
+/* cargando el video: un circulo que gira en vez del triangulo (que parecia un boton que no hacia nada) */
+.slide.cargando .s-play svg { display: none; }
+.slide.cargando .s-play::after { content: ""; width: 34px; height: 34px; border-radius: 50%; border: 3px solid rgb(255 255 255 / .3); border-top-color: #fff; animation: gira .8s linear infinite; }
+@keyframes gira { to { transform: rotate(1turn); } }
+@media (prefers-reduced-motion: reduce) { .slide.cargando .s-play::after { animation-duration: 2.4s; } }
+.s-play:focus { outline: none; }

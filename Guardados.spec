@@ -20,6 +20,7 @@ exe = EXE(pyz, a.scripts, [], exclude_binaries=True, name='Guardados', debug=Fal
           codesign_identity=None, entitlements_file=None, icon=['build_assets/icon.icns'])
 coll = COLLECT(exe, a.binaries, a.datas, strip=False, upx=False, upx_exclude=[], name='Guardados')
 app = BUNDLE(coll, name='Guardados.app', icon='build_assets/icon.icns',
-             bundle_identifier='com.nachosanbenito.guardados',
-             info_plist={'CFBundleShortVersionString': '0.1.0', 'NSHighResolutionCapable': True,
+             # .mac: el de la app de iPhone es com.nachosanbenito.guardados y en los Mac con Apple silicon pueden coincidir
+             bundle_identifier='com.nachosanbenito.guardados.mac',
+             info_plist={'CFBundleShortVersionString': '1.1', 'CFBundleVersion': '1.1', 'NSHighResolutionCapable': True,
                          'LSMinimumSystemVersion': '11.0', 'NSHumanReadableCopyright': 'Guardados'})

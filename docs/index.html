@@ -384,32 +384,15 @@
     <section class="mac rv" id="mac" aria-labelledby="mac-h">
       <h2 id="mac-h">Also on the Mac</h2>
       <p>The first version of Guardados is a Mac app: it imports your saves and lets you search them. Free and open source.</p>
-      <p><a href="https://github.com/nachoie123/guardados-app/releases/latest/download/Guardados.dmg">Download the .dmg</a> macOS 11+, Apple Silicon and Intel, 21 MB. <a href="https://github.com/nachoie123/guardados-app">Source on GitHub</a></p>
-      <p>It is not notarized by Apple, so macOS asks you to confirm the first time.</p>
+      <p><a href="https://github.com/nachoie123/guardados-app/releases/latest/download/Guardados.pkg">Download the installer</a> macOS 11+, Apple Silicon and Intel, 21 MB. <a href="https://github.com/nachoie123/guardados-app">Source on GitHub</a></p>
+      <p>Signed and notarized by Apple. It updates itself: when a new version is out, it installs the next time you close the app.</p>
       <details id="install">
         <summary>How to install it on your Mac</summary>
         <div class="install">
-      <p class="isub">About a minute. Step 3 happens only the first time.</p>
       <ol class="isteps">
-        <li>
-          <div><b class="t">Drag it into Applications</b><p>Open <b>Guardados.dmg</b> and drag <b>Guardados</b> onto the <b>Applications</b> folder.</p></div>
-          <div class="iart" aria-hidden="true"><div class="iwin idrag"><div><img class="iicon" src="icon.png" alt=""><span>Guardados</span></div><div class="arr"></div><div><div class="ifold"></div><span>Applications</span></div></div></div>
-        </li>
-        <li>
-          <div><b class="t">Open it. macOS stops it. Click Done.</b><p>macOS says Apple could not verify “Guardados” is free of malware. It says that about every app that isn't notarized by Apple. Click <b>Done</b>, not Move to Trash.</p></div>
-          <div class="iart" aria-hidden="true"><div class="iwin idlg"><img class="iicon" src="icon.png" alt=""><h4>“Guardados” Not Opened</h4><p>Apple could not verify “Guardados” is free of malware that may harm your Mac or compromise your privacy.</p><span class="ibtn on">Done</span><span class="ibtn">Move to Trash</span></div></div>
-        </li>
-        <li>
-          <div><b class="t">Open Anyway, once</b><p>Open <b>System Settings → Privacy &amp; Security</b>, scroll down to <b>Security</b> and click <b>Open Anyway</b> next to “Guardados” was blocked. Confirm with your password or Touch ID. From then on it opens with a double-click.</p></div>
-          <div class="iart" aria-hidden="true"><div class="iwin iset"><div class="ihead">Privacy &amp; Security</div><div class="ilbl">Security</div><div class="irow"><span>“Guardados” was blocked to protect your Mac.</span><span class="ibtn on">Open Anyway</span></div></div></div>
-        </li>
+        <li class="noart"><div><b class="t">Download and install</b><p>Open <b>Guardados.pkg</b> and click <b>Install</b>. It goes into Applications and opens by itself.</p></div></li>
         <li class="noart"><div><b class="t">Then: import</b><p>Log in on the <b>Instagram</b> and <b>TikTok</b> windows and press <b>Importar ahora</b> (import now). The app speaks Spanish for now.</p></div></li>
       </ol>
-      <div class="iwhy">
-        <p><b>Why the warning?</b> This Mac build isn't notarized by Apple yet, so macOS asks you to confirm the first time. The full source code is on GitHub, and you can check that your download is exactly the file I built. In Terminal:</p>
-        <pre>shasum -a 256 ~/Downloads/Guardados.dmg</pre><p>should print <code>c33ae2824d913ad0f750526294e088dd7bc8c97a4f73bd8757ffc2f3fe6c35f2</code></p>
-        <details><summary>Prefer the Terminal for step 3?</summary><pre>xattr -dr com.apple.quarantine "/Applications/Guardados.app"</pre></details>
-      </div>
         </div>
       </details>
     </section>

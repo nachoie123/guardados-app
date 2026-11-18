@@ -112,7 +112,48 @@ async function contarBuzones(env) {
   return n;
 }
 
-async function handle(req, env) {
+// --- el video de un reel, para verlo dentro de la app (pestaña Deslizar) ---
+//   GET /video/ig/<code>  -> 302 al MP4 que trae el reproductor publico de Instagram (/embed/)
+// El movil no puede leer instagram.com (CORS); el Worker si. El enlace del MP4 caduca en horas,
+// por eso se pide cada vez y no se guarda. 404 = Instagram no lo deja ver fuera (musica con derechos).
+const CODE = /^[A-Za-z0-9_-]{5,40}$/;
+const UA = "Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1";
+// Instagram frena (429) si se le pide mucho desde Cloudflare: lo ya sacado se guarda en la cache del
+// Worker hasta poco antes de que caduque (oe= en el enlace), y un 429 se reintenta.
+async function videoIG(code, ctx) {
+  if (!CODE.test(code)) return out(404);
+  const cache = caches.default, key = new Request(`https://cache.guardados/video/ig/${code}`);
+  const ir = mp4 => new Response(null, { status: 302, headers: { Location: mp4, "Cache-Control": "private, max-age=1800", "Referrer-Policy": "no-referrer" } });
+  const hit = await cache.match(key);
+  if (hit) { const mp4 = await hit.text(); return mp4 ? ir(mp4) : out(404, "sin video"); }
+  let html = null, ultimo = 0;
+  for (const [i, ruta] of [`p/${code}/embed/captioned/`, `reel/${code}/embed/`, `p/${code}/embed/`].entries()) {
+    if (i) await new Promise(r => setTimeout(r, 400 * i));
+    const r = await fetch(`https://www.instagram.com/${ruta}`, { headers: { "User-Agent": UA, "Accept-Language": "es-ES,es;q=0.9" } });
+    ultimo = r.status;
+    if (r.ok) { html = await r.text(); break; }
+    if (r.status !== 429) break;
+  }
+  if (html === null) return out(ultimo === 429 ? 503 : 502, "instagram " + ultimo, { "Retry-After": "2" });
+  // viene dentro de un JSON escapado dentro de otro: "video_url\\":\\"https:\\\\\\/\\\\\\/...mp4?...\\"
+  const m = /video_url\\*":\\*"(https:[^"]+?)\\*"/.exec(html);
+  let mp4 = m ? m[1].replace(/\\/g, "").replace(/u0026/g, "&") : "";
+  if (mp4 && !/^https:\/\/[a-z0-9.-]+\.(fbcdn\.net|cdninstagram\.com)\//.test(mp4)) mp4 = "";
+  // hasta 5 min antes de que caduque el enlace (oe = segundos en hexadecimal), como mucho 2 h; "sin video", un dia
+  const oe = parseInt(/[?&]oe=([0-9A-Fa-f]+)/.exec(mp4)?.[1] || "0", 16);
+  const ttl = mp4 ? Math.max(60, Math.min(7200, oe ? oe - Date.now() / 1000 - 300 : 1800)) : 86400;
+  ctx.waitUntil(cache.put(key, new Response(mp4, { headers: { "Cache-Control": `max-age=${Math.floor(ttl)}` } })));
+  return mp4 ? ir(mp4) : out(404, "sin video");
+}
+
+async function handle(req, env, ctx) {
+  const v = /^\/video\/ig\/([^/]+)$/.exec(new URL(req.url).pathname);
+  if (v && req.method === "GET") {
+    // la app pregunta el estado con fetch (404 = Instagram no lo deja; 503 = Instagram frena, reintentar)
+    const r = await videoIG(v[1], ctx), h = new Headers(r.headers);
+    h.set("Access-Control-Allow-Origin", "*");
+    return new Response(r.body, { status: r.status, headers: h });
+  }
   const c = cors(req, env);
   if (!c.ok) return out(403, "origen no permitido");
   const H = c.h;
@@ -194,9 +235,9 @@ async function handle(req, env) {
 }
 
 export default {
-  async fetch(req, env) {
+  async fetch(req, env, ctx) {
     try {
-      return await handle(req, env);
+      return await handle(req, env, ctx);
     } catch {
       return out(500, "error");                // sin detalles: nada del contenido sale en la respuesta
     }

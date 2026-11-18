@@ -112,7 +112,7 @@ class TestMotor(unittest.TestCase):
 
     @unittest.skipUnless((Path.home() / "Projects" / "ig-saved" / "saved.db").exists(), "sin ig-saved")
     def test_datos_reales_no_baja(self):
-        """Contra las carpetas que Gemini le hizo a Nacho (solo lectura, mitad "test"): 71% -> 75%."""
+        """Contra las carpetas que Gemini le hizo al autor (solo lectura, mitad "test"): 71% -> 75%."""
         sys.path.insert(0, str(HERE / "tools"))
         import medir as md
         import sitios

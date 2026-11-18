@@ -5,7 +5,7 @@
 ![Guardados](docs/poster.jpg)
 
 ▶️ **Watch the 1-minute demo:** https://nachosanbenito.com/guardados-app/
-⬇️ **Download:** [Guardados.dmg](https://github.com/nachoie123/guardados-app/releases/latest/download/Guardados.dmg) (macOS 11+, Apple Silicon and Intel)
+⬇️ **Download:** [Guardados.pkg](https://github.com/nachoie123/guardados-app/releases/latest/download/Guardados.pkg) (macOS 11+, Apple Silicon and Intel)
 📱 **On your phone:** https://nachosanbenito.com/guardados
 
 ## What it does
@@ -18,9 +18,8 @@
 The app's interface is in Spanish for now.
 
 ## Install
-1. Open `Guardados.dmg` and drag **Guardados** into **Applications**.
-2. The first time, macOS says it *could not verify "Guardados"*. That's normal for apps not notarized by Apple ($99/year). Click **Done**, then go to **System Settings → Privacy & Security**, scroll down and click **Open Anyway**. Only once.
-3. Log in on the **Instagram** and **TikTok** windows (they're the real instagram.com and tiktok.com) and press **Importar ahora**.
+1. Open `Guardados.pkg` and click **Install**. It goes into Applications and opens by itself. Signed with Developer ID and notarized by Apple since v1.1.
+2. It updates itself: once a day it checks for a new version and installs it the next time you close the app.
 
 ## Privacy & security
 - Your password is typed into Instagram's and TikTok's own pages; the app never sees or stores it. Requests run inside those windows with your session.
@@ -39,7 +38,7 @@ The app's interface is in Spanish for now.
 ## Build from source
 ```bash
 ./build.sh          # tests (50) + dist/Guardados.app + security check
-tools/dmg.sh        # dist/Guardados.dmg
+# release: sign with Developer ID, build the .pkg and notarize it (needs the certificates)
 ```
 
 ## License

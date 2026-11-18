@@ -279,7 +279,7 @@ class DB:
 
     def feed(self, media_base):
         """Lo que se le da a la web: el formato de export.py de ig-saved ({built, posts}), el mismo
-        con el que Nacho mete sus carpetas de Gemini: store.js lo importa con carpeta (cat), subcarpetas
+        con el que el autor mete sus carpetas de Gemini: store.js lo importa con carpeta (cat), subcarpetas
         (sub), ciudad y sitios (lug). media_base: URL absoluta de las portadas (o "" = sin portadas)."""
         with self.lock:
             rows = self.c.execute("SELECT p.*, m.rutas AS man FROM posts p LEFT JOIN manual m USING(code)"

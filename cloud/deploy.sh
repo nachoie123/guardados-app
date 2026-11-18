@@ -1,5 +1,5 @@
 #!/bin/bash
-# Despliega el buzón cifrado de Guardados en la cuenta de Cloudflare de Nacho (plan gratis, sin tarjeta).
+# Despliega el buzón cifrado de Guardados en la cuenta de Cloudflare del autor (plan gratis, sin tarjeta).
 #
 #   cd ~/Projects/guardados-app/cloud && ./deploy.sh
 #

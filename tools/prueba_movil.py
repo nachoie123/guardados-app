@@ -14,7 +14,7 @@ Playwright (Chromium). Sirve la web de ~/Projects/ig-saved/app en 127.0.0.1:8781
      baja y descifra el buzón y enseña los guardados con portadas. El QR del panel, leído con
      jsQR, es ese enlace. La llave nunca sale en una petición. Al recargar, solo pide el índice.
 (l)  Cambiar la llave en el Mac desconecta el móvil viejo y el enlace nuevo funciona.
-(m)  La sincronización de Nacho (sync/ + #k=) da exactamente lo mismo con la web nueva que con
+(m)  La sincronización del autor (sync/ + #k=) da exactamente lo mismo con la web nueva que con
      la de antes (git HEAD), y sin nada conectado tampoco cambia nada ni se llama al buzón.
 Los valores de la llave y los tokens no se imprimen nunca.
 """
@@ -370,7 +370,7 @@ def rotation(pw, root, worker_base):
     return ok, out
 
 
-# ---------------------------------------------------------------- (m) la sincronización de Nacho
+# ---------------------------------------------------------------- (m) la sincronización del autor
 def fake_sync(sync_dir, raw, n=30):
     """Paquetes como los de tools/sync-pack.py (mismo formato), con datos inventados y una llave de prueba."""
     from cryptography.hazmat.primitives.ciphers.aead import AESGCM
@@ -420,7 +420,7 @@ def nacho_run(pw, root, key, n, worker_base):
         out["sin_conectar"]["peticiones_buzon"] = sum(1 for u in reqs if worker_base in u or "workers.dev" in u)
         out["sin_conectar"]["peticiones_sync"] = sum(1 for u in reqs if "/sync/" in u)
         ctx.close()
-        # 2) el QR de Nacho (#k=): sus paquetes de sync/
+        # 2) el QR del autor (#k=): sus paquetes de sync/
         ctx = b.new_context(service_workers="block")
         reqs = []
         ctx.on("request", lambda q: reqs.append(q.url))
@@ -444,9 +444,9 @@ def nacho_run(pw, root, key, n, worker_base):
     return out
 
 
-def nacho_checks(pw, tmp, worker_base):
+def autor_checks(pw, tmp, worker_base):
     raw = secrets.token_bytes(32)
-    key = b64(raw)   # llave de prueba (no la .sync-key de Nacho, que no se toca)
+    key = b64(raw)   # llave de prueba (no la .sync-key del autor, que no se toca)
     res = {}
     for label, old in (("antes", True), ("ahora", False)):
         root = tmp / f"web-{label}"
@@ -496,7 +496,7 @@ def main():
             else:
                 res["web"] = {"error": f"no está {a.enlace}: el selftest de la app no subió nada"}
                 oks["k"] = oks["j"] = oks["l"] = False
-            oks["m"], res["nacho"] = nacho_checks(pw, tmp, a.base)
+            oks["m"], res["autor"] = autor_checks(pw, tmp, a.base)
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
     res["ok"] = oks

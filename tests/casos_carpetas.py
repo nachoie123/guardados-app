@@ -1,6 +1,6 @@
 """Conjunto de prueba etiquetado A MANO para las carpetas sin IA (carpetas.py).
 
-Captions inventados (ninguno es de Nacho), ES y EN, con trampas a propósito:
+Captions inventados (ninguno es del autor), ES y EN, con trampas a propósito:
 "bar" de dominadas vs bar de copas, "pasta" dinero vs comida, recetas que nombran
 una ciudad, hashtags pegados (#pastarecipe), MAYÚSCULAS, sin acentos, emojis…
 

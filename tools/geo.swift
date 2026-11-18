@@ -6,7 +6,7 @@
 // Devuelve una linea JSON por consulta: {"id","ok","c":[hasta 5 candidatos]}; cada
 // candidato {"name","addr","lat","lng","city","country","poi","calle"}. Apple los ordena por
 // relevancia; sitios.py elige (nombre + ciudad). Si hay varios "Casa Pepe", el primero
-// es el mas conocido, que es lo que quiere Nacho.
+// es el mas conocido, que es lo que quiere el autor.
 import Foundation
 import MapKit
 

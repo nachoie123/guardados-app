@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Mide las reglas SIN IA contra lo que Gemini le hizo a Nacho (~/Projects/ig-saved/saved.db,
+"""Mide las reglas SIN IA contra lo que Gemini le hizo al autor (~/Projects/ig-saved/saved.db,
 abierta en solo lectura; no se copia nada a la app).
 
   python3 tools/medir.py carpetas [--todo] [--con-transcripcion]
@@ -76,7 +76,7 @@ def medir_carpetas(todo=False, con_tr=False):
                     sub_ok[gr.split("/")[0]] += mine == gr
         N = len(sel)
         print(f"\n== {nombre}: {N} vídeos ({'con' if con_tr else 'sin'} transcripción de Instagram) ==")
-        print(f"carpeta principal igual que la de Nacho: {n_top / N:.0%} · alguna carpeta en común: {n_any / N:.0%}"
+        print(f"carpeta principal igual que la del autor: {n_top / N:.0%} · alguna carpeta en común: {n_any / N:.0%}"
               f" · ruta principal exacta (carpeta+subcarpeta): {n_sub / N:.0%}")
         print(f"{'carpeta':14} {'vídeos':>6} {'encontrados':>11} {'acierto':>8} {'subcarpeta':>11}")
         for t, k in tot.most_common():
@@ -86,19 +86,19 @@ def medir_carpetas(todo=False, con_tr=False):
 
 
 def medir_sitios(geo=False, limite=None):
-    """Cuántos sitios saca de la descripción frente a los de Nacho (post_places) y cuántos coinciden."""
+    """Cuántos sitios saca de la descripción frente a los del autor (post_places) y cuántos coinciden."""
     import sitios
     c = con()
-    nacho = defaultdict(list)
+    autor = defaultdict(list)
     for code, nom, lat, lng in c.execute("SELECT code, nombre, lat, lng FROM post_places WHERE idx >= 0 AND lat IS NOT NULL"):
-        nacho[code].append((nom, lat, lng))
+        autor[code].append((nom, lat, lng))
     caps = {code: (cap or "", u or "") for code, cap, u in c.execute(
         "SELECT code, MAX(caption), MAX(username) FROM posts GROUP BY code")}
-    con_sitio = sorted(nacho)
-    sin_sitio = [k for k in caps if k not in nacho]
+    con_sitio = sorted(autor)
+    sin_sitio = [k for k in caps if k not in autor]
     if limite:
         con_sitio = con_sitio[:limite]
-    tot_n = sum(len(nacho[k]) for k in con_sitio)
+    tot_n = sum(len(autor[k]) for k in con_sitio)
     sacados = match = videos_con = 0
     ejemplos = []
     cands = {}
@@ -107,16 +107,16 @@ def medir_sitios(geo=False, limite=None):
         cands[k] = cs
         sacados += len(cs)
         videos_con += bool(cs)
-        for nom, _, _ in nacho[k]:
+        for nom, _, _ in autor[k]:
             if any(sitios.parecido(nom, x["n"]) for x in cs):
                 match += 1
         if len(ejemplos) < 8 and cs:
-            ejemplos.append((k, [x["n"] for x in cs], [n for n, _, _ in nacho[k]]))
+            ejemplos.append((k, [x["n"] for x in cs], [n for n, _, _ in autor[k]]))
     falsos = sum(1 for k in sin_sitio if sitios.candidatos(caps[k][0]))
-    print(f"Vídeos con sitios de Nacho: {len(con_sitio)} ({tot_n} sitios).")
+    print(f"Vídeos con sitios del autor: {len(con_sitio)} ({tot_n} sitios).")
     print(f"Las reglas sacan algo en {videos_con} de esos vídeos ({videos_con / len(con_sitio):.0%}); "
-          f"{sacados} nombres; {match} de los {tot_n} sitios de Nacho coinciden por nombre ({match / tot_n:.0%}).")
-    print(f"Falsas alarmas: en {falsos} de {len(sin_sitio)} vídeos SIN sitio para Nacho saca algún nombre "
+          f"{sacados} nombres; {match} de los {tot_n} sitios del autor coinciden por nombre ({match / tot_n:.0%}).")
+    print(f"Falsas alarmas: en {falsos} de {len(sin_sitio)} vídeos SIN sitio para el autor saca algún nombre "
           f"({falsos / len(sin_sitio):.1%}).")
     for e in ejemplos:
         print("  ", e)
@@ -128,14 +128,14 @@ def medir_sitios(geo=False, limite=None):
             if not g:
                 continue
             ok += 1
-            if any(sitios.km(g, {"lat": la, "lng": lo}) < 0.5 for _, la, lo in nacho[k]):
+            if any(sitios.km(g, {"lat": la, "lng": lo}) < 0.5 for _, la, lo in autor[k]):
                 cerca += 1
-        print(f"Apple Maps coloca {ok} de {len(todos)} nombres sacados; {cerca} caen a menos de 500 m de un sitio de "
-              f"Nacho del mismo vídeo ({cerca / tot_n:.0%} de sus {tot_n} sitios).")
+        print(f"Apple Maps coloca {ok} de {len(todos)} nombres sacados; {cerca} caen a menos de 500 m de un sitio del "
+              f"autor del mismo vídeo ({cerca / tot_n:.0%} de sus {tot_n} sitios).")
 
 
 def medir_falsos():
-    """Pines de más: vídeos SIN sitio para Nacho donde las reglas sacan nombres y Apple los confirma."""
+    """Pines de más: vídeos SIN sitio para el autor donde las reglas sacan nombres y Apple los confirma."""
     import sitios
     c = con()
     hay = {r[0] for r in c.execute("SELECT DISTINCT code FROM post_places WHERE idx >= 0 AND lat IS NOT NULL")}
@@ -143,7 +143,7 @@ def medir_falsos():
     todos = [(k, x) for k, cap in caps for x in sitios.candidatos(cap)]
     res = sitios.localizar([x for _, x in todos])
     videos = {k for (k, _), g in zip(todos, res) if g}
-    print(f"{len(caps)} vídeos sin sitio para Nacho; las reglas sacan {len(todos)} nombres en "
+    print(f"{len(caps)} vídeos sin sitio para el autor; las reglas sacan {len(todos)} nombres en "
           f"{len({k for k, _ in todos})} vídeos; Apple confirma {sum(1 for g in res if g)} -> pines de más en "
           f"{len(videos)} vídeos ({len(videos) / len(caps):.1%}).")
 

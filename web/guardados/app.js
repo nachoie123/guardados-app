@@ -2,6 +2,7 @@ import { buildIndex, search, norm } from "./search.js";
 import { makeRules } from "./rules.js";
 import * as store from "./store.js";
 import { abierto } from "./horario.js";
+import { BUZON_URL } from "./buzon-config.js";
 
 const CATS = {
   tecnologia: ["Tecnología", "#1D4ED8", "#0F172A"],
@@ -51,9 +52,11 @@ const SUBS = {
   edits: "Edits", ia_noticias: "Noticias de IA", asistentes: "ChatGPT y Claude", apps: "Apps",
   memes: "Memes", sketches: "Sketches", clips: "Clips", juegos: "Juegos y simulaciones", bots: "Bots y agentes",
   visual: "Visual y efectos", negocio: "Negocio", hardware: "Hardware",
+  // 04/10/2026 (export.py sitios_geo): Sitios partido por donde esta el sitio
+  japon: "Japón", japoneses: "Japoneses", fuera: "Fuera de Madrid",
 };
 // la misma clave con otro nombre segun la carpeta (restaurantes en Sitios = "Otros restaurantes")
-const SUBS_EN = { "sitios/restaurantes": "Otros restaurantes", "ideas/webs": "Webs y SaaS", "ideas/automatizaciones": "Automatizaciones" };
+const SUBS_EN = { "sitios/restaurantes": "Otros restaurantes", "sitios/asiatico": "Otros asiáticos", "ideas/webs": "Webs y SaaS", "ideas/automatizaciones": "Automatizaciones" };
 const ICO = {
   sitios: "📍", viajes: "✈️", recetas: "🍳", pelis_series: "🎬", anime: "🍥", tecnologia: "💻", ideas: "💡",
   finanzas: "📈", carrera: "🎓", videojuegos: "🎮", moda: "👕", fitness_salud: "💪", humor: "😂", musica: "🎵",
@@ -65,6 +68,7 @@ const ICO = {
   recomendaciones: "⭐", escenas: "🎞️", terror: "👻", explicaciones: "🧠", ia: "🤖", programacion: "⌨️",
   automatizaciones: "⚙️", prompts: "💬", webs: "🌐", gadgets: "🔌", inversion: "💰", trading: "📊", dinero: "🪙",
   quant: "🧮", practicas: "💼", estudio: "📝", universidad: "🏫", outfits: "👔", cuidado: "🧴", entreno: "🏋️", salud: "❤️",
+  japon: "🗾", japoneses: "🍣", fuera: "✈️",
 };
 // una carpeta, como las colecciones de Instagram: portada cuadrada a sangre, nombre y numero debajo
 function carpetaHTML(attr, nombre, n, colorDe, p) {
@@ -165,7 +169,7 @@ function renderChips(hint = []) {
 }
 
 // --- filtros rapidos (y, dentro de Ideas, por estado) ---
-const FLT = {};  // los filtros rapidos (largos, voz, vistos, mes) los quito Nacho el 29/09/2026
+const FLT = {};  // los filtros rapidos (largos, voz, vistos, mes) los quito el autor el 29/09/2026
 const ST = { pend: ["Pendientes", p => !p.st], haciendo: ["Haciéndolas", p => p.st === "haciendo"], hecha: ["Hechas", p => p.st === "hecha"] };
 const flt = new Set();
 // sub: null = portadas de las subcarpetas; "*" = todos los videos de la carpeta; "sitios/bares" = una
@@ -175,7 +179,9 @@ function subsDe(c) {
     if (!n.has(r)) n.set(r, []);
     n.get(r).push(p);
   }
-  return [...n].sort((a, b) => b[1].length - a[1].length);
+  // los de Madrid primero, por tipo; Japon y Fuera de Madrid al final
+  const lejos = r => r === "sitios/japon" || r === "sitios/fuera";
+  return [...n].sort((a, b) => lejos(a[0]) - lejos(b[0]) || b[1].length - a[1].length);
 }
 function renderSubs(rs) {
   if (sub && sub !== "*" && !rs.some(([r]) => r === sub)) sub = null;
@@ -199,17 +205,11 @@ function pintarInicio() {
   const n = {};
   for (const p of ix.posts) for (const c of p.cat) if (c !== "ideas") (n[c] ||= []).push(p);
   Object.keys(n).sort((a, b) => (a === "otros") - (b === "otros") || n[b].length - n[a].length).forEach(c => g.set(c, n[c]));
-  // Todos y las redes, al final: lo primero son tus carpetas de verdad
-  const orden = [...g].filter(([c, ps]) => ps.length && !["todo", ...SRC].includes(c)).concat([...g].filter(([c]) => ["todo", ...SRC].includes(c)));
-  // primero TUS colecciones de Instagram, tal cual; debajo, las carpetas automaticas
-  const cols = new Map();
-  for (const p of ix.posts) for (const n of p.col || []) (cols.get(n) || cols.set(n, []).get(n)).push(p);
+  // lo mismo y en el mismo orden que el menu (el autor, 04/10/2026): Todos, Instagram, TikTok, Ideas y por tamano.
+  // Sin las colecciones de Instagram: siguen mandando en que carpeta va cada video
   const used = new Set();
-  const suyas = [...cols].sort((a, b) => b[1].length - a[1].length)
-    .map(([n, ps]) => carpetaHTML(`data-carpeta="col:${esc(n)}"`, n, ps.length, "src:instagram", portadaDe(ps, used))).join("");
-  const seccion = t => `<li class="seccion"><h2>${t}</h2></li>`;
-  grid.innerHTML = (suyas ? seccion("Tus colecciones de Instagram") + suyas + seccion("Carpetas automáticas") : "")
-    + orden.map(([c, ps]) => carpetaHTML(`data-carpeta="${c}"`, label(c), ps.length, c, portadaDe(ps, used))).join("");
+  grid.innerHTML = [...g].filter(([, ps]) => ps.length)
+    .map(([c, ps]) => carpetaHTML(`data-carpeta="${c}"`, c === "todo" ? "Todos" : label(c), ps.length, c, portadaDe(ps, used))).join("");
   hydrate(grid);
 }
 grid.addEventListener("click", e => {
@@ -245,7 +245,8 @@ $("filters").addEventListener("click", e => {
 const miniCard = (p, sub) => `<button type="button" data-id="${p.id}"><div class="cover">${coverHTML(p)}</div><small>${esc(sub || p.t)}</small></button>`;
 for (const row of ["answer-refs"]) $(row).addEventListener("click", e => { const b = e.target.closest("[data-id]"); if (b) openPost(b.dataset.id); });
 
-function run() {
+// y: volver a esa altura despues de pintar (al sincronizar o al reabrir la app), en vez de saltar arriba
+function run(y) {
   const text = q.value.trim();
   $("clear").hidden = !text;
   const rs = subsDe(cat);
@@ -279,7 +280,7 @@ function run() {
     : text ? `${total} ${total === 1 ? "resultado" : "resultados"}, los más útiles primero`
     : `${total} guardados, los más recientes primero`;
   renderChips(r.cats);
-  // siempre a mano (Nacho): sin buscar nada abre una caja para escribir la pregunta
+  // siempre a mano (el autor): sin buscar nada abre una caja para escribir la pregunta
   const ask = !!store.askKey();
   $("ask-btn").hidden = !ask;
   if (ask) $("ask-btn").textContent = text.length >= 3 ? `✨ Pregúntale a tus guardados: «${text}»` : "✨ Pregúntale a tus guardados";
@@ -287,7 +288,30 @@ function run() {
   text ? url.searchParams.set("q", text) : url.searchParams.delete("q");
   cat ? url.searchParams.set("cat", cat) : url.searchParams.delete("cat");
   history.replaceState(history.state, "", url);
+  if (typeof y === "number" && y > 0) {
+    while (shown < results.length && document.documentElement.scrollHeight < y + innerHeight) renderMore();
+    scrollTo(0, y);
+  }
+  guardarEstado();
 }
+
+// --- la app vuelve donde la dejaste (el autor, 04/10/2026: "me salgo y al volver se resetea") ---
+// iOS cierra la app de la pantalla de inicio cuando esta en segundo plano y la abre de cero:
+// la carpeta, la subcarpeta, la busqueda, la altura y el video de Deslizar se apuntan aqui.
+const ESTADO_KEY = "guardados.estado";
+function guardarEstado() {
+  try {
+    localStorage.setItem(ESTADO_KEY, JSON.stringify({ cat, sub, q: q.value.trim(), y: Math.round(scrollY),
+      feed: $("feed").open ? feedI : null }));
+  } catch {}
+}
+function leerEstado() {
+  try { return JSON.parse(localStorage.getItem(ESTADO_KEY)) || {}; } catch { return {}; }
+}
+let guardarT;
+addEventListener("scroll", () => { clearTimeout(guardarT); guardarT = setTimeout(guardarEstado, 250); }, { passive: true });
+addEventListener("pagehide", guardarEstado);
+document.addEventListener("visibilitychange", () => { if (document.hidden) guardarEstado(); });
 
 // --- preguntame: Gemini lee tus guardados mas relacionados y responde ---
 // La clave de Gemini llega cifrada con la sincronizacion (sync-pack.py). Tope: 40 preguntas al dia.
@@ -557,10 +581,10 @@ async function abrirMapa(foco) {
   if (!mapaDlg.open) { mapaDlg.showModal(); history.pushState({ mapa: 1 }, "", location.pathname + location.search); }
   await cargarMapLibre();
   if (!mapa) {
-    mapa = new maplibregl.Map({ container: "mapa", style: "https://tiles.openfreemap.org/styles/liberty",  // claro y con color, como Google/Apple Maps (Nacho: el oscuro no se veia)
+    mapa = new maplibregl.Map({ container: "mapa", style: "https://tiles.openfreemap.org/styles/liberty",  // claro y con color, como Google/Apple Maps (el autor: el oscuro no se veia)
       center: [-3.7038, 40.4168], zoom: 11.5, attributionControl: { compact: true }, pitchWithRotate: false });
     mapaListo = new Promise(r => mapa.on("load", r)).then(() => {
-      // sin edificios (Nacho: la sombra de los edificios molesta); solo calles, parques y agua
+      // sin edificios (el autor: la sombra de los edificios molesta); solo calles, parques y agua
       for (const l of mapa.getStyle().layers) if (/building/.test(l.id)) mapa.setLayoutProperty(l.id, "visibility", "none");
       // circulos grandes por zona (barrio) que se separan al acercarte; desde zoom 15, cada sitio suelto
       mapa.addSource("sitios", { type: "geojson", data: { type: "FeatureCollection", features: [] },
@@ -682,6 +706,7 @@ $("hoja-lista").addEventListener("click", e => {
   tarjeta({ id, i });
 });
 $("hoja-asa").addEventListener("click", () => { if (!movido) estadoHoja(hoja.dataset.estado === "alta" ? "baja" : "alta"); });
+$("hoja-asa").addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); estadoHoja(hoja.dataset.estado === "alta" ? "baja" : "alta"); } });
 // arrastrar: por el asa siempre; por la lista, solo hacia abajo y estando arriba del todo
 let arrastre = null, movido = false;
 function empezar(e, desdeLista) {
@@ -739,6 +764,187 @@ function verEnMapa(l) {
   mapaDlg.showModal();
   abrirMapa(l);
 }
+
+// --- Deslizar: los videos de donde estes (carpeta, subcarpeta o busqueda), uno por pantalla, como Reels ---
+// Se reproduce solo el de la pantalla. Instagram: el Worker del buzon saca el MP4 de su reproductor
+// publico (/video/ig/<code>); si Instagram no lo deja (musica con derechos, ~1 de cada 4) queda la
+// portada y el boton abre el reel en Instagram. TikTok: su reproductor oficial (player/v1).
+const feedDlg = $("feed"), feedBox = $("feed-scroll");
+let feedLista = [], feedN = 0, feedI = 0;
+const FEED_LOTE = 12;
+const PLAY_ICO = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l11-6.5z" class="fill"/></svg>';
+const MAPA_ICO = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4 3 6.5v13.5l6-2.5 6 2.5 6-2.5V4l-6 2.5z"/><path d="M9 4v13.5M15 6.5V20"/></svg>';
+const SON_ICO = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/></svg>';
+const MUDO_ICO = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4z"/><path d="m16 9.5 5 5M21 9.5l-5 5"/></svg>';
+const INFO_ICO = '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><circle cx="12" cy="7.8" r="1.1" class="fill"/></svg>';
+function feedSlide(p, i) {
+  const ls = p.lug || [], desde = yo?.getLngLat().toArray();
+  const lugs = ls.slice(0, 3).map((l, j) => `<li><button type="button" data-ver="${j}"><span class="s-ico">${TIPO_ICO[l.t] || "📍"}</span>
+      <span class="s-l"><b>${esc(l.n)}</b><small>${desde ? verKm(km(desde, [l.lng, l.lat])) + " · " : ""}${esc(dirDe(l))}</small></span></button>
+      <a class="s-ir" href="${appleMaps(l)}" target="_blank" rel="noopener">Ir</a></li>`).join("")
+    + (ls.length > 3 ? `<li class="s-mas">y ${ls.length - 3} ${ls.length - 3 === 1 ? "sitio" : "sitios"} más en la ficha</li>` : "");
+  const tt = p.src === "tiktok";
+  return `<section class="slide" data-i="${i}" data-id="${p.id}">
+    <div class="s-fondo">${coverHTML(p)}</div>
+    <div class="s-tap" aria-hidden="true"></div>
+    <button type="button" class="s-play" data-play aria-label="Reproducir">${PLAY_ICO}</button>
+    <p class="s-aviso">Instagram no deja ver este vídeo fuera de su app</p>
+    <div class="s-info"><p class="s-who">@${esc(p.u)}</p><h2>${esc(p.t)}</h2>${lugs ? `<ul class="s-lug">${lugs}</ul>` : ""}</div>
+    <div class="s-acc">
+      <button type="button" class="s-btn" data-sonido aria-label="Sonido">${sonido ? SON_ICO : MUDO_ICO}<span>${sonido ? "Sonido" : "Silencio"}</span></button>
+      <a class="s-btn" href="${p.url}" target="_blank" rel="noopener">${PLAY_ICO}<span>Ver</span></a>
+      ${ls.length ? `<button type="button" class="s-btn" data-mapa>${MAPA_ICO}<span>Mapa</span></button>` : ""}
+      <button type="button" class="s-btn" data-ficha>${INFO_ICO}<span>Ficha</span></button>
+    </div></section>`;
+}
+function feedMas(hasta = 0) {
+  if (feedN >= feedLista.length) return;
+  const fin = Math.min(feedLista.length, Math.max(feedN + FEED_LOTE, hasta + 4));
+  feedBox.insertAdjacentHTML("beforeend", feedLista.slice(feedN, fin).map((p, k) => feedSlide(p, feedN + k)).join(""));
+  for (const el of feedBox.querySelectorAll(".slide:not([data-visto])")) { el.dataset.visto = 1; feedVer.observe(el); }
+  feedN = fin;
+  hydrate(feedBox);
+}
+// el video que ocupa la pantalla: se apunta (para volver a el) y, cerca del final, se pintan mas
+const feedVer = new IntersectionObserver(es => {
+  for (const e of es) if (e.isIntersecting) {
+    if (+e.target.dataset.i !== feedI || !feedBox.querySelector(".s-media, .slide.sin-video")) { feedI = +e.target.dataset.i; reproducir(); }
+    if (feedI > feedN - 4) feedMas();
+    guardarEstado();
+  }
+}, { root: feedBox, threshold: 0.6 });
+function abrirFeed(desde = 0) {
+  feedLista = results.map(r => r.p);
+  if (!feedLista.length) return;
+  feedI = Math.min(Math.max(0, desde), feedLista.length - 1);
+  feedBox.innerHTML = ""; feedN = 0;
+  feedMas(feedI);
+  $("feed-t").textContent = q.value.trim() ? `«${q.value.trim()}»` : cat ? (sub && sub !== "*" ? subLabel(sub) : label(cat)) : "Todo";
+  if (!feedDlg.open) { feedDlg.showModal(); history.pushState({ feed: 1 }, "", location.pathname + location.search); }
+  feedBox.scrollTop = feedI * feedBox.clientHeight;
+  guardarEstado();
+}
+$("tab-feed").addEventListener("click", () => {
+  // empieza por el primer video que tenias a la vista en la rejilla
+  const visible = [...grid.querySelectorAll(".card")].find(b => b.getBoundingClientRect().bottom > 120);
+  const i = visible ? results.findIndex(r => r.p.id === visible.dataset.id) : 0;
+  // desbloquear el reproductor dentro de este toque, aunque el primer video sea un TikTok o una foto
+  const v = videoFeed(); v.muted = false; v.play().catch(() => {});
+  abrirFeed(Math.max(0, i));
+  reproducir();  // dentro del toque: asi iOS deja empezar con sonido
+});
+// Un solo <video> para todo el feed, creado y arrancado DENTRO del toque en «Deslizar»: iOS solo deja sonar
+// con sonido a un video que empezo con un toque, y si luego se le cambia el video conserva el permiso
+// (uno nuevo por pantalla empezaria siempre en silencio). Si iOS no deja (la app reabierta sola, sin toque),
+// arranca en silencio y el primer toque en la pantalla pone el sonido.
+let sonido = true, feedVideo = null, forzado = false;  // forzado: en silencio porque iOS no dejo, no porque lo quitaras
+const tiktok = (s, msg) => s.querySelector("iframe.s-media")?.contentWindow?.postMessage({ type: msg, value: true, "x-tiktok-player": true }, "*");
+function botonesSonido() {
+  const on = sonido && !forzado;
+  for (const b of feedBox.querySelectorAll("[data-sonido]")) b.innerHTML = `${on ? SON_ICO : MUDO_ICO}<span>${on ? "Sonido" : "Silencio"}</span>`;
+}
+function videoFeed() {
+  if (feedVideo) return feedVideo;
+  const v = feedVideo = document.createElement("video");
+  v.className = "s-media"; v.playsInline = true; v.loop = true; v.preload = "auto";
+  v.setAttribute("playsinline", ""); v.setAttribute("webkit-playsinline", "");
+  v.addEventListener("playing", () => v.closest(".slide")?.classList.replace("cargando", "sonando") || v.closest(".slide")?.classList.add("sonando"));
+  v.addEventListener("error", async () => {
+    const s = v.closest(".slide"), src = v.getAttribute("src");
+    if (!s || !src) return;
+    // ¿bloqueado de verdad (404: musica con derechos) o Instagram frenando un momento (503)? Se pregunta al Worker
+    const base = src.split("?")[0], n = +(v.dataset.intentos || 0);
+    const st = await fetch(base, { redirect: "manual", cache: "no-store" }).then(r => r.type === "opaqueredirect" ? 302 : r.status).catch(() => 0);
+    if (v.closest(".slide") !== s) return;
+    if (st === 404) return sinVideo(s, "Instagram no deja ver este vídeo fuera de su app", true);
+    if (n >= 4) return sinVideo(s, "Instagram está ocupado. Toca para intentarlo otra vez", false);
+    v.dataset.intentos = n + 1;
+    setTimeout(() => { if (v.closest(".slide") === s) { v.src = base + "?r=" + (n + 1); v.play().catch(() => {}); } }, st === 302 ? 0 : 2000 * (n + 1));
+  });
+  return v;
+}
+// bloqueado: el boton abre el reel en Instagram; ocupado: el boton lo vuelve a intentar
+function sinVideo(s, txt, bloqueado) {
+  s.classList.remove("cargando"); s.classList.add("sin-video");
+  s.classList.toggle("ocupado", !bloqueado);
+  s.querySelector(".s-aviso").textContent = txt;
+  feedVideo?.remove();
+}
+function quitarMedia() {
+  if (feedVideo) { feedVideo.pause(); feedVideo.removeAttribute("src"); feedVideo.remove(); }
+  feedBox.querySelectorAll("iframe.s-media").forEach(m => m.remove());
+  feedBox.querySelectorAll(".sonando, .pausado, .cargando").forEach(s => s.classList.remove("sonando", "pausado", "cargando"));
+}
+function reproducir() {
+  quitarMedia();
+  const s = feedBox.querySelector(`.slide[data-i="${feedI}"]`), p = feedLista[feedI];
+  if (!s || !p || (s.classList.contains("sin-video") && !s.classList.contains("ocupado"))) return;
+  s.classList.remove("sin-video", "ocupado");
+  if (p.src === "tiktok") {
+    const f = Object.assign(document.createElement("iframe"), { className: "s-media", allow: "autoplay; encrypted-media; fullscreen",
+      src: `https://www.tiktok.com/player/v1/${p.id.slice(3)}?autoplay=1&loop=1&controls=0&music_info=0&description=0&rel=0&native_context_menu=0&closed_caption=0` });
+    f.addEventListener("load", () => { s.classList.add("sonando"); if (sonido) setTimeout(() => tiktok(s, "unMute"), 600); });
+    s.querySelector(".s-fondo").after(f);
+    return;
+  }
+  if (!p.v) return sinVideo(s, "Es una foto o un carrusel: ábrelo en Instagram", true);
+  const v = videoFeed();
+  s.querySelector(".s-fondo").after(v);
+  s.classList.add("cargando");
+  v.dataset.intentos = 0;
+  v.muted = !sonido;
+  v.src = `${BUZON_URL}/video/ig/${encodeURIComponent(p.id)}`;
+  v.play().catch(e => {
+    if (e?.name !== "NotAllowedError" || v.closest(".slide") !== s) return;  // AbortError: ya se cambio de video
+    v.muted = true; forzado = true; botonesSonido();
+    v.play().catch(() => {});
+  });
+}
+// si iOS lo dejo en silencio, el siguiente toque en la pantalla pone el sonido (un toque si cuenta como permiso)
+feedBox.addEventListener("click", e => {
+  if (!forzado || e.target.closest("[data-sonido]")) return;
+  forzado = false;
+  if (sonido && feedVideo?.isConnected) {
+    if (e.target.closest(".s-tap, [data-play]")) e.stopPropagation();  // tocar el video aqui es para el sonido, no para pausar
+    feedVideo.muted = false;
+    feedVideo.play().catch(() => { feedVideo.muted = true; forzado = true; botonesSonido(); });
+  }
+  botonesSonido();
+}, true);
+function pausar(s) {
+  const parar = s.classList.contains("sonando") && !s.classList.contains("pausado");  // aun sin arrancar: arrancar
+  s.classList.toggle("pausado", parar);
+  if (feedVideo && s.contains(feedVideo)) parar ? feedVideo.pause() : feedVideo.play().catch(() => {});
+  else tiktok(s, parar ? "pause" : "play");
+}
+function cambiarSonido() {
+  sonido = forzado ? true : !sonido; forzado = false;
+  if (feedVideo) { feedVideo.muted = !sonido; if (sonido) feedVideo.play().catch(() => {}); }
+  const s = feedBox.querySelector(`.slide[data-i="${feedI}"]`);
+  if (s) tiktok(s, sonido ? "unMute" : "mute");
+  botonesSonido();
+}
+feedDlg.addEventListener("close", quitarMedia);
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) feedVideo?.pause();
+  else if (feedDlg.open && feedVideo?.isConnected && !feedVideo.closest(".pausado")) feedVideo.play().catch(() => {});
+});
+$("feed-volver").addEventListener("click", () => history.state?.feed ? history.back() : feedDlg.close());
+feedDlg.addEventListener("cancel", e => { e.preventDefault(); $("feed-volver").click(); });
+feedDlg.addEventListener("close", guardarEstado);
+feedBox.addEventListener("click", e => {
+  const s = e.target.closest(".slide"), p = s && ix.posts.find(x => x.id === s.dataset.id);
+  if (!p) return;
+  const v = e.target.closest("[data-ver]");
+  if (e.target.closest("[data-sonido]")) cambiarSonido();
+  else if (e.target.closest("[data-play], .s-tap") && s.classList.contains("ocupado")) { s.classList.remove("sin-video", "ocupado"); reproducir(); }
+  else if (e.target.closest("[data-play]") && s.classList.contains("sin-video")) Object.assign(document.createElement("a"), { href: p.url, target: "_blank", rel: "noopener" }).click();
+  else if (e.target.closest(".s-tap, [data-play]")) pausar(s);
+  else if (v) abrirMapa(p.lug[+v.dataset.ver]);
+  else if (e.target.closest("[data-mapa]")) abrirMapa(p.lug[0]);
+  else if (e.target.closest("[data-ficha]")) openPost(p.id);
+  if (e.target.closest("[data-ver], [data-mapa], [data-ficha], .s-ir, .s-btn[href]") && !s.classList.contains("pausado")) pausar(s);
+});
 
 // ficha: la lista de sitios del video (borrar, anadir, volver a investigar)
 function pintarLugares(p) {
@@ -826,6 +1032,7 @@ $("d-dup").addEventListener("click", e => {
 });
 window.addEventListener("popstate", () => {
   if (mapaDlg.open && !history.state?.mapa) mapaDlg.close();
+  if (feedDlg.open && !history.state?.feed && !history.state?.mapa && !location.hash) feedDlg.close();
   const id = location.hash.slice(1);
   if (id) openPost(id, false); else if (sheet.open) sheet.close();
 });
@@ -913,7 +1120,7 @@ $("wipe").addEventListener("click", async () => {
 });
 
 // tus guardados si los has importado; si no, la muestra
-async function load() {
+async function load(y) {
   const posts = await store.loadPosts();
   mine = posts.length > 0;
   let data;
@@ -929,11 +1136,11 @@ async function load() {
   $("f-import").textContent = mine ? "Actualizar con un fichero nuevo" : "Importar mis guardados";
   $("built").textContent = mine ? `${fmt(ix.posts.length)} guardados tuyos, en este dispositivo` : `Muestra de ${ix.posts.length} guardados`;
   $("foot").hidden = false;
-  run();
+  run(y);
 }
 
 // --- sincronizar con el Mac: al abrir la app, si esta vinculada ---
-// Dos caminos, cada uno con su llave: los paquetes de Nacho (sync/, tools/sync-pack.py) y el
+// Dos caminos, cada uno con su llave: los paquetes del autor (sync/, tools/sync-pack.py) y el
 // buzon cifrado de la app Guardados del Mac (store.buzonNow). Sin ninguno, no se hace nada.
 const linkedAny = () => !!(store.syncKey() || store.buzon());
 let syncing = null;
@@ -958,15 +1165,15 @@ function sync(onProgress) {
         } catch { error = true; }
       }
       if (r) {
-        await load();
+        await load(scrollY);
         status.textContent = `Del Mac: ${fmt(r.posts)} guardados nuevos, ${fmt(r.covers)} portadas. ` + status.textContent;
-      } else if (/^Trayendo/.test(status.textContent)) run();
+      } else if (/^Trayendo/.test(status.textContent)) run(scrollY);
       if (extra?.gone) status.textContent = "Tu Mac cambió la llave: este móvil se ha desconectado. Escanea el código nuevo.";
       else if (extra?.pending && !r) status.textContent = "Tu Mac aún está subiendo tus guardados. Vuelve a abrir la app en un rato.";
-      if (error && !r) { run(); return { error: true }; }  // sin red o sin paquetes: se queda lo que habia
+      if (error && !r) { run(scrollY); return { error: true }; }  // sin red o sin paquetes: se queda lo que habia
       return r || extra;
     } catch {
-      run();
+      run(scrollY);
       return { error: true };
     } finally { syncing = null; }
   })();
@@ -1025,7 +1232,7 @@ async function linked() {
   macButton();
 }
 function gotKey(s) {
-  // el QR de Nacho (#k=) o el de la app Guardados del Mac (#conectar=)
+  // el QR del autor (#k=) o el de la app Guardados del Mac (#conectar=)
   if (!(/conectar=/.test(s) ? store.setBuzon(s) : store.setSyncKey(s))) return false;
   stopScan(); linked(); return true;
 }
@@ -1057,8 +1264,12 @@ $("scan-mac").addEventListener("click", async () => {
 async function main() {
   rules = makeRules(await (await fetch("rules-data.json")).json());
   const params = new URLSearchParams(location.search);
-  q.value = params.get("q") || "";
-  cat = params.get("cat");
+  // donde la dejaste, salvo que el enlace abra otra carpeta
+  const guardado = leerEstado();
+  const est = !params.has("cat") || params.get("cat") === guardado.cat ? guardado : {};
+  q.value = params.has("q") ? params.get("q") : est.q || "";
+  cat = params.get("cat") || est.cat || null;
+  sub = est.sub || null;
   // enlace del QR (#k=clave): se guarda y se quita de la barra de direcciones
   if (location.hash.startsWith("#k=")) {
     store.setSyncKey(location.hash);
@@ -1071,7 +1282,8 @@ async function main() {
     conectado = store.setBuzon(location.hash);
     history.replaceState(history.state, "", location.pathname + location.search);
   }
-  await load();
+  await load(est.y);
+  if (Number.isInteger(est.feed)) abrirFeed(est.feed);
   if (conectado) { macButton(); mac.showModal(); await linked(); return; }
   if (location.hash.length > 1) openPost(location.hash.slice(1), false);
   let checked = null;
@@ -1079,8 +1291,8 @@ async function main() {
   if (mine && !checked) {
     const n = await store.checkCovers((i, t) => { status.textContent = `Revisando portadas… ${fmt(i)} de ${fmt(t)}`; }).catch(() => -1);
     try { if (n >= 0) localStorage.setItem("guardados.covers.v2", "1"); } catch {}
-    if (n > 0) await load();
-    else run();
+    if (n > 0) await load(scrollY);
+    else run(scrollY);
   }
   sync();
 }

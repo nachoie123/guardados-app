@@ -1,5 +1,5 @@
 """Carpetas y subcarpetas SIN IA: el árbol de ~/Projects/ig-saved/carpetas.py
-(aprobado por Nacho el 29/09/2026), rellenado con palabras clave ES/EN.
+(aprobado por el autor el 29/09/2026), rellenado con palabras clave ES/EN.
 
 Es un bibliotecario con una lista de etiquetas: no entiende el vídeo, solo
 lee las palabras de la descripción, los #hashtags, el @usuario y, si hay, los
@@ -83,7 +83,7 @@ SUB_KW = {
                         " sidrería", " sidra", " vermut", " vermú", " callos", " torrezno", " chuletón", " chuleton",
                         " cachopo", " casa de comidas", " menú del día", " menu del dia", " castizo", " tradicional",
                         " de toda la vida", " bravas", " zamburiñ", " pulpo", " gamba", " brasa", " parrilla"],
-    "sitios/bares": [" bar ", " bares ", " copas", " copa ", " cóctel", " coctel", " cocktail", " speakeasy",
+    "sitios/bares": [" bar ", " bares ", " copas", " copa ", " cóctel", " coctel", " cocktail", " speakeas",
                      " discoteca", " club ", " nightclub", " fiesta", " party", " rooftop", " terraza", " cervec",
                      " cerveza", " beer", " pub ", " drinks", " gin", " vinoteca", " wine bar", " azotea"],
     "sitios/cafes": [" café", " cafe ", " cafetería", " cafeteria", " coffee", " brunch", " desayuno", " breakfast",
