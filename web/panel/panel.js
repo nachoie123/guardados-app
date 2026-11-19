@@ -135,7 +135,10 @@ function render(s) {
   for (const k of ["ig", "tt"]) {
     const x = s[k], el = $(k + "-sess");
     el.className = "sess " + (x.session ? "on" : "off");
-    el.textContent = x.session === null ? "Abriendo la ventana…" : x.session ? "Sesión iniciada ✓" : "Sin sesión: inicia sesión en su ventana";
+    el.textContent = x.session === null ? "Comprobando sesión…" : x.session ? "Sesión iniciada ✓" : "Sin sesión todavía";
+    const btn = document.querySelector(`[data-show="${k}"]`);
+    btn.textContent = x.session === false ? "Iniciar sesión" : "Abrir ventana";
+    btn.classList.toggle("ghost", x.session !== false);
     const n = s.counts[k === "ig" ? "instagram" : "tiktok"] || { n: 0, covers: 0, tr: 0 };
     $(k + "-stat").textContent = `${fmt(n.n)} importados · ${fmt(n.covers)} portadas · con texto ${fmt(n.tr)} · última vez: ${ago(x.last_ok)}` + (x.pending ? " · a medias, se reanudará" : "");
   }
@@ -144,7 +147,7 @@ function render(s) {
   $("err").hidden = !t.error;
   $("err").textContent = t.error || "";
   $("stop").hidden = !t.running;
-  document.querySelectorAll("[data-imp]").forEach(b => { b.disabled = t.running; });
+  document.querySelectorAll("[data-imp]").forEach(b => { b.disabled = t.running || s[b.dataset.imp]?.session === false; });
   renderStages(s.progress);
   if (s.ia) renderIA(s.ia);
   if (s.movil) renderMovil(s.movil);

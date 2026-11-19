@@ -22,5 +22,5 @@ coll = COLLECT(exe, a.binaries, a.datas, strip=False, upx=False, upx_exclude=[],
 app = BUNDLE(coll, name='Guardados.app', icon='build_assets/icon.icns',
              # .mac: el de la app de iPhone es com.nachosanbenito.guardados y en los Mac con Apple silicon pueden coincidir
              bundle_identifier='com.nachosanbenito.guardados.mac',
-             info_plist={'CFBundleShortVersionString': '1.1', 'CFBundleVersion': '1.1', 'NSHighResolutionCapable': True,
+             info_plist={'CFBundleShortVersionString': '1.2', 'CFBundleVersion': '1.2', 'NSHighResolutionCapable': True,
                          'LSMinimumSystemVersion': '11.0', 'NSHumanReadableCopyright': 'Guardados'})

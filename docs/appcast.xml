@@ -3,13 +3,13 @@
  <channel>
   <title>Guardados</title>
   <item>
-   <title>Guardados 1.1</title>
-   <pubDate>Wed, 18 Nov 2026 11:00:00 +0100</pubDate>
-   <sparkle:version>1.1</sparkle:version>
-   <sparkle:shortVersionString>1.1</sparkle:shortVersionString>
+   <title>Guardados 1.2</title>
+   <pubDate>Thu, 19 Nov 2026 11:00:00 +0100</pubDate>
+   <sparkle:version>1.2</sparkle:version>
+   <sparkle:shortVersionString>1.2</sparkle:shortVersionString>
    <sparkle:minimumSystemVersion>11.0</sparkle:minimumSystemVersion>
-   <description>Se actualiza sola, firmada y notarizada por Apple, y se instala con un clic.</description>
-   <enclosure url="https://github.com/nachoie123/guardados-app/releases/download/v1.1/Guardados.pkg" length="21375903" type="application/octet-stream"/>
+   <description>Guardados 1.2: la primera vez solo ves el panel; inicia sesión en Instagram y TikTok y lo demás va solo.</description>
+   <enclosure url="https://github.com/nachoie123/guardados-app/releases/download/v1.2/Guardados.pkg" length="21377708" type="application/octet-stream"/>
   </item>
  </channel>
 </rss>

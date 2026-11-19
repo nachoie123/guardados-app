@@ -309,9 +309,16 @@ class Api:
             for which, js in (("ig", importer.IG_WHO_JS), ("tt", importer.TT_WHO_JS % {"deep": "false", "hostre": json.dumps(importer.TT_HOST_RE)})):
                 try:
                     r = self.pages[which].run(js, timeout=8) or {}
-                    self._sess[which] = bool(r.get("uid") and r.get("host") == importer.IG_HOST) if which == "ig" else bool(r.get("sec"))
+                    now = bool(r.get("uid") and r.get("host") == importer.IG_HOST) if which == "ig" else bool(r.get("sec"))
                 except Exception:
-                    self._sess[which] = None
+                    now = None
+                if now and self._sess.get(which) is False:   # acaba de iniciar sesión: su ventana sobra
+                    try:
+                        self.wins[which].hide()
+                        self.show("panel")
+                    except Exception:
+                        pass
+                self._sess[which] = now
             if os.environ.get("GUARDADOS_NO_AUTO") is None and not self.task["running"]:
                 for which in ("ig", "tt"):
                     last = self.db.get(f"{which}.last_ok") or 0
@@ -342,8 +349,11 @@ def main():
     panel = webview.create_window("Guardados", f"{srv.base}/panel/", js_api=api, width=760, height=760,
                                   min_size=(560, 560), text_select=True)
     _PANEL["w"] = panel
-    ig = webview.create_window("Instagram", IG_URL, width=460, height=780, x=40, y=60)
-    tt = webview.create_window("TikTok", TT_URL, width=460, height=780, x=520, y=60)
+    # Ocultas hasta que pulse «Iniciar sesión»: la primera vez solo se ve el panel, que explica qué hacer.
+    ig = webview.create_window("Instagram", IG_URL, width=460, height=780, x=40, y=60, hidden=True)
+    tt = webview.create_window("TikTok", TT_URL, width=460, height=780, x=520, y=60, hidden=True)
+    for w in (ig, tt):   # cerrarla solo la esconde: sin ella no hay sesión ni importación
+        w.events.closing += (lambda w=w: (w.hide(), False)[1])
     viewer = webview.create_window("Mis guardados", f"{srv.base}/guardados/", width=1100, height=820,
                                    hidden=True)
     api.wins = {"ig": ig, "tt": tt, "viewer": viewer, "panel": panel}
